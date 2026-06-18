@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+        <title>AI Academic Copilot</title>
+    </head>
+    <body>
+        <nav>
+            <h2>AI Academic Copilot</h2>
+            <a href="/">Home</a>
+            <a href="/subjects">Subjects</a>
+            <a href="/about">About</a>
+        </nav>
+        {% block content %}
+        {% endblock %}
+    </body>
+</html>
