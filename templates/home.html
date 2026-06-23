@@ -1,7 +1,75 @@
 {% extends "base.html" %}
-
 {% block content %}
+<style>
+.home{
+    text-align:center;
+    padding:40px;
+}
+.home h1{
+    color:#2563eb;
+    font-size:40px;
+}
+.home p{
+    font-size:18px;
+}
+.cards{
+    display:flex;
+    gap:20px;
+    justify-content:center;
+    margin-top:30px;
+}
+.card{
+    background:white;
+    padding:20px;
+    width:220px;
+    border-radius:15px;
+    box-shadow:0 0 10px #ccc;
+}
+button{
 
-<h1>Welcome to the AI Academic Copilot</h1>
-<p>Your smart study assistant for notes, papers and AI help.</p>
+    background:#2563eb;
+    color:white;
+    border:none;
+    padding:10px 20px;
+    border-radius:8px;
+
+}
+</style>
+<div class="home">
+<h1>🤖 Welcome to the AI Academic Copilot</h1>
+<p>
+Your smart study assistant for notes, papers and AI help.
+</p>
+
+<div class="cards">
+<div class="card">
+<h2>📄 Papers</h2>
+<p>Papers collection</p>
+
+<a href="/papers">
+<button>Open</button>
+</a>
+</div>
+
+<div class="card">
+<h2>🧠 Chatbot</h2>
+<p>Ask AI questions</p>
+
+<a href="/chatbot">
+<button>Chat</button>
+</a>
+
+</div>
+<div class="card">
+
+<h2>📝 Quiz</h2>
+
+<p>Test your knowledge</p>
+
+<a href="/quiz">
+<button>Start</button>
+</a>
+</div>
+</div>
+</div>
 {% endblock %}

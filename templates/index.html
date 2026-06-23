@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+.hero{
+    text-align:center;
+    padding:50px;
+}
+
+.hero h1{
+    font-size:45px;
+    color:#2563eb;
+}
+
+.hero p{
+    font-size:20px;
+    color:#555;
+}
+
+.btn{
+    background:#2563eb;
+    color:white;
+    padding:12px 25px;
+    border-radius:10px;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+.btn:hover{
+    background:#1d4ed8;
+}
+
+.features{
+    display:grid;
+    grid-template-columns:repeat(3, 220px);
+    gap:20px;
+    justify-content:center;
+    margin-top:40px;
+}
+
+.box{
+    background:white;
+    padding:25px;
+    border-radius:15px;
+    box-shadow:0 0 10px #ccc;
+    transition:0.3s;
+    cursor:pointer;
+}
+
+.box:hover{
+    transform:translateY(-5px);
+}
+
+.box h2{
+    font-size:35px;
+    margin-bottom:10px;
+}
+</style>
+
+<div class="hero">
+
+    <h1>🤖 AI Academic Copilot</h1>
+
+    <p>
+        Your intelligent learning partner for research,
+        notes, chatbot and quizzes.
+    </p>
+
+    <a class="btn" href="/home">
+        Get Started 🚀
+    </a>
+
+    <div class="features">
+
+        <div class="box" onclick="location.href='/subjects'">
+            <h2>📚</h2>
+            <h3>Subjects</h3>
+            <p>Browse all academic subjects.</p>
+        </div>
+
+        <div class="box" onclick="location.href='/notes'">
+            <h2>📝</h2>
+            <h3>Notes</h3>
+            <p>Access study notes easily.</p>
+        </div>
+
+        <div class="box" onclick="location.href='/papers'">
+            <h2>📄</h2>
+            <h3>Papers</h3>
+            <p>Explore previous year papers.</p>
+        </div>
+
+        <div class="box" onclick="location.href='/chatbot'">
+            <h2>🧠</h2>
+            <h3>AI Chatbot</h3>
+            <p>Get instant answers.</p>
+        </div>
+
+        <div class="box" onclick="location.href='/quiz'">
+            <h2>❓</h2>
+            <h3>Quiz</h3>
+            <p>Improve your skills.</p>
+        </div>
+
+        <div class="box" onclick="location.href='/about'">
+            <h2>ℹ️</h2>
+            <h3>About</h3>
+            <p>Know more about this project.</p>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

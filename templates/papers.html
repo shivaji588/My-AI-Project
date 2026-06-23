@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="papers-container">
+
+    <h1>📄 Previous Year Papers</h1>
+    <p>Download and practice previous examination papers.</p>
+
+    <input type="text" id="searchInput" placeholder="🔍 Search Papers..." onkeyup="searchPapers()">
+
+    <div class="papers-grid">
+
+        <div class="paper-card">
+            <h3>📘 2025 Papers</h3>
+            <p>Latest Question Papers</p>
+            <button>View Papers</button>
+            <button>📥 Download</button>
+        </div>
+
+        <div class="paper-card">
+            <h3>📗 2024 Papers</h3>
+            <p>University Papers</p>
+            <button>View Papers</button>
+            <button>📥 Download</button>
+        </div>
+
+        <div class="paper-card">
+            <h3>📕 2023 Papers</h3>
+            <p>Previous Year Papers</p>
+            <button>View Papers</button>
+            <button>📥 Download</button>
+        </div>
+
+        <div class="paper-card">
+            <h3>📙 Model Papers</h3>
+            <p>Practice Questions</p>
+            <button>View Papers</button>
+            <button>📥 Download</button>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

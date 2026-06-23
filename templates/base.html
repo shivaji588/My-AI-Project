@@ -1,14 +1,42 @@
 <!DOCTYPE html>
 <html>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+    nav{
+        background:rgb(128, 128, 128);
+        padding:15px;
+    }
+    nav a{
+        color:white;
+        text-decoration:none;
+        margin-right:15px;
+        font-size:18px;
+    }
+    nav a:hover{
+        color:yellow;
+    }
+    body{
+        font-family:Arial, sans-serif;
+        background:#f4f4f4;
+        margin:0;
+        padding:0;
+    }
+    </style>
         <title>AI Academic Copilot</title>
     </head>
     <body>
         <nav>
             <h2>AI Academic Copilot</h2>
-            <a href="/">Home</a>
+            <a href="/">🏡Home</a>
             <a href="/subjects">Subjects</a>
             <a href="/about">About</a>
+            <a href="/notes">Notes</a>
+            <a href="/papers">Papers</a>
+            <a href="/chatbot">Chatbot</a> 
+            <a href="/index">Index</a>
+            <a href="/quiz">Quiz</a>
+            <a href="/register">Register</a>
+            <a href="/dashboard">Dashboard</a>
         </nav>
         {% block content %}
         {% endblock %}

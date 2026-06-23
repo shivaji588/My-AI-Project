@@ -1,12 +1,75 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Subjects</h1>
-<ul>
-    <li>Python</li>
-    <li>Database Management System</li>
-    <li>Web Develpoment</li>
-    <li>Data Science</li>
-    <li>Artificial Intelligence</li>
-</ul>   
+
+<div class="subjects-container">
+
+    <h1>📚 Subjects</h1>
+    <p>Select a subject to access notes, papers and resources.</p>
+
+    <input type="text"
+           id="searchInput"
+           placeholder="🔍 Search Subject..."
+           onkeyup="searchSubjects()">
+
+    <div class="subject-grid">
+
+        <div class="subject-card">
+            <h3>🐍 Python</h3>
+            <p>Programming Fundamentals</p>
+            <a href="#" class="btn">Open Subject</a>
+        </div>
+
+        <div class="subject-card">
+            <h3>☕ Java</h3>
+            <p>Object Oriented Programming</p>
+            <a href="#" class="btn">Open Subject</a>
+        </div>
+
+        <div class="subject-card">
+            <h3>🌐 Web Development</h3>
+            <p>HTML, CSS, Flask</p>
+            <a href="#" class="btn">Open Subject</a>
+        </div>
+
+        <div class="subject-card">
+            <h3>🗄️ DBMS</h3>
+            <p>Database Management System</p>
+            <a href="#" class="btn">Open Subject</a>
+        </div>
+
+        <div class="subject-card">
+            <h3>🤖 AI</h3>
+            <p>Artificial Intelligence</p>
+            <a href="#" class="btn">Open Subject</a>
+        </div>
+
+        <div class="subject-card">
+            <h3>📊 Data Science</h3>
+            <p>Data Analysis & ML</p>
+            <a href="#" class="btn">Open Subject</a>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+function searchSubjects() {
+    let input = document.getElementById("searchInput");
+    let filter = input.value.toLowerCase();
+    let cards = document.getElementsByClassName("subject-card");
+
+    for(let i = 0; i < cards.length; i++) {
+        let text = cards[i].innerText.toLowerCase();
+
+        if(text.includes(filter)) {
+            cards[i].style.display = "";
+        } else {
+            cards[i].style.display = "none";
+        }
+    }
+}
+</script>
+
 {% endblock %}

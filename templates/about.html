@@ -1,6 +1,98 @@
-{% extends "base.html" %}
+{%extends "base.html"%}
+{%block content%}
+<title>About AI Academic Copilot</title>
+<style>
+body{
+    font-family:Arial;
+    background:#f4f6ff;
+    margin:0;
+}
+.container{
 
-{% block content %}
-<h1>About</h1>
-<p>AI Academic Copilot help student manage study materials.</p>
-{% endblock %}
+    width:70%;
+    margin:auto;
+    margin-top:40px;
+
+}
+.card{
+
+    background:white;
+    padding:30px;
+    border-radius:15px;
+    box-shadow:0 0 15px #ccc;
+}
+h1{
+
+    text-align:center;
+    color:#2563eb;
+
+}
+h2{
+
+    color:#333;
+
+}
+p{
+
+    font-size:18px;
+    line-height:1.6;
+
+}
+.features{
+
+    display:flex;
+    gap:20px;
+
+}
+.box{
+
+    background:#f1f5ff;
+    padding:15px;
+    border-radius:10px;
+    flex:1;
+
+}
+</style>
+
+</body>
+
+<div class="container">
+<div class="card">
+<h1>🤖 AI Academic Copilot</h1>
+<p>
+AI Academic Copilot is an intelligent learning platform
+designed to help students with research papers, notes,
+AI chatbot assistance and quizzes.
+</p>
+
+
+<h2>✨ Features</h2>
+<div class="features">
+<div class="box">
+📄
+<h3>Research Papers</h3>
+<p>Explore academic papers and learning resources.</p>
+</div>
+
+<div class="box">
+🧠
+<h3>AI Chatbot</h3>
+<p>Get instant answers and learning support.</p>
+</div>
+
+<div class="box">
+📝
+<h3>Quiz Generator</h3>
+<p>Test your knowledge with interactive quizzes.</p>
+</div>
+</div>
+
+
+<h2>🎯 Goal</h2>
+<p>
+Our goal is to make learning easier, smarter and more interactive
+using Artificial Intelligence.
+</p>
+</div>
+</div>
+{%endblock%}

@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="notes-container">
+
+    <h1>📚 Study Notes Library</h1>
+    <p>Access high-quality notes for all subjects.</p>
+
+    <input type="text" id="searchInput"
+           placeholder="🔍 Search Notes..."
+           onkeyup="searchNotes()">
+
+    <div class="notes-grid">
+
+        <div class="note-card">
+            <h3>🐍 Python</h3>
+            <p>Learn Python Programming</p>
+            <button>View Notes</button>
+            <button>📥 Download</button>
+        </div>
+
+        <div class="note-card">
+            <h3>☕ Java</h3>
+            <p>Object Oriented Programming</p>
+            <button>View Notes</button>
+            <button>📥 Download</button>
+        </div>
+
+        <div class="note-card">
+            <h3>💻 C Language</h3>
+            <p>Programming Fundamentals</p>
+            <button>View Notes</button>
+            <button>📥 Download</button>
+        </div>
+
+        <div class="note-card">
+            <h3>⚡ C++</h3>
+            <p>Advanced Programming</p>
+            <button>View Notes</button>
+            <button>📥 Download</button>
+        </div>
+
+        <div class="note-card">
+            <h3>🌐 JavaScript</h3>
+            <p>Web Development</p>
+            <button>View Notes</button>
+            <button>📥 Download</button>
+        </div>
+
+        <div class="note-card">
+            <h3>📊 Data Structures</h3>
+            <p>Algorithms & Data Structures</p>
+            <button>View Notes</button>
+            <button>📥 Download</button>
+        </div>
+
+        <div class="note-card">
+            <h3>🖥 Operating System</h3>
+            <p>System Concepts</p>
+            <button>View Notes</button>
+            <button>📥 Download</button>
+        </div>
+
+        <div class="note-card">
+            <h3>🗄 DBMS</h3>
+            <p>Database Management System</p>
+            <button>View Notes</button>
+            <button>📥 Download</button>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+function searchNotes() {
+    let input = document.getElementById("searchInput").value.toLowerCase();
+    let cards = document.getElementsByClassName("note-card");
+
+    for(let i = 0; i < cards.length; i++) {
+        let text = cards[i].innerText.toLowerCase();
+
+        if(text.includes(input)){
+            cards[i].style.display = "block";
+        } else {
+            cards[i].style.display = "none";
+        }
+    }
+}
+</script>
+
+{% endblock %}

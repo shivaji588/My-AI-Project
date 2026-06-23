@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="card">
+        <div class="logo">🤖</div>
+        <h1>🤖AI Chatbot🤖</h1>
+        <p>Welcome to the AI Chatbot! </p>
+        <form id="chat-form" method="POST">
+            <input type="text" name="question" placeholder="Ask your Question" required>
+            <button type="submit">Ask AI</button>
+        </form>
+        {% if answer %}
+            <div class="card">
+                <h2>AI Response:</h2>
+                <p>{{ answer }}</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
