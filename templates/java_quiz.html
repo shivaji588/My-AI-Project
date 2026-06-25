@@ -1,0 +1,162 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+.quiz-box{
+    max-width:750px;
+    margin:40px auto;
+    background:white;
+    padding:30px;
+    border-radius:16px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.08);
+}
+
+.quiz-title{
+    text-align:center;
+    color:#ff6b00;
+    margin-bottom:25px;
+}
+
+.question{
+    margin-bottom:20px;
+    padding:18px;
+    border-radius:14px;
+    background:#fff7e6;
+    border-left:5px solid #ff6b00;
+}
+
+.option{
+    display:block;
+    padding:10px;
+    margin:5px 0;
+    border:1px solid #ddd;
+    border-radius:10px;
+    background:#fff;
+    cursor:pointer;
+}
+
+.option:hover{
+    border-color:#ff6b00;
+}
+
+.option:has(input:checked){
+    background:#ffe0b3;
+    font-weight:bold;
+}
+
+button{
+    width:100%;
+    padding:14px;
+    background:#ff6b00;
+    color:white;
+    border:none;
+    border-radius:12px;
+    font-size:16px;
+    margin-top:15px;
+}
+</style>
+
+<div class="quiz-box">
+
+<h1 class="quiz-title">☕ Java Quiz (10 Questions)</h1>
+
+<form method="POST" action="/submit_java_quiz">
+
+<!-- Q1 -->
+<div class="question">
+<h3>1. Java was developed by?</h3>
+<label class="option"><input type="radio" name="q1" value="James Gosling" required> James Gosling</label>
+<label class="option"><input type="radio" name="q1" value="Dennis Ritchie"> Dennis Ritchie</label>
+<label class="option"><input type="radio" name="q1" value="Bjarne Stroustrup"> Bjarne Stroustrup</label>
+<label class="option"><input type="radio" name="q1" value="Guido van Rossum"> Guido van Rossum</label>
+</div>
+
+<!-- Q2 -->
+<div class="question">
+<h3>2. Which keyword is used to create object?</h3>
+<label class="option"><input type="radio" name="q2" value="new" required> new</label>
+<label class="option"><input type="radio" name="q2" value="create"> create</label>
+<label class="option"><input type="radio" name="q2" value="object"> object</label>
+<label class="option"><input type="radio" name="q2" value="make"> make</label>
+</div>
+
+<!-- Q3 -->
+<div class="question">
+<h3>3. Java is?</h3>
+<label class="option"><input type="radio" name="q3" value="Object Oriented" required> Object Oriented</label>
+<label class="option"><input type="radio" name="q3" value="Procedural"> Procedural</label>
+<label class="option"><input type="radio" name="q3" value="Machine Level"> Machine Level</label>
+<label class="option"><input type="radio" name="q3" value="Assembly"> Assembly</label>
+</div>
+
+<!-- Q4 -->
+<div class="question">
+<h3>4. Java file extension?</h3>
+<label class="option"><input type="radio" name="q4" value=".java" required> .java</label>
+<label class="option"><input type="radio" name="q4" value=".class"> .class</label>
+<label class="option"><input type="radio" name="q4" value=".exe"> .exe</label>
+<label class="option"><input type="radio" name="q4" value=".js"> .js</label>
+</div>
+
+<!-- Q5 -->
+<div class="question">
+<h3>5. JVM stands for?</h3>
+<label class="option"><input type="radio" name="q5" value="Java Virtual Machine" required> Java Virtual Machine</label>
+<label class="option"><input type="radio" name="q5" value="Java Variable Method"> Java Variable Method</label>
+<label class="option"><input type="radio" name="q5" value="Joint Virtual Machine"> Joint Virtual Machine</label>
+<label class="option"><input type="radio" name="q5" value="Java Verified Model"> Java Verified Model</label>
+</div>
+
+<!-- Q6 -->
+<div class="question">
+<h3>6. Java is platform?</h3>
+<label class="option"><input type="radio" name="q6" value="Independent" required> Independent</label>
+<label class="option"><input type="radio" name="q6" value="Dependent"> Dependent</label>
+<label class="option"><input type="radio" name="q6" value="Limited"> Limited</label>
+<label class="option"><input type="radio" name="q6" value="Hardware based"> Hardware based</label>
+</div>
+
+<!-- Q7 -->
+<div class="question">
+<h3>7. Which is NOT Java feature?</h3>
+<label class="option"><input type="radio" name="q7" value="Pointers" required> Pointers</label>
+<label class="option"><input type="radio" name="q7" value="Robust"> Robust</label>
+<label class="option"><input type="radio" name="q7" value="Secure"> Secure</label>
+<label class="option"><input type="radio" name="q7" value="Portable"> Portable</label>
+</div>
+
+<!-- Q8 -->
+<div class="question">
+<h3>8. Java supports?</h3>
+<label class="option"><input type="radio" name="q8" value="Multithreading" required> Multithreading</label>
+<label class="option"><input type="radio" name="q8" value="Single Thread Only"> Single Thread Only</label>
+<label class="option"><input type="radio" name="q8" value="No threading"> No threading</label>
+<label class="option"><input type="radio" name="q8" value="Manual threading only"> Manual threading only</label>
+</div>
+
+<!-- Q9 -->
+<div class="question">
+<h3>9. Default value of int in Java?</h3>
+<label class="option"><input type="radio" name="q9" value="0" required> 0</label>
+<label class="option"><input type="radio" name="q9" value="null"> null</label>
+<label class="option"><input type="radio" name="q9" value="undefined"> undefined</label>
+<label class="option"><input type="radio" name="q9" value="NaN"> NaN</label>
+</div>
+
+<!-- Q10 -->
+<div class="question">
+<h3>10. Java developed by?</h3>
+<label class="option"><input type="radio" name="q10" value="Sun Microsystems" required> Sun Microsystems</label>
+<label class="option"><input type="radio" name="q10" value="Google"> Google</label>
+<label class="option"><input type="radio" name="q10" value="Microsoft"> Microsoft</label>
+<label class="option"><input type="radio" name="q10" value="Oracle"> Oracle</label>
+</div>
+
+<button type="submit">Submit Quiz 🚀</button>
+
+</form>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="card shadow">
+
+<div class="card-body">
+
+<h2>
+{{note.title}}
+</h2>
+
+<hr>
+
+<pre style="white-space:pre-wrap;">
+{{note.content}}
+</pre>
+
+</div>
+
+</div>
+
+{% endblock %}

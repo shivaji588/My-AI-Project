@@ -1,0 +1,163 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+.quiz-box{
+    max-width:750px;
+    margin:40px auto;
+    background:white;
+    padding:30px;
+    border-radius:16px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.08);
+}
+
+.quiz-title{
+    text-align:center;
+    color:#6a1b9a;
+    margin-bottom:25px;
+    font-size:28px;
+}
+
+.question{
+    margin-bottom:20px;
+    padding:18px;
+    border-radius:14px;
+    background:#f6f0ff;
+    border-left:5px solid #6a1b9a;
+}
+
+.option{
+    display:block;
+    padding:10px;
+    margin:5px 0;
+    border:1px solid #ddd;
+    border-radius:10px;
+    background:#fff;
+    cursor:pointer;
+}
+
+.option:hover{
+    border-color:#6a1b9a;
+}
+
+.option:has(input:checked){
+    background:#eadcff;
+    font-weight:bold;
+}
+
+button{
+    width:100%;
+    padding:14px;
+    background:#6a1b9a;
+    color:white;
+    border:none;
+    border-radius:12px;
+    font-size:16px;
+    margin-top:15px;
+}
+</style>
+
+<div class="quiz-box">
+
+<h1 class="quiz-title">🗄️ DBMS Quiz (10 Questions)</h1>
+
+<form method="POST" action="/submit_dbms_quiz">
+
+<!-- Q1 -->
+<div class="question">
+<h3>1. DBMS stands for?</h3>
+<label class="option"><input type="radio" name="q1" value="Database Management System" required> Database Management System</label>
+<label class="option"><input type="radio" name="q1" value="Data Backup Management System"> Data Backup Management System</label>
+<label class="option"><input type="radio" name="q1" value="Database Model System"> Database Model System</label>
+<label class="option"><input type="radio" name="q1" value="Data Base Main System"> Data Base Main System</label>
+</div>
+
+<!-- Q2 -->
+<div class="question">
+<h3>2. Primary key is used to?</h3>
+<label class="option"><input type="radio" name="q2" value="Uniquely identify record" required> Uniquely identify record</label>
+<label class="option"><input type="radio" name="q2" value="Duplicate data"> Duplicate data</label>
+<label class="option"><input type="radio" name="q2" value="Sort data only"> Sort data only</label>
+<label class="option"><input type="radio" name="q2" value="Delete table"> Delete table</label>
+</div>
+
+<!-- Q3 -->
+<div class="question">
+<h3>3. SQL stands for?</h3>
+<label class="option"><input type="radio" name="q3" value="Structured Query Language" required> Structured Query Language</label>
+<label class="option"><input type="radio" name="q3" value="Simple Query Language"> Simple Query Language</label>
+<label class="option"><input type="radio" name="q3" value="Standard Question Language"> Standard Question Language</label>
+<label class="option"><input type="radio" name="q3" value="System Query Logic"> System Query Logic</label>
+</div>
+
+<!-- Q4 -->
+<div class="question">
+<h3>4. Which is a DBMS?</h3>
+<label class="option"><input type="radio" name="q4" value="MySQL" required> MySQL</label>
+<label class="option"><input type="radio" name="q4" value="Python"> Python</label>
+<label class="option"><input type="radio" name="q4" value="Java"> Java</label>
+<label class="option"><input type="radio" name="q4" value="HTML"> HTML</label>
+</div>
+
+<!-- Q5 -->
+<div class="question">
+<h3>5. Foreign key is used for?</h3>
+<label class="option"><input type="radio" name="q5" value="Link tables" required> Link tables</label>
+<label class="option"><input type="radio" name="q5" value="Encrypt data"> Encrypt data</label>
+<label class="option"><input type="radio" name="q5" value="Delete data"> Delete data</label>
+<label class="option"><input type="radio" name="q5" value="Sort data"> Sort data</label>
+</div>
+
+<!-- Q6 -->
+<div class="question">
+<h3>6. DBMS is?</h3>
+<label class="option"><input type="radio" name="q6" value="Software" required> Software</label>
+<label class="option"><input type="radio" name="q6" value="Hardware"> Hardware</label>
+<label class="option"><input type="radio" name="q6" value="Network"> Network</label>
+<label class="option"><input type="radio" name="q6" value="CPU"> CPU</label>
+</div>
+
+<!-- Q7 -->
+<div class="question">
+<h3>7. Which is NoSQL database?</h3>
+<label class="option"><input type="radio" name="q7" value="MongoDB" required> MongoDB</label>
+<label class="option"><input type="radio" name="q7" value="MySQL"> MySQL</label>
+<label class="option"><input type="radio" name="q7" value="Oracle"> Oracle</label>
+<label class="option"><input type="radio" name="q7" value="SQL Server"> SQL Server</label>
+</div>
+
+<!-- Q8 -->
+<div class="question">
+<h3>8. Normalization is used for?</h3>
+<label class="option"><input type="radio" name="q8" value="Remove redundancy" required> Remove redundancy</label>
+<label class="option"><input type="radio" name="q8" value="Increase data"> Increase data</label>
+<label class="option"><input type="radio" name="q8" value="Delete database"> Delete database</label>
+<label class="option"><input type="radio" name="q8" value="Backup data"> Backup data</label>
+</div>
+
+<!-- Q9 -->
+<div class="question">
+<h3>9. Which command is used to retrieve data?</h3>
+<label class="option"><input type="radio" name="q9" value="SELECT" required> SELECT</label>
+<label class="option"><input type="radio" name="q9" value="INSERT"> INSERT</label>
+<label class="option"><input type="radio" name="q9" value="UPDATE"> UPDATE</label>
+<label class="option"><input type="radio" name="q9" value="DELETE"> DELETE</label>
+</div>
+
+<!-- Q10 -->
+<div class="question">
+<h3>10. DBMS is used to?</h3>
+<label class="option"><input type="radio" name="q10" value="Manage data" required> Manage data</label>
+<label class="option"><input type="radio" name="q10" value="Design websites"> Design websites</label>
+<label class="option"><input type="radio" name="q10" value="Run hardware"> Run hardware</label>
+<label class="option"><input type="radio" name="q10" value="Create OS"> Create OS</label>
+</div>
+
+<button type="submit">Submit Quiz 🚀</button>
+
+</form>
+
+</div>
+
+{% endblock %}

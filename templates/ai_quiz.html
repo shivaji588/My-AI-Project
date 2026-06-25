@@ -1,0 +1,168 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+.quiz-box{
+    max-width:750px;
+    margin:40px auto;
+    background:white;
+    padding:30px;
+    border-radius:16px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.08);
+}
+
+.quiz-title{
+    text-align:center;
+    color:#1b9aaa;
+    margin-bottom:25px;
+    font-size:28px;
+}
+
+.question{
+    margin-bottom:20px;
+    padding:18px;
+    border-radius:14px;
+    background:#e8fbff;
+    border-left:5px solid #1b9aaa;
+}
+
+.option{
+    display:block;
+    padding:10px;
+    margin:5px 0;
+    border:1px solid #ddd;
+    border-radius:10px;
+    background:#fff;
+    cursor:pointer;
+}
+
+.option:hover{
+    border-color:#1b9aaa;
+}
+
+.option:has(input:checked){
+    background:#c9f3ff;
+    font-weight:bold;
+}
+
+button{
+    width:100%;
+    padding:14px;
+    background:#1b9aaa;
+    color:white;
+    border:none;
+    border-radius:12px;
+    font-size:16px;
+    margin-top:15px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#148a99;
+}
+</style>
+
+<div class="quiz-box">
+
+<h1 class="quiz-title">🤖 AI Quiz (10 Questions)</h1>
+
+<form method="POST" action="/submit_ai_quiz">
+
+<!-- Q1 -->
+<div class="question">
+<h3>1. AI stands for?</h3>
+<label class="option"><input type="radio" name="q1" value="Artificial Intelligence" required> Artificial Intelligence</label>
+<label class="option"><input type="radio" name="q1" value="Automated Interface"> Automated Interface</label>
+<label class="option"><input type="radio" name="q1" value="Advanced Internet"> Advanced Internet</label>
+<label class="option"><input type="radio" name="q1" value="Auto Input"> Auto Input</label>
+</div>
+
+<!-- Q2 -->
+<div class="question">
+<h3>2. AI is used in?</h3>
+<label class="option"><input type="radio" name="q2" value="All fields" required> All fields</label>
+<label class="option"><input type="radio" name="q2" value="Only gaming"> Only gaming</label>
+<label class="option"><input type="radio" name="q2" value="Only education"> Only education</label>
+<label class="option"><input type="radio" name="q2" value="Only banks"> Only banks</label>
+</div>
+
+<!-- Q3 -->
+<div class="question">
+<h3>3. Machine Learning is part of?</h3>
+<label class="option"><input type="radio" name="q3" value="AI" required> AI</label>
+<label class="option"><input type="radio" name="q3" value="DBMS"> DBMS</label>
+<label class="option"><input type="radio" name="q3" value="OS"> OS</label>
+<label class="option"><input type="radio" name="q3" value="Network"> Network</label>
+</div>
+
+<!-- Q4 -->
+<div class="question">
+<h3>4. AI example?</h3>
+<label class="option"><input type="radio" name="q4" value="ChatGPT" required> ChatGPT</label>
+<label class="option"><input type="radio" name="q4" value="MS Word"> MS Word</label>
+<label class="option"><input type="radio" name="q4" value="Paint"> Paint</label>
+<label class="option"><input type="radio" name="q4" value="Notepad"> Notepad</label>
+</div>
+
+<!-- Q5 -->
+<div class="question">
+<h3>5. AI helps in?</h3>
+<label class="option"><input type="radio" name="q5" value="Decision making" required> Decision making</label>
+<label class="option"><input type="radio" name="q5" value="Cooking"> Cooking</label>
+<label class="option"><input type="radio" name="q5" value="Washing clothes"> Washing clothes</label>
+<label class="option"><input type="radio" name="q5" value="Typing only"> Typing only</label>
+</div>
+
+<!-- Q6 -->
+<div class="question">
+<h3>6. AI uses?</h3>
+<label class="option"><input type="radio" name="q6" value="Algorithms" required> Algorithms</label>
+<label class="option"><input type="radio" name="q6" value="Hardware only"> Hardware only</label>
+<label class="option"><input type="radio" name="q6" value="Paint tools"> Paint tools</label>
+<label class="option"><input type="radio" name="q6" value="Manual input"> Manual input</label>
+</div>
+
+<!-- Q7 -->
+<div class="question">
+<h3>7. AI learns from?</h3>
+<label class="option"><input type="radio" name="q7" value="Data" required> Data</label>
+<label class="option"><input type="radio" name="q7" value="Water"> Water</label>
+<label class="option"><input type="radio" name="q7" value="Electricity"> Electricity</label>
+<label class="option"><input type="radio" name="q7" value="Paint"> Paint</label>
+</div>
+
+<!-- Q8 -->
+<div class="question">
+<h3>8. AI is future of?</h3>
+<label class="option"><input type="radio" name="q8" value="Technology" required> Technology</label>
+<label class="option"><input type="radio" name="q8" value="Cooking"> Cooking</label>
+<label class="option"><input type="radio" name="q8" value="Farming only"> Farming only</label>
+<label class="option"><input type="radio" name="q8" value="Driving only"> Driving only</label>
+</div>
+
+<!-- Q9 -->
+<div class="question">
+<h3>9. Robotics is related to?</h3>
+<label class="option"><input type="radio" name="q9" value="AI" required> AI</label>
+<label class="option"><input type="radio" name="q9" value="DBMS"> DBMS</label>
+<label class="option"><input type="radio" name="q9" value="HTML"> HTML</label>
+<label class="option"><input type="radio" name="q9" value="CSS"> CSS</label>
+</div>
+
+<!-- Q10 -->
+<div class="question">
+<h3>10. AI is?</h3>
+<label class="option"><input type="radio" name="q10" value="Smart System" required> Smart System</label>
+<label class="option"><input type="radio" name="q10" value="Manual system"> Manual system</label>
+<label class="option"><input type="radio" name="q10" value="Paper system"> Paper system</label>
+<label class="option"><input type="radio" name="q10" value="Mechanical system"> Mechanical system</label>
+</div>
+
+<button type="submit">Submit Quiz 🚀</button>
+
+</form>
+
+</div>
+
+{% endblock %}

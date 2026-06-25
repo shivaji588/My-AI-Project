@@ -26,7 +26,7 @@
     </head>
     <body>
         <nav>
-            <h2>AI Academic Copilot</h2>
+            <h1>AI Academic Copilot</h1>
             <a href="/">🏡Home</a>
             <a href="/subjects">Subjects</a>
             <a href="/about">About</a>
@@ -36,6 +36,16 @@
             <a href="/index">Index</a>
             <a href="/quiz">Quiz</a>
             <a href="/register">Register</a>
+            {% if session.username %}
+                    <span class="nav-link px-2 py-1 text-white">👤 {{ session.username }}</span>
+                    <a class="nav-link px-2 py-1" href="{{ url_for('logout') }}">
+                        🔓 Logout
+                    </a>
+                {% else %}
+                    <a class="nav-link px-2 py-1" href="{{ url_for('login') }}">
+                        🔒 Login
+                    </a>
+                {% endif %} 
             <a href="/dashboard">Dashboard</a>
         </nav>
         {% block content %}

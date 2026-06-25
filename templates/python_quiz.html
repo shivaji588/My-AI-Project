@@ -1,0 +1,169 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+.quiz-box{
+    max-width:750px;
+    margin:40px auto;
+    background:white;
+    padding:30px;
+    border-radius:16px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.08);
+}
+
+.quiz-title{
+    text-align:center;
+    color:#2d6cdf;
+    margin-bottom:25px;
+    font-size:28px;
+}
+
+.question{
+    margin-bottom:20px;
+    padding:18px;
+    border-radius:14px;
+    background:#f0f7ff;
+    border-left:5px solid #2d6cdf;
+}
+
+.option{
+    display:block;
+    padding:10px;
+    margin:5px 0;
+    border:1px solid #ddd;
+    border-radius:10px;
+    background:#fff;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.option:hover{
+    border-color:#2d6cdf;
+}
+
+.option:has(input:checked){
+    background:#d9e9ff;
+    font-weight:bold;
+}
+
+button{
+    width:100%;
+    padding:14px;
+    background:#2d6cdf;
+    color:white;
+    border:none;
+    border-radius:12px;
+    font-size:16px;
+    margin-top:15px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#1f56c7;
+}
+</style>
+
+<div class="quiz-box">
+
+<h1 class="quiz-title">🐍 Python Quiz (10 Questions)</h1>
+
+<form method="POST" action="/submit_python_quiz">
+
+<!-- Q1 -->
+<div class="question">
+<h3>1. Python was created by?</h3>
+<label class="option"><input type="radio" name="q1" value="Guido van Rossum" required> Guido van Rossum</label>
+<label class="option"><input type="radio" name="q1" value="James Gosling"> James Gosling</label>
+<label class="option"><input type="radio" name="q1" value="Dennis Ritchie"> Dennis Ritchie</label>
+<label class="option"><input type="radio" name="q1" value="Bjarne Stroustrup"> Bjarne Stroustrup</label>
+</div>
+
+<!-- Q2 -->
+<div class="question">
+<h3>2. Python is?</h3>
+<label class="option"><input type="radio" name="q2" value="Programming Language" required> Programming Language</label>
+<label class="option"><input type="radio" name="q2" value="Hardware"> Hardware</label>
+<label class="option"><input type="radio" name="q2" value="Operating System"> Operating System</label>
+<label class="option"><input type="radio" name="q2" value="Database"> Database</label>
+</div>
+
+<!-- Q3 -->
+<div class="question">
+<h3>3. Extension of Python file?</h3>
+<label class="option"><input type="radio" name="q3" value=".py" required> .py</label>
+<label class="option"><input type="radio" name="q3" value=".java"> .java</label>
+<label class="option"><input type="radio" name="q3" value=".cpp"> .cpp</label>
+<label class="option"><input type="radio" name="q3" value=".html"> .html</label>
+</div>
+
+<!-- Q4 -->
+<div class="question">
+<h3>4. Python is?</h3>
+<label class="option"><input type="radio" name="q4" value="Interpreted" required> Interpreted</label>
+<label class="option"><input type="radio" name="q4" value="Compiled only"> Compiled only</label>
+<label class="option"><input type="radio" name="q4" value="Machine level"> Machine level</label>
+<label class="option"><input type="radio" name="q4" value="Hardware language"> Hardware language</label>
+</div>
+
+<!-- Q5 -->
+<div class="question">
+<h3>5. Which keyword is used to define function?</h3>
+<label class="option"><input type="radio" name="q5" value="def" required> def</label>
+<label class="option"><input type="radio" name="q5" value="function"> function</label>
+<label class="option"><input type="radio" name="q5" value="fun"> fun</label>
+<label class="option"><input type="radio" name="q5" value="define"> define</label>
+</div>
+
+<!-- Q6 -->
+<div class="question">
+<h3>6. Python supports?</h3>
+<label class="option"><input type="radio" name="q6" value="Object Oriented" required> Object Oriented</label>
+<label class="option"><input type="radio" name="q6" value="Only procedural"> Only procedural</label>
+<label class="option"><input type="radio" name="q6" value="No programming style"> No programming style</label>
+<label class="option"><input type="radio" name="q6" value="Hardware programming"> Hardware programming</label>
+</div>
+
+<!-- Q7 -->
+<div class="question">
+<h3>7. Python developed in?</h3>
+<label class="option"><input type="radio" name="q7" value="1991" required> 1991</label>
+<label class="option"><input type="radio" name="q7" value="1985"> 1985</label>
+<label class="option"><input type="radio" name="q7" value="2000"> 2000</label>
+<label class="option"><input type="radio" name="q7" value="1975"> 1975</label>
+</div>
+
+<!-- Q8 -->
+<div class="question">
+<h3>8. Python is?</h3>
+<label class="option"><input type="radio" name="q8" value="Open Source" required> Open Source</label>
+<label class="option"><input type="radio" name="q8" value="Paid Software"> Paid Software</label>
+<label class="option"><input type="radio" name="q8" value="Hardware"> Hardware</label>
+<label class="option"><input type="radio" name="q8" value="OS"> OS</label>
+</div>
+
+<!-- Q9 -->
+<div class="question">
+<h3>9. Python uses indentation for?</h3>
+<label class="option"><input type="radio" name="q9" value="Block of code" required> Block of code</label>
+<label class="option"><input type="radio" name="q9" value="Comments"> Comments</label>
+<label class="option"><input type="radio" name="q9" value="Variables"> Variables</label>
+<label class="option"><input type="radio" name="q9" value="Memory"> Memory</label>
+</div>
+
+<!-- Q10 -->
+<div class="question">
+<h3>10. Python is widely used in?</h3>
+<label class="option"><input type="radio" name="q10" value="AI & ML" required> AI & ML</label>
+<label class="option"><input type="radio" name="q10" value="Cooking"> Cooking</label>
+<label class="option"><input type="radio" name="q10" value="Construction"> Construction</label>
+<label class="option"><input type="radio" name="q10" value="Agriculture only"> Agriculture only</label>
+</div>
+
+<button type="submit">Submit Quiz 🚀</button>
+
+</form>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+.result-container{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:80vh;
+}
+
+.result-card{
+    background: linear-gradient(135deg, #4facfe, #00f2fe);
+    padding:40px;
+    border-radius:20px;
+    text-align:center;
+    color:white;
+    box-shadow:0 10px 25px rgba(0,0,0,0.3);
+    width:350px;
+    animation: pop 0.5s ease;
+}
+
+.result-card h1{
+    font-size:28px;
+    margin-bottom:15px;
+}
+
+.score{
+    font-size:40px;
+    font-weight:bold;
+    margin:20px 0;
+}
+
+.btn{
+    display:inline-block;
+    margin-top:20px;
+    padding:12px 25px;
+    background:rgba(255, 255, 255, 0.956);
+    color:#007bff;
+    border-radius:10px;
+    text-decoration:none;
+    font-weight:bold;
+    transition:0.3s;
+}
+
+.btn:hover{
+    background:#f1f1f1;
+}
+
+@keyframes pop{
+    from {transform:scale(0.8); opacity:0;}
+    to {transform:scale(1); opacity:1;}
+}
+</style>
+
+<div class="result-container">
+
+    <div class="result-card">
+
+        <h1>🎉 Quiz Completed!</h1>
+
+        <div class="score">
+            {{ score }} / {{ total }}
+        </div>
+
+        <p>Great effort! Keep practicing 🚀</p>
+
+        <a href="/quiz" class="btn">Try Again</a>
+
+    </div>
+
+</div>
+
+{% endblock %}
