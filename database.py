@@ -1,5 +1,7 @@
 import sqlite3
 
+import app
+
 conn = sqlite3.connect("database.db")
 
 cursor = conn.cursor()
@@ -28,5 +30,9 @@ except sqlite3.OperationalError:
 
 conn.commit()
 conn.close()
+
+init_db() #Initialize the database 
+if __name__ == "__main__":
+    app.run(debug=True)
 
 print("Database Created Successfully!")

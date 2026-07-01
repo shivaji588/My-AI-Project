@@ -1,0 +1,9 @@
+pip freeze > requirement.txt
+
+for Deployment :
+https://www.pythonanywhere.com/
+
+
+command to use in pythonanywhere
+mkvirtualenv myenv --python=python3.10
+cd My-AI-Project/
