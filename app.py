@@ -1,35 +1,10 @@
-import os
+from flask import Flask, render_template, request, redirect, url_for, flash, session
 import sqlite3
-from flask import *
-from flask_sqlalchemy import SQLAlchemy
-from flask import Flask, render_template, request, redirect, session ,url_for
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
 app = Flask(__name__)
 app.secret_key = "academic_copilot"
-
-
-# ---------------- DATABASE ----------------
-
-def init_db():
-    conn = sqlite3.connect("database.db")
-    cursor = conn.cursor()
-
-    cursor.execute("""
-        CREATE TABLE IF NOT EXISTS users(
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            username TEXT UNIQUE,
-            password TEXT
-        )
-    """)
-
-    conn.commit()
-    conn.close()
-
-
-init_db()
-
 
 # ---------------- HOME ----------------
 
@@ -244,386 +219,124 @@ def submit_ai_quiz():
         total=10
     )
 
-#----------------DASHBOARD------------------
-
-@app.route('/dashboard')
-def dashboard():
-
-    if 'user' in session:
-        return render_template('dashboard.html')
-
-    return redirect('/login')
-
 
 # ---------------- REGISTER ----------------
-
-@app.route('/register', methods=['GET','POST'])
+@app.route("/register", methods=["GET", "POST"])
 def register():
 
-    if request.method=="POST":
+    if request.method == "POST":
 
-        username=request.form['username']
-        password=request.form['password']
+        fullname = request.form["fullname"]
+        email = request.form["email"]
+        username = request.form["username"]
+        password = request.form["password"]
+
+        conn = sqlite3.connect("database.db")
+        cur = conn.cursor()
 
         try:
-            con=sqlite3.connect("database.db")
-            cur=con.cursor()
 
-            cur.execute(
-            "INSERT INTO users(username,password) VALUES (?,?)",(username,password))
+            cur.execute("""
+            INSERT INTO users(fullname,email,username,password)
+            VALUES(?,?,?,?)
+            """,(fullname,email,username,password))
 
-            con.commit()
+            conn.commit()
+
+            flash("Account Created Successfully ✅","success")
+
+            return redirect(url_for("login"))
+
         except sqlite3.IntegrityError:
-            return "User name already exit"
-        finally:
-            con.close()
 
-        return redirect('/')
-    return render_template('register.html')
+            flash("Email or Username already exists","danger")
+
+        finally:
+
+            conn.close()
+
+    return render_template("register.html")
+
 
 # ---------------- LOGIN ----------------
-
-@app.route('/login', methods=['GET','POST'])
+@app.route("/login", methods=["GET","POST"])
 def login():
 
     if request.method=="POST":
 
-        username=request.form['username']
-        password=request.form['password']
+        username=request.form["username"]
+        password=request.form["password"]
 
-        con=sqlite3.connect("database.db")
-        cur=con.cursor()
+        conn=sqlite3.connect("database.db")
+        cur=conn.cursor()
 
-        cur.execute(
-        "SELECT * FROM users WHERE username=? AND password=?",
-        (username,password))
-
+        cur.execute("SELECT * FROM users WHERE username=?",(username,))
         user=cur.fetchone()
 
-        con.close()
+        conn.close()
 
-        if user:
-            session['user']=username
-            return redirect('/dashboard')
+        if user and check_password_hash(user[4],password):
 
-        else:
-            return "Wrong Username or Password"
+            session["user_id"]=user[0]
+            session["username"]=user[3]
 
-    return render_template('login.html')
+            flash("Login Successful","success")
 
+            return redirect(url_for("dashboard"))
+
+        flash("Invalid Username or Password","danger")
+
+    return render_template("login.html")
+
+# ---------------- DASHBOARD ----------------
+@app.route("/dashboard")
+def dashboard():
+
+    if "user_id" not in session:
+
+        flash("Please Login First","warning")
+
+        return redirect(url_for("login"))
+
+    return render_template(
+        "dashboard.html",
+        user=session["username"]
+    )
+
+
+# ---------------- PROFILE ----------------
+@app.route("/profile")
+def profile():
+
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
+    conn = sqlite3.connect("database.db")
+    conn.row_factory = sqlite3.Row
+    cur = conn.cursor()
+
+    cur.execute(
+        "SELECT fullname,email,username FROM users WHERE id=?",
+        (session["user_id"],)
+    )
+
+    user = cur.fetchone()
+
+    conn.close()
+
+    return render_template("profile.html", user=user)
 
 # ---------------- LOGOUT ----------------
-
 @app.route("/logout")
 def logout():
-    session.pop("user", None)
+
+    session.clear()
+
+    flash("Logged Out Successfully","success")
+
     return redirect(url_for("login"))
 
 # ---------------- MAIN ----------------
 
 if __name__ == "__main__":
     app.run(debug=True)
-
-
-
-
-
-'''import os
-from flask import Flask, render_template, request, redirect, session, url_for
-from flask_sqlalchemy import SQLAlchemy
-
-app = Flask(__name__)
-app.secret_key = "academic_copilot"
-
-# ---------------- DATABASE ----------------
-
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-
-db = SQLAlchemy(app)
-
-
-# ---------------- MODELS (NOTES SYSTEM) ----------------
-
-class Subject(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100))
-    icon = db.Column(db.String(10))
-    description = db.Column(db.String(200))
-
-
-class Note(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(200))
-    content = db.Column(db.Text)
-    subject_id = db.Column(db.Integer, db.ForeignKey("subject.id"))
-
-
-# ---------------- CREATE DB ----------------
-
-with app.app_context():
-    db.create_all()
-
-
-# ======================================================
-# 🔵 BASIC PAGES
-# ======================================================
-
-@app.route("/")
-def home():
-    return render_template("home.html")
-
-
-@app.route("/index")
-def index():
-    return render_template("index.html")
-
-
-@app.route("/about")
-def about():
-    return render_template("about.html")
-
-
-@app.route("/papers")
-def papers():
-    return render_template("papers.html")
-
-
-@app.route("/subjects")
-def subjects():
-    return render_template("subjects.html")
-
-
-# ======================================================
-# 📚 NOTES SYSTEM (DB BASED)
-# ======================================================
-
-@app.route("/notes")
-def notes():
-    subjects = Subject.query.all()
-    return render_template("notes.html", subjects=subjects)
-
-
-@app.route("/subject/<int:id>")
-def subject_notes(id):
-    subject = Subject.query.get_or_404(id)
-    notes = Note.query.filter_by(subject_id=id).all()
-
-    return render_template(
-        "subject_notes.html",
-        subject=subject,
-        notes=notes
-    )
-
-
-@app.route("/note/<int:id>")
-def view_note(id):
-    note = Note.query.get_or_404(id)
-    return render_template("view_note.html", note=note)
-
-
-@app.route("/add-note", methods=["GET", "POST"])
-def add_note():
-
-    if "user" not in session:
-        return redirect("/login")
-
-    subjects = Subject.query.all()
-
-    if request.method == "POST":
-
-        new_note = Note(
-            title=request.form["title"],
-            content=request.form["content"],
-            subject_id=request.form["subject_id"]
-        )
-
-        db.session.add(new_note)
-        db.session.commit()
-
-        return redirect("/notes")
-
-    return render_template("add_note.html", subjects=subjects)
-
-
-# ======================================================
-# 🤖 CHATBOT
-# ======================================================
-
-@app.route("/chatbot", methods=["GET", "POST"])
-def chatbot():
-
-    answer = ""
-
-    if request.method == "POST":
-
-        question = request.form["question"].lower()
-
-        if "hello" in question or "hi" in question:
-            answer = "Hello 👋 I am your AI Academic Copilot."
-
-        elif "flask" in question:
-            answer = "Flask is a Python web framework."
-
-        elif "python" in question:
-            answer = "Python is a high-level programming language."
-
-        elif "java" in question:
-            answer = "Java is object-oriented language."
-
-        elif "dbms" in question:
-            answer = "DBMS is used to manage databases."
-
-        elif "css" in question:
-            answer = "CSS is used for styling web pages."
-
-        elif "html" in question:
-            answer = "HTML is structure of web pages."
-
-        else:
-            answer = "Sorry, I don't know that answer."
-
-    return render_template("chatbot.html", answer=answer)
-
-
-# ======================================================
-# 🧪 QUIZ
-# ======================================================
-
-@app.route("/quiz")
-def quiz():
-    return render_template("quiz.html")
-
-
-# ======================================================
-# 🔐 AUTH SYSTEM (SQLite simple)
-# ======================================================
-
-import sqlite3
-
-def init_db():
-    conn = sqlite3.connect("database.db")
-    cur = conn.cursor()
-
-    cur.execute("""
-        CREATE TABLE IF NOT EXISTS users(
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            username TEXT UNIQUE,
-            password TEXT
-        )
-    """)
-
-    try:
-        conn.execute("ALTER TABLE users AND COLUME role TEXT DEFAULT 'student")
-    except:
-        #colume already exits
-        pass
-
-    conn.commit()
-    conn.close()
-
-init_db()
-
-
-@app.route("/register", methods=["GET", "POST"])
-def register():
-
-    if request.method == "POST":
-
-        username = request.form["username"]
-        password = request.form["password"]
-
-        try:
-            con = sqlite3.connect("database.db")
-            cur = con.cursor()
-
-            cur.execute(
-                "INSERT INTO users(username,password) VALUES (?,?)",
-                (username, password)
-            )
-
-            con.commit()
-            con.close()
-
-            return redirect("/login")
-
-        except:
-            return "User already exists"
-
-    return render_template("register.html")
-
-
-@app.route("/login", methods=["GET", "POST"])
-def login():
-
-    if request.method == "POST":
-
-        username = request.form["username"]
-        password = request.form["password"]
-
-        con = sqlite3.connect("database.db")
-        cur = con.cursor()
-
-        cur.execute(
-            "SELECT * FROM users WHERE username=? AND password=?",
-            (username, password)
-        )
-
-        user = cur.fetchone()
-        con.close()
-
-        if user:
-            session["user"] = username
-            return redirect("/dashboard")
-
-        return "Invalid login"
-
-    return render_template("login.html")
-
-
-@app.route("/dashboard")
-def dashboard():
-
-    if "user" in session:
-        return render_template("dashboard.html")
-
-    return redirect("/login")
-
-
-@app.route("/logout")
-def logout():
-    session.pop("user", None)
-    return redirect("/login")
-
-
-# ======================================================
-# 🟢 ADD SUBJECTS (RUN ONCE)
-# ======================================================
-
-@app.route("/add-subjects")
-def add_subjects():
-
-    if Subject.query.first():
-        return "Already exists"
-
-    subjects = [
-        Subject(name="Python", icon="🐍", description="Python Programming"),
-        Subject(name="Java", icon="☕", description="Java OOP"),
-        Subject(name="C", icon="💻", description="C Language"),
-        Subject(name="C++", icon="⚡", description="C++ Programming"),
-        Subject(name="DBMS", icon="🗄", description="Database Management"),
-        Subject(name="OS", icon="🖥", description="Operating System")
-    ]
-
-    db.session.add_all(subjects)
-    db.session.commit()
-
-    return "Subjects Added"
-
-
-# ======================================================
-# RUN APP
-# ======================================================
-
-if __name__ == "__main__":
-    app.run(debug=True)'''

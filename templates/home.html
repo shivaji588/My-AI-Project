@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
+
 <style>
 .home{
     text-align:center;
@@ -14,6 +15,7 @@
 }
 .cards{
     display:flex;
+    flex-wrap:wrap;
     gap:20px;
     justify-content:center;
     margin-top:30px;
@@ -21,55 +23,114 @@
 .card{
     background:white;
     padding:20px;
-    width:220px;
+    width:230px;
     border-radius:15px;
-    box-shadow:0 0 10px #ccc;
+    box-shadow:0 5px 15px rgba(0,0,0,0.1);
+    transition:0.3s;
+}
+.card:hover{
+    transform:translateY(-8px);
 }
 button{
-
     background:#2563eb;
     color:white;
     border:none;
     padding:10px 20px;
     border-radius:8px;
-
+}
+button:hover{
+    background:#174bb5;
 }
 </style>
+
+<div class="container mt-4">
+
+    {% if session.get('user_id') %}
+    <div class="alert alert-success text-center shadow-sm">
+        <h4 class="mb-0">
+            👋 Welcome, {{ session.username }}
+        </h4>
+        <small>Glad to see you again!</small>
+    </div>
+    {% endif %}
+
+</div>
+
 <div class="home">
+
 <h1>🤖 Welcome to the AI Academic Copilot</h1>
+
 <p>
-Your smart study assistant for notes, papers and AI help.
+Your smart study assistant for notes, papers, quizzes and AI-powered learning.
 </p>
 
 <div class="cards">
+
 <div class="card">
+
 <h2>📄 Papers</h2>
-<p>Papers collection</p>
+
+<p>Access previous year question papers.</p>
 
 <a href="/papers">
 <button>Open</button>
 </a>
+
 </div>
 
 <div class="card">
+
 <h2>🧠 Chatbot</h2>
-<p>Ask AI questions</p>
+
+<p>Ask AI academic questions anytime.</p>
 
 <a href="/chatbot">
 <button>Chat</button>
 </a>
 
 </div>
+
 <div class="card">
 
 <h2>📝 Quiz</h2>
 
-<p>Test your knowledge</p>
+<p>Test your knowledge with subject-wise quizzes.</p>
 
 <a href="/quiz">
 <button>Start</button>
 </a>
+
 </div>
+
 </div>
+
 </div>
+
+<footer style="
+margin-top:60px;
+padding:18px 0;
+text-align:center;
+border-top:1px solid #e5e5e5;
+background:#ffffff;
+">
+
+<p style="
+margin:0;
+font-size:14px;
+color:#6c757d;
+letter-spacing:0.3px;
+">
+
+© 2026
+<strong style="color:#212529;">AI Academic Copilot</strong>
+•
+Developed by
+<span style="color:#0d6efd;font-weight:600;">
+Yogita Dalvi
+</span>
+
+</p>
+
+</footer>
+
 {% endblock %}

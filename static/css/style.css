@@ -1,282 +1,777 @@
-body{
-    font-family: Arial, sans-serif;
-    margin: 0;
-    background-color: #f4f4f4;
-    text-align: center;
-}
+/* Navbar */
 nav{
-    background-color: #333;
-    padding: 15px 0;
+    background:linear-gradient(90deg,#0f172a,#2563eb);
+    padding:18px 35px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    box-shadow:0 4px 12px rgba(0,0,0,0.2);
 }
+
+
 nav h2{
-    color:white;
+    color:#ffffff;
+    margin:0;
+    font-size:28px;
+    font-weight:700;
+    letter-spacing:0.5px;
 }
+
+
 nav a{
-    color: White;
-    margin: 0 15px;
-    text-decoration: none;
-    font-size: 18px;
+    color:#f8fafc;
+    margin:0 14px;
+    text-decoration:none;
+    font-size:17px;
+    font-weight:500;
+    transition:0.3s;
 }
+
+
 nav a:hover{
-    color:yellow;
+    color:#facc15;
 }
-h1{
-    margin-top: 40px;
-    color: #333;
-}
-p{
-    font-size: 20px;
-    color: #666;
-}
-ul{
-    list-style-type: none;
-    padding: 0;
-}
-li{
-    background-color: white;
-    margin: 10px auto;
-    padding: 15px;
-    width: 80%;
-    border-radius: 5px;
-    box-shadow: 0 0 5px rgba(0,0,0,0.1);
-}
-nav a:hover{
-    color: yellow;
-}
-.container{
-    max-width: 900px;
-    margin: 20px auto;
-    background-color: white;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-}
+
+/* Subjects Page */
+
 .subjects-container{
-    padding:40px;
-    text-align:center;
+
+    max-width:1100px;
+    margin:40px auto;
+    padding:35px;
+
 }
+
 
 .subjects-container h1{
-    color:#333;
-    margin-bottom:10px;
-}
 
-.subjects-container p{
-    color:gray;
-    margin-bottom:25px;
-}
-
-#searchInput{
-    width:60%;
-    padding:12px;
-    border:1px solid #ddd;
-    border-radius:8px;
-    margin-bottom:30px;
-}
-
-.subject-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-    gap:20px;
-}
-
-.subject-card{
-    background:white;
-    padding:25px;
-    border-radius:15px;
-    box-shadow:0 4px 10px rgba(0,0,0,0.1);
-    transition:0.3s;
-}
-
-.subject-card:hover{
-    transform:translateY(-8px);
-}
-
-.subject-card h3{
-    margin-bottom:10px;
-}
-
-.subject-card p{
-    margin-bottom:15px;
-}
-
-.btn{
-    display:inline-block;
-    background:#007bff;
-    color:white;
-    padding:10px 18px;
-    border-radius:6px;
-    text-decoration:none;
-}
-
-.btn:hover{
-    background:#0056b3;
-}
-.notes-container{
     text-align:center;
-    padding:40px;
-}
-
-.notes-container h1{
+    font-size:36px;
     color:#1e3a8a;
     margin-bottom:10px;
+
 }
+
+
+.subjects-container p{
+
+    text-align:center;
+    color:#64748b;
+    margin-bottom:30px;
+
+}
+
+
+/* Search box */
 
 #searchInput{
-    width:60%;
-    padding:12px;
-    border-radius:10px;
-    border:1px solid #ccc;
-    margin:20px;
+
+    display:block;
+    margin:0 auto;
+    width:55%;
+    padding:15px 20px;
+
+    border-radius:30px;
+    border:1px solid #cbd5e1;
+
     font-size:16px;
+
+    box-shadow:0 5px 15px rgba(0,0,0,0.08);
+
 }
+
+
+/* Cards */
+
+.subject-grid{
+
+    margin-top:45px;
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(auto-fit,minmax(260px,1fr));
+
+    gap:30px;
+
+}
+
+
+.subject-card{
+
+    background:linear-gradient(135deg,#ffffff,#f1f5ff);
+
+    padding:30px;
+
+    border-radius:20px;
+
+    text-align:center;
+
+    box-shadow:0 10px 25px rgba(0,0,0,0.1);
+
+    transition:0.3s;
+
+    border-top:5px solid #2563eb;
+
+}
+
+
+.subject-card:hover{
+
+    transform:translateY(-10px);
+
+    box-shadow:0 15px 35px rgba(37,99,235,0.25);
+
+}
+
+
+.subject-card h3{
+
+    font-size:24px;
+
+    color:#1e3a8a;
+
+}
+
+
+.subject-card p{
+
+    font-size:16px;
+
+    color:#64748b;
+
+}
+
+
+/* Button */
+
+.subject-card .btn{
+
+    display:inline-block;
+
+    margin-top:15px;
+
+    background:#2563eb;
+
+    padding:12px 22px;
+
+    border-radius:25px;
+
+    color:white;
+
+}
+
+
+.subject-card .btn:hover{
+
+    background:#1d4ed8;
+
+}
+
+
+/* Notes Page - Library Style */
+
+.notes-container{
+
+    max-width:1100px;
+    margin:40px auto;
+    padding:35px;
+
+}
+
+
+.notes-container h1{
+
+    text-align:center;
+    font-size:36px;
+    color:#1e3a8a;
+
+}
+
+
+.notes-container > p{
+
+    text-align:center;
+    color:#64748b;
+    font-size:18px;
+    margin-bottom:30px;
+
+}
+
+
+/* Search */
+
+.notes-container #searchInput{
+
+    display:block;
+
+    margin:0 auto;
+
+    width:55%;
+
+    padding:15px 20px;
+
+    border-radius:12px;
+
+    border:2px solid #e2e8f0;
+
+    font-size:16px;
+
+}
+
+
+/* Notes Cards */
 
 .notes-grid{
+
+    margin-top:45px;
+
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-    gap:20px;
-    margin-top:30px;
+
+    grid-template-columns:
+    repeat(auto-fit,minmax(250px,1fr));
+
+    gap:30px;
+
 }
+
 
 .note-card{
-    background:white;
-    padding:20px;
-    border-radius:15px;
-    box-shadow:0 4px 10px rgba(0,0,0,0.1);
+
+    background:linear-gradient(145deg,#ffffff,#f8fafc);
+
+    padding:30px;
+
+    border-radius:18px;
+
+    text-align:center;
+
+    box-shadow:0 8px 20px rgba(0,0,0,0.12);
+
+    border-left:6px solid #8b5cf6;
+
     transition:0.3s;
+
 }
+
 
 .note-card:hover{
-    transform:translateY(-5px);
-    box-shadow:0 8px 20px rgba(0,0,0,0.2);
+
+    transform:translateY(-8px);
+
+    box-shadow:0 15px 30px rgba(139,92,246,0.25);
+
 }
+
+
+.note-card h3{
+
+    color:#1e3a8a;
+
+    font-size:24px;
+
+}
+
+
+.note-card p{
+
+    color:#64748b;
+
+}
+
+
+/* Buttons */
 
 .note-card button{
-    background:#2563eb;
-    color:white;
+
+    margin:8px 5px;
+
+    padding:12px 18px;
+
     border:none;
-    padding:10px 15px;
-    margin:5px;
-    border-radius:8px;
+
+    border-radius:10px;
+
+    background:#2563eb;
+
+    color:white;
+
     cursor:pointer;
+
+    transition:0.3s;
+
 }
+
 
 .note-card button:hover{
-    background:#1d4ed8;
+
+    background:#7c3aed;
+
 }
+/* Papers Page */
 
 .papers-container{
-    text-align:center;
-    padding:40px;
+
+    max-width:1100px;
+    margin:40px auto;
+    padding:35px;
+
 }
+
+
+.papers-container h1{
+
+    text-align:center;
+    font-size:36px;
+    color:#1e3a8a;
+    margin-bottom:10px;
+
+}
+
+
+.papers-container > p{
+
+    text-align:center;
+    color:#64748b;
+    font-size:18px;
+    margin-bottom:30px;
+
+}
+
+
+/* Search */
+
+.papers-container #searchInput{
+
+    display:block;
+
+    margin:0 auto;
+
+    width:55%;
+
+    padding:15px 20px;
+
+    border-radius:30px;
+
+    border:1px solid #cbd5e1;
+
+    font-size:16px;
+
+    outline:none;
+
+    box-shadow:0 5px 15px rgba(0,0,0,0.08);
+
+}
+
+
+.papers-container #searchInput:focus{
+
+    border-color:#2563eb;
+
+}
+
+
+/* Papers Page - Exam Style */
+
+.papers-container{
+
+    max-width:1100px;
+    margin:40px auto;
+    padding:35px;
+
+}
+
+
+.papers-container h1{
+
+    text-align:center;
+    font-size:36px;
+    color:#1e3a8a;
+}
+
+
+.papers-container > p{
+
+    text-align:center;
+    color:#64748b;
+    font-size:18px;
+    margin-bottom:30px;
+
+}
+
+
+/* Search */
+
+.papers-container #searchInput{
+
+    display:block;
+    margin:0 auto;
+
+    width:55%;
+
+    padding:15px 20px;
+
+    border-radius:12px;
+
+    border:2px solid #e2e8f0;
+
+    font-size:16px;
+
+}
+
+
+/* Paper Cards */
 
 .papers-grid{
+
+    margin-top:45px;
+
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-    gap:20px;
-    margin-top:30px;
+
+    grid-template-columns:
+    repeat(auto-fit,minmax(260px,1fr));
+
+    gap:30px;
+
 }
+
 
 .paper-card{
+
     background:white;
-    padding:20px;
-    border-radius:15px;
-    box-shadow:0 4px 10px rgba(0,0,0,0.1);
+
+    padding:30px;
+
+    border-radius:18px;
+
+    text-align:center;
+
+    box-shadow:0 8px 20px rgba(0,0,0,0.12);
+
+    border-left:6px solid #f97316;
+
     transition:0.3s;
+
 }
+
 
 .paper-card:hover{
-    transform:translateY(-5px);
-    box-shadow:0 8px 20px rgba(0,0,0,0.2);
+
+    transform:translateY(-8px);
+
+    box-shadow:0 15px 30px rgba(249,115,22,0.25);
+
 }
+
+
+/* Paper Icon Heading */
+
+.paper-card h3{
+
+    color:#1e3a8a;
+
+    font-size:24px;
+
+}
+
+
+/* Description */
+
+.paper-card p{
+
+    color:#64748b;
+
+}
+
+
+/* Buttons */
 
 .paper-card button{
-    background:#2563eb;
-    color:white;
+
+    margin:8px 5px;
+
+    padding:12px 18px;
+
     border:none;
-    padding:10px 15px;
-    margin:5px;
-    border-radius:8px;
+
+    border-radius:10px;
+
+    background:#2563eb;
+
+    color:white;
+
     cursor:pointer;
+
+    transition:0.3s;
+
 }
 
+
 .paper-card button:hover{
-    background:#1d4ed8;
+
+    background:#ea580c;
+
 }
 
 .quiz-container{
-    max-width:800px;
-    margin:30px auto;
-    padding:30px;
-    background:white;
-    border-radius:15px;
-    box-shadow:0 4px 15px rgba(0,0,0,0.1);
+
+    max-width:1100px;
+    margin:40px auto;
+    padding:35px;
+    text-align:center;
+
 }
+
 
 .quiz-container h1{
-    text-align:center;
+
+    font-size:36px;
     color:#1e3a8a;
-    margin-bottom:20px;
+    margin-bottom:10px;
+
 }
 
-.quiz-container select{
-    width:100%;
-    padding:10px;
-    border-radius:8px;
-    margin-bottom:15px;
-}
 
-#timer{
+.quiz-container > p{
+
+    color:#64748b;
     font-size:18px;
-    font-weight:bold;
-    color:#dc2626;
-    text-align:center;
+    margin-bottom:35px;
+
 }
 
-.progress{
-    width:100%;
-    height:20px;
-    background:#e5e7eb;
-    border-radius:10px;
-    margin:20px 0;
+
+/* Quiz Cards */
+
+.quiz-cards{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(auto-fit,minmax(240px,1fr));
+
+    gap:30px;
+
 }
 
-.progress-bar{
-    width:100%;
-    height:20px;
-    background:#22c55e;
-    border-radius:10px;
+
+.quiz-card{
+
+    background:linear-gradient(145deg,#ffffff,#f0fdf4);
+
+    padding:30px;
+
+    border-radius:20px;
+
+    box-shadow:0 10px 25px rgba(0,0,0,0.12);
+
+    border-left:6px solid #22c55e;
+
+    transition:0.3s;
+
 }
 
-.quiz-container h3{
-    margin-top:20px;
+
+.quiz-card:hover{
+
+    transform:translateY(-10px);
+
+    box-shadow:0 15px 30px rgba(34,197,94,0.25);
+
 }
 
-.quiz-container input[type="radio"]{
-    margin:10px;
+
+.quiz-card h2{
+
+    color:#1e3a8a;
+
+    font-size:24px;
+
 }
 
-.quiz-container button{
+
+.quiz-card p{
+
+    color:#64748b;
+
+}
+
+
+/* Start Button */
+
+.quiz-card a{
+
+    display:inline-block;
+
+    margin-top:18px;
+
     background:#2563eb;
+
     color:white;
-    border:none;
-    padding:12px 18px;
-    border-radius:8px;
-    cursor:pointer;
-    margin:10px 5px;
+
+    padding:12px 25px;
+
+    border-radius:25px;
+
+    text-decoration:none;
+
+    transition:0.3s;
+
 }
 
-.quiz-container button:hover{
-    background:#1d4ed8;
-}
 
-#score,
-#percentage,
-#message{
-    text-align:center;
-    margin-top:15px;
-}
+.quiz-card a:hover{
 
-#certificateBtn{
     background:#16a34a;
+
+    transform:scale(1.05);
+
+}
+
+/* AI Chatbot Page */
+
+.container{
+
+    max-width:900px;
+    margin:50px auto;
+    padding:20px;
+
+}
+
+
+.card{
+
+    background:white;
+
+    padding:35px;
+
+    border-radius:22px;
+
+    box-shadow:0 12px 30px rgba(0,0,0,0.12);
+
+    text-align:center;
+
+}
+
+
+/* Logo */
+
+.logo{
+
+    font-size:55px;
+
+    margin-bottom:10px;
+
+}
+
+
+/* Heading */
+
+.card h1{
+
+    color:#1e3a8a;
+
+    font-size:34px;
+
+}
+
+
+.card p{
+
+    color:#64748b;
+
+    font-size:17px;
+
+}
+
+
+/* Input */
+
+#chat-form input{
+
+    width:70%;
+
+    padding:15px 20px;
+
+    border-radius:30px;
+
+    border:1px solid #cbd5e1;
+
+    font-size:16px;
+
+    outline:none;
+
+}
+
+
+#chat-form input:focus{
+
+    border-color:#2563eb;
+
+}
+
+
+/* Button */
+
+#chat-form button{
+
+    margin-left:10px;
+
+    padding:14px 25px;
+
+    border:none;
+
+    border-radius:30px;
+
+    background:#2563eb;
+
+    color:white;
+
+    font-size:16px;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+
+#chat-form button:hover{
+
+    background:#1d4ed8;
+
+    transform:scale(1.05);
+
+}
+
+
+/* AI Response */
+
+.card .card{
+
+    margin-top:30px;
+
+    background:#eff6ff;
+
+    border-left:5px solid #2563eb;
+
+}
+
+
+.card .card h2{
+
+    color:#1e3a8a;
+
+}
+/* Logout button (jar asel tar) */
+.logout-btn{
+    background:#ef4444;
+    padding:10px 18px;
+    border-radius:10px;
+    color:white !important;
+}
+
+
+.logout-btn:hover{
+    background:#dc2626;
 }

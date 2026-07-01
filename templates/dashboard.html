@@ -2,83 +2,48 @@
 
 {% block content %}
 
-<style>
-.dashboard{
-    text-align:center;
-    padding:40px;
-}
+<div class="container py-5">
 
-.card-container{
-    display:flex;
-    justify-content:center;
-    flex-wrap:wrap;
-    gap:20px;
-}
+    <div class="card shadow-lg border-0 rounded-4">
 
-.card{
-    width:220px;
-    padding:25px;
-    background:#f5f5f5;
-    border-radius:15px;
-    box-shadow:0 4px 10px rgba(0,0,0,0.2);
-}
+        <div class="card-body text-center p-5">
 
-.card h3{
-    color:#333;
-}
+            <h1 class="text-primary">
+                👋 Welcome, {{ user }}
+            </h1>
 
-.card a{
-    text-decoration:none;
-    background:#007bff;
-    color:white;
-    padding:10px 20px;
-    border-radius:8px;
-}
+            <p class="lead mt-3">
+                Welcome to AI Academic Copilot.
+            </p>
 
-</style>
+            <hr>
 
+            <div class="row mt-4">
 
-<div class="dashboard">
+                <div class="col-md-4 mb-3">
+                    <a href="/subjects" class="btn btn-primary w-100">
+                        📚 Subjects
+                    </a>
+                </div>
 
-<h1>Welcome to AI Academic Copilot</h1>
+                <div class="col-md-4 mb-3">
+                    <a href="/quiz" class="btn btn-success w-100">
+                        📝 Quiz
+                    </a>
+                </div>
 
-<p>Your Learning Dashboard</p>
+                <div class="col-md-4 mb-3">
+                    <a href="/chatbot" class="btn btn-warning w-100">
+                        🤖 AI Chatbot
+                    </a>
+                </div>
 
+            </div>
 
-<div class="card-container">
+        </div>
 
-
-<div class="card">
-<h3>📚 Subjects</h3>
-<p>Explore all subjects</p>
-<a href="/subjects">Open</a>
-</div>
-
-
-<div class="card">
-<h3>📝 Quiz</h3>
-<p>Practice subject-wise quiz</p>
-<a href="/quiz">Start</a>
-</div>
-
-
-<div class="card">
-<h3>🤖 AI Chatbot</h3>
-<p>Ask your doubts</p>
-<a href="/chatbot">Chat</a>
-</div>
-
-
-<div class="card">
-<h3>📊 Progress</h3>
-<p>Check your performance</p>
-<a href="/progress">View</a>
-</div>
-
+    </div>
 
 </div>
-
-</div>
-
 
 {% endblock %}

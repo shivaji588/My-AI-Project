@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+body{
+    background: #f4f6fb;
+}
+
+/* Profile Card */
+.profile-box{
+    width:420px;
+    margin:60px auto;
+    padding:30px;
+    background: white;
+    border-radius:20px;
+    box-shadow:0 15px 35px rgba(0,0,0,0.1);
+    text-align:center;
+    transition:0.3s;
+}
+
+.profile-box:hover{
+    transform:translateY(-5px);
+}
+
+/* Profile Icon */
+.profile-icon{
+    width:90px;
+    height:90px;
+    border-radius:50%;
+    background:#4f46e5;
+    color:white;
+    font-size:40px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin:0 auto 15px;
+    font-weight:bold;
+}
+
+/* Name */
+.profile-box h2{
+    margin:10px 0;
+    color:#111827;
+}
+
+/* Info Section */
+.info{
+    text-align:left;
+    margin-top:20px;
+}
+
+.info p{
+    background:#f3f4f6;
+    padding:12px;
+    border-radius:10px;
+    margin:10px 0;
+    font-size:15px;
+}
+
+/* Label */
+.info b{
+    color:#4f46e5;
+}
+
+/* Logout Button */
+.logout-btn{
+    display:inline-block;
+    margin-top:20px;
+    padding:12px 25px;
+    background:#ef4444;
+    color:white;
+    text-decoration:none;
+    border-radius:10px;
+    transition:0.3s;
+}
+
+.logout-btn:hover{
+    background:#b91c1c;
+}
+</style>
+
+<div class="profile-box">
+
+    <!-- Avatar -->
+    <div class="profile-icon">
+        {{ user.name[0] }}
+    </div>
+
+    <h2>{{ user.name }}</h2>
+    <p style="color:gray;">AI Academic Copilot Student</p>
+
+    <div class="info">
+
+        <p><b>📧 Email:</b> {{ user.email }}</p>
+        <p><b>🎓 Course:</b> {{ user.course }}</p>
+        <p><b>📅 Year:</b> {{ user.year }}</p>
+
+    </div>
+
+    <a href="/logout" class="logout-btn">
+        🚪 Logout
+    </a>
+
+</div>
+
+{% endblock %}
