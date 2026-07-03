@@ -2,48 +2,139 @@
 
 {% block content %}
 
-<div class="container py-5">
+<div class="academic-dashboard">
 
-    <div class="card shadow-lg border-0 rounded-4">
 
-        <div class="card-body text-center p-5">
+    <div class="hero-dashboard">
 
-            <h1 class="text-primary">
-                👋 Welcome, {{ user }}
-            </h1>
+        <h1>
+            👋 Welcome, {{ session.username }}
+        </h1>
 
-            <p class="lead mt-3">
-                Welcome to AI Academic Copilot.
-            </p>
+        <p>
+            Your personal AI Academic Copilot for smarter learning 🚀
+        </p>
 
-            <hr>
 
-            <div class="row mt-4">
-
-                <div class="col-md-4 mb-3">
-                    <a href="/subjects" class="btn btn-primary w-100">
-                        📚 Subjects
-                    </a>
-                </div>
-
-                <div class="col-md-4 mb-3">
-                    <a href="/quiz" class="btn btn-success w-100">
-                        📝 Quiz
-                    </a>
-                </div>
-
-                <div class="col-md-4 mb-3">
-                    <a href="/chatbot" class="btn btn-warning w-100">
-                        🤖 AI Chatbot
-                    </a>
-                </div>
-
-            </div>
-
-        </div>
+        <a href="/chatbot" class="ai-btn">
+            <i class="fas fa-robot"></i>
+            Start AI Assistant
+        </a>
 
     </div>
 
+
+
+
+    <h2 class="section-title">
+        Academic Overview
+    </h2>
+
+
+
+    <div class="dashboard-grid">
+
+
+        <div class="info-card">
+
+            <i class="fas fa-book-open"></i>
+
+            <h3>Subjects</h3>
+
+            <p>Explore your learning topics</p>
+
+            <a href="/subjects">
+                View Subjects →
+            </a>
+
+        </div>
+
+
+
+
+
+        <div class="info-card">
+
+            <i class="fas fa-file-lines"></i>
+
+            <h3>Notes</h3>
+
+            <p>Access study notes easily</p>
+
+            <a href="/notes">
+                Open Notes →
+            </a>
+
+        </div>
+
+
+
+
+
+        <div class="info-card">
+
+            <i class="fas fa-file-circle-check"></i>
+
+            <h3>Previous Papers</h3>
+
+            <p>Practice exam papers</p>
+
+            <a href="/papers">
+                View Papers →
+            </a>
+
+        </div>
+
+
+
+
+
+        <div class="info-card">
+
+            <i class="fas fa-brain"></i>
+
+            <h3>AI Quiz</h3>
+
+            <p>Test your knowledge</p>
+
+            <a href="/quiz">
+                Start Quiz →
+            </a>
+
+        </div>
+
+
+
+    </div>
+
+
+
+
+
+    <div class="study-box">
+
+
+        <h2>
+            🤖 AI Learning Support
+        </h2>
+
+
+        <p>
+            Get instant answers, generate ideas, and improve your study experience with AI.
+        </p>
+
+
+        <a href="/chatbot">
+            Chat with AI →
+        </a>
+
+
+    </div>
+
+
+
+
 </div>
+
 
 {% endblock %}

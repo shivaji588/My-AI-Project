@@ -1,11 +1,14 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, session
+import os
 import sqlite3
+from flask import Flask, render_template, request, redirect, url_for, flash, session
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
 app = Flask(__name__)
 app.secret_key = "academic_copilot"
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DB_PATH = os.path.join(BASE_DIR, "database.db")
 # ---------------- HOME ----------------
 
 @app.route("/")
@@ -28,6 +31,7 @@ def notes():
     return render_template("notes.html")
 
 
+#--------------papers--------------------
 @app.route("/papers")
 def papers():
     return render_template("papers.html")
