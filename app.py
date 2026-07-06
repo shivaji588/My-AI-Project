@@ -1,6 +1,9 @@
 import os
 import sqlite3
+import datetime
+from tkinter import INSERT
 from flask import Flask, render_template, request, redirect, url_for, flash, session
+from sqlalchemy import values
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
@@ -30,6 +33,39 @@ def about():
 def notes():
     return render_template("notes.html")
 
+#--------------notes_view--------------
+@app.route("/notes/<subject>")
+def show_notes(subject):
+
+    notes_data = {
+        "python": {
+            "title": "🐍 Python Notes",
+            "notes": ["Variables", "Loops", "Functions", "OOP"]
+        },
+        "java": {
+            "title": "☕ Java Notes",
+            "notes": ["Classes", "Objects", "Inheritance", "Polymorphism"]
+        },
+        "web": {
+            "title": "🌐 Web Notes",
+            "notes": ["HTML", "CSS", "Flask Routing"]
+        },
+        "dbms": {
+            "title": "🗄 DBMS Notes",
+            "notes": ["SQL", "Joins", "Normalization"]
+        },
+        "ai": {
+            "title": "🤖 AI Notes",
+            "notes": ["Search Algorithms", "Machine Learning Basics"]
+        }
+    }
+
+    data = notes_data.get(subject)
+
+    if data:
+        return render_template("notes_view.html", data=data)
+    else:
+        return "Notes not found", 404
 
 #--------------papers--------------------
 @app.route("/papers")
@@ -37,12 +73,61 @@ def papers():
     return render_template("papers.html")
 
 
-# ---------------- SUBJECT ----------------
-
+# ---------------- SUBJECTS----------------
 @app.route("/subjects")
 def subjects():
     return render_template("subjects.html")
 
+#---------------- SUBJECT DETAILS ----------------
+from flask import render_template
+
+@app.route("/subject/<name>")
+def subject_page(name):
+
+    subjects_data = {
+        "python": {
+            "title": "🐍 Python",
+            "desc": "Programming Fundamentals",
+            "notes": ["Variables", "Loops", "Functions", "OOP"]
+        },
+
+        "java": {
+            "title": "☕ Java",
+            "desc": "Object Oriented Programming",
+            "notes": ["Classes", "Objects", "Inheritance", "Polymorphism"]
+        },
+
+        "web": {
+            "title": "🌐 Web Development",
+            "desc": "HTML, CSS, Flask",
+            "notes": ["HTML Basics", "CSS Styling", "Flask Routing"]
+        },
+
+        "dbms": {
+            "title": "🗄️ DBMS",
+            "desc": "Database Management System",
+            "notes": ["SQL", "Joins", "Normalization"]
+        },
+
+        "ai": {
+            "title": "🤖 AI",
+            "desc": "Artificial Intelligence",
+            "notes": ["Search Algorithms", "Machine Learning Basics"]
+        },
+
+        "datascience": {
+            "title": "📊 Data Science",
+            "desc": "Data Analysis & ML",
+            "notes": ["Pandas", "Numpy", "Visualization"]
+        }
+    }
+
+    subject = subjects_data.get(name)
+
+    if subject:
+        return render_template("subject.html",subject=subject,key=name)
+    else:
+        return "Subject not found", 404
 
 # ---------------- CHATBOT ----------------
 
@@ -225,6 +310,42 @@ def submit_ai_quiz():
 
 
 # ---------------- REGISTER ----------------
+# @app.route("/register", methods=["GET", "POST"])
+# def register():
+
+#     if request.method == "POST":
+
+#         fullname = request.form["fullname"]
+#         email = request.form["email"]
+#         username = request.form["username"]
+#         password = request.form["password"]
+
+#         conn = sqlite3.connect("database.db")
+#         cur = conn.cursor()
+
+#         try:
+
+#             cur.execute("""
+#             INSERT INTO users(fullname,email,username,password)
+#             VALUES(?,?,?,?)
+#             """,(fullname,email,username,password))
+
+#             conn.commit()
+
+#             flash("Account Created Successfully ✅","success")
+
+#             return redirect(url_for("login"))
+
+#         except sqlite3.IntegrityError:
+
+#             flash("Email or Username already exists","danger")
+
+#         finally:
+
+#             conn.close()
+
+#     return render_template("register.html")
+
 @app.route("/register", methods=["GET", "POST"])
 def register():
 
@@ -233,13 +354,14 @@ def register():
         fullname = request.form["fullname"]
         email = request.form["email"]
         username = request.form["username"]
-        password = request.form["password"]
+
+        # 🔥 FIX HERE
+        password = generate_password_hash(request.form["password"])
 
         conn = sqlite3.connect("database.db")
         cur = conn.cursor()
 
         try:
-
             cur.execute("""
             INSERT INTO users(fullname,email,username,password)
             VALUES(?,?,?,?)
@@ -248,66 +370,171 @@ def register():
             conn.commit()
 
             flash("Account Created Successfully ✅","success")
-
             return redirect(url_for("login"))
 
         except sqlite3.IntegrityError:
-
             flash("Email or Username already exists","danger")
 
         finally:
-
             conn.close()
 
     return render_template("register.html")
 
 
 # ---------------- LOGIN ----------------
-@app.route("/login", methods=["GET","POST"])
+# @app.route("/login", methods=["GET","POST"])
+# def login():
+
+#     if request.method=="POST":
+
+#         username=request.form["username"]
+#         password=request.form["password"]
+
+#         conn=sqlite3.connect("database.db")
+#         cur=conn.cursor()
+
+#         cur.execute("SELECT * FROM users WHERE username=?",(username,))
+#         user=cur.fetchone()
+
+#         conn.close()
+
+#         if user and check_password_hash(user[4],password):
+
+#             session["user_id"]=user[0]
+#             session["username"]=user[3]
+
+#             flash("Login Successful","success")
+
+#             return redirect(url_for("dashboard"))
+
+#         flash("Invalid Username or Password","danger")
+
+#     return render_template("login.html")
+@app.route("/login", methods=["GET", "POST"])
 def login():
 
-    if request.method=="POST":
+    if request.method == "POST":
 
-        username=request.form["username"]
-        password=request.form["password"]
+        username = request.form["username"]
+        password = request.form["password"]
 
-        conn=sqlite3.connect("database.db")
-        cur=conn.cursor()
+        conn = sqlite3.connect("database.db")
+        cur = conn.cursor()
 
-        cur.execute("SELECT * FROM users WHERE username=?",(username,))
-        user=cur.fetchone()
+        cur.execute("SELECT * FROM users WHERE username=?", (username,))
+        user = cur.fetchone()
 
         conn.close()
 
-        if user and check_password_hash(user[4],password):
+        if user and check_password_hash(user[4], password):
 
-            session["user_id"]=user[0]
-            session["username"]=user[3]
+            # ✅ SESSION SET
+            session["user_id"] = user[0]
+            session["username"] = user[3]
+
+            # 🔥 DAU TRACKING (ADD THIS)
+            import datetime
+            today = datetime.date.today().isoformat()
+
+            conn2 = sqlite3.connect("database.db")
+            cur2 = conn2.cursor()
+
+            cur.execute("""
+                INSERT INTO user_activity (user_id, login_date)
+                VALUES (?, ?)
+            """, (user[0], today))
+
+            cur.execute("""
+            INSERT INTO user_activity(user_id, login_date, action)
+            VALUES(?, ?, ?)
+            """, (user_id, today, "Login"))
+
+            conn2.commit()
+            conn2.close()
 
             flash("Login Successful","success")
-
             return redirect(url_for("dashboard"))
 
-        flash("Invalid Username or Password","danger")
+        else:
+            flash("Invalid Username or Password","danger")
 
     return render_template("login.html")
 
 # ---------------- DASHBOARD ----------------
+# @app.route("/dashboard")
+# def dashboard():
+
+#     if "user_id" not in session:
+
+#         flash("Please Login First","warning")
+
+#         return redirect(url_for("login"))
+
+#     return render_template(
+#         "dashboard.html",
+#         user=session["username"]
+#     )
+
+
 @app.route("/dashboard")
 def dashboard():
 
-    if "user_id" not in session:
+    conn = sqlite3.connect("database.db")
+    cur = conn.cursor()
 
-        flash("Please Login First","warning")
+    import datetime
 
-        return redirect(url_for("login"))
+    dates = []
+    values = []
+
+    for i in range(6, -1, -1):
+        day = (datetime.date.today() - datetime.timedelta(days=i)).isoformat()
+        dates.append(day)
+
+        cur.execute("""
+            SELECT COUNT(DISTINCT user_id)
+            FROM user_activity
+            WHERE login_date=?
+        """, (day,))
+        count = cur.fetchone()[0]
+        values.append(count)
+
+    # 👥 Total Users
+    cur.execute("SELECT COUNT(*) FROM users")
+    total_users = cur.fetchone()[0]
+
+    # 📊 DAU (today)
+    today = datetime.date.today().isoformat()
+    cur.execute("""
+        SELECT COUNT(DISTINCT user_id)
+        FROM user_activity
+        WHERE login_date=?
+    """, (today,))
+    dau = cur.fetchone()[0]
+
+    # 📅 WAU
+    cur.execute("""
+        SELECT COUNT(DISTINCT user_id)
+        FROM user_activity
+        WHERE login_date >= date('now','-7 day')
+    """)
+    wau = cur.fetchone()[0]
+
+    # 🔥 Total logins
+    cur.execute("SELECT COUNT(*) FROM user_activity")
+    total_logins = cur.fetchone()[0]
+
+    conn.close()
 
     return render_template(
         "dashboard.html",
-        user=session["username"]
+        total_users=total_users,
+        dau=dau,
+        wau=wau,
+        total_logins=total_logins,
+        labels=dates,
+        values=values
     )
-
-
 # ---------------- PROFILE ----------------
 @app.route("/profile")
 def profile():

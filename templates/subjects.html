@@ -1,11 +1,129 @@
 {% extends "base.html" %}
-
 {% block content %}
+
+<style>
+
+/* ================= PAGE BACKGROUND ================= */
+
+.subjects-container{
+    padding:60px 20px;
+    color:white;
+    background:linear-gradient(135deg,#0f172a,#1e3a8a,#2563eb);
+    border-radius:25px;
+}
+
+/* ================= TITLE ================= */
+
+.subjects-container h1{
+    text-align:center;
+    font-size:42px;
+    font-weight:800;
+}
+
+.subjects-container p{
+    text-align:center;
+    color:#dbeafe;
+    margin-bottom:30px;
+}
+
+/* ================= SEARCH BOX ================= */
+
+#searchInput{
+    display:block;
+    margin:0 auto 40px auto;
+    width:55%;
+    padding:14px 20px;
+    border-radius:30px;
+    border:none;
+    outline:none;
+    background:rgba(255,255,255,0.10);
+    color:white;
+    backdrop-filter:blur(12px);
+    transition:0.3s;
+}
+
+#searchInput::placeholder{
+    color:#cbd5e1;
+}
+
+#searchInput:focus{
+    width:60%;
+    box-shadow:0 0 15px rgba(56,189,248,0.4);
+}
+
+/* ================= GRID ================= */
+
+.subject-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:25px;
+    max-width:1100px;
+    margin:auto;
+}
+
+/* ================= CARD ================= */
+
+.subject-card{
+    background:rgba(255,255,255,0.08);
+    backdrop-filter:blur(15px);
+    border-radius:20px;
+    padding:25px;
+    text-align:center;
+    border:1px solid rgba(255,255,255,0.15);
+    transition:0.3s;
+}
+
+.subject-card:hover{
+    transform:translateY(-10px);
+    box-shadow:0 15px 35px rgba(37,99,235,0.35);
+}
+
+/* ================= ICON TEXT ================= */
+
+.subject-card h3{
+    color:#ffffff;
+    margin-bottom:10px;
+}
+
+.subject-card p{
+    color:#dbeafe;
+}
+
+/* ================= BUTTON ================= */
+
+.subject-card .btn{
+    display:inline-block;
+    margin-top:15px;
+    padding:10px 22px;
+    border-radius:25px;
+    background:linear-gradient(90deg,#2563eb,#06b6d4);
+    color:white;
+    text-decoration:none;
+    font-weight:bold;
+    transition:0.3s;
+}
+
+.subject-card .btn:hover{
+    transform:scale(1.05);
+    box-shadow:0 10px 25px rgba(56,189,248,0.3);
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:768px){
+    #searchInput{
+        width:90%;
+    }
+}
+
+</style>
+
+<!-- ================= PAGE ================= -->
 
 <div class="subjects-container">
 
     <h1>📚 Subjects</h1>
-    <p>Select a subject to access notes, papers and resources.</p>
+    <p>Select a subject to access notes, papers and resources</p>
 
     <input type="text"
            id="searchInput"
@@ -17,37 +135,37 @@
         <div class="subject-card">
             <h3>🐍 Python</h3>
             <p>Programming Fundamentals</p>
-            <a href="#" class="btn">Open Subject</a>
+            <a href="/subject/python" class="btn">Open Subject</a>
         </div>
 
         <div class="subject-card">
             <h3>☕ Java</h3>
             <p>Object Oriented Programming</p>
-            <a href="#" class="btn">Open Subject</a>
+            <a href="/subject/java" class="btn">Open Subject</a>
         </div>
 
         <div class="subject-card">
             <h3>🌐 Web Development</h3>
             <p>HTML, CSS, Flask</p>
-            <a href="#" class="btn">Open Subject</a>
+            <a href="/subject/web" class="btn">Open Subject</a>
         </div>
 
         <div class="subject-card">
             <h3>🗄️ DBMS</h3>
             <p>Database Management System</p>
-            <a href="#" class="btn">Open Subject</a>
+            <a href="/subject/dbms" class="btn">Open Subject</a>
         </div>
 
         <div class="subject-card">
             <h3>🤖 AI</h3>
             <p>Artificial Intelligence</p>
-            <a href="#" class="btn">Open Subject</a>
+            <a href="/subject/ai" class="btn">Open Subject</a>
         </div>
 
         <div class="subject-card">
             <h3>📊 Data Science</h3>
             <p>Data Analysis & ML</p>
-            <a href="#" class="btn">Open Subject</a>
+            <a href="/subject/datascience" class="btn">Open Subject</a>
         </div>
 
     </div>

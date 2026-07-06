@@ -1,9 +1,6 @@
 import sqlite3
 
-import app
-
 conn = sqlite3.connect("database.db")
-
 cursor = conn.cursor()
 
 cursor.execute("""
@@ -16,23 +13,27 @@ CREATE TABLE IF NOT EXISTS users(
 )
 """)
 
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS user_activity (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER,
+    login_date TEXT
+)
+""")
+cursor.execute("""
+ALTER TABLE user_activity ADD COLUMN action TEXT;
+""")
 
-# Add role column in existing table
+# role column add (safe)
 try:
     cursor.execute("""
     ALTER TABLE users
     ADD COLUMN role TEXT DEFAULT 'student'
     """)
-    
 except sqlite3.OperationalError:
     pass
 
-
 conn.commit()
 conn.close()
-
-init_db() #Initialize the database 
-if __name__ == "__main__":
-    app.run(debug=True)
 
 print("Database Created Successfully!")
