@@ -1,3 +1,4 @@
+from database import init_db
 import os
 import sqlite3
 import datetime
@@ -7,7 +8,7 @@ from sqlalchemy import values
 from werkzeug.security import generate_password_hash, check_password_hash
 
 def get_db():
-    conn = sqlite3.connect("database.db")
+    conn = sqlite3.connect(DB_PATH)
     conn.row_factory = sqlite3.Row
     return conn
 
@@ -16,6 +17,9 @@ app.secret_key = "academic_copilot"
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_PATH = os.path.join(BASE_DIR, "database.db")
+
+init_db()  # Initialize the database on app startup
+
 # ---------------- HOME ----------------
 
 @app.route("/")
