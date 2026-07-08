@@ -1,39 +1,62 @@
 import sqlite3
+import os
 
-conn = sqlite3.connect("database.db")
+DB_NAME = "database.db"
+
+conn = sqlite3.connect(DB_NAME)
 cursor = conn.cursor()
 
+# ---------------- USERS TABLE ----------------
 cursor.execute("""
-CREATE TABLE IF NOT EXISTS users(
+CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    fullname TEXT NOT NULL,
-    email TEXT UNIQUE NOT NULL,
-    username TEXT UNIQUE NOT NULL,
-    password TEXT NOT NULL
+    fullname TEXT,
+    email TEXT,
+    username TEXT UNIQUE,
+    password TEXT,
+    role TEXT DEFAULT 'student'
 )
 """)
 
+# ---------------- PAPERS TABLE ----------------
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS papers (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title TEXT,
+    year TEXT,
+    file_name TEXT
+)
+""")
+
+# ---------------- USER ACTIVITY TABLE ----------------
 cursor.execute("""
 CREATE TABLE IF NOT EXISTS user_activity (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER,
-    login_date TEXT
+    login_date TEXT,
+    action TEXT
 )
 """)
 cursor.execute("""
-ALTER TABLE user_activity ADD COLUMN action TEXT;
+CREATE TABLE IF NOT EXISTS quiz_results (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER,
+    subject TEXT,
+    score INTEGER,
+    total INTEGER,
+    created_at TEXT
+)
 """)
 
-# role column add (safe)
-try:
-    cursor.execute("""
-    ALTER TABLE users
-    ADD COLUMN role TEXT DEFAULT 'student'
-    """)
-except sqlite3.OperationalError:
-    pass
+# # ---------------- SAFE COLUMN CHECK (IMPORTANT) ----------------
+# cursor.execute("PRAGMA table_info(user_activity)")
+# columns = [col[1] for col in cursor.fetchall()]
 
+# if "action" not in columns:
+#     cursor.execute("ALTER TABLE user_activity ADD COLUMN action TEXT")
+
+# ---------------- COMMIT & CLOSE ----------------
 conn.commit()
 conn.close()
 
-print("Database Created Successfully!")
+print("✅ Database created successfully!")

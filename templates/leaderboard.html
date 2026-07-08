@@ -1,0 +1,222 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+.lb-container{
+    padding:50px;
+    min-height:100vh;
+    background: radial-gradient(circle at top,#0f172a,#1e1b4b,#0b1020);
+    color:white;
+    border-radius:20px;
+    text-align:center;
+}
+
+.lb-container h1{
+    font-size:36px;
+    margin-bottom:20px;
+}
+
+table{
+    width:90%;
+    margin:auto;
+    border-collapse:collapse;
+    background:rgba(255,255,255,0.05);
+    backdrop-filter:blur(10px);
+    border-radius:15px;
+    overflow:hidden;
+}
+
+th, td{
+    padding:15px;
+    border-bottom:1px solid rgba(255,255,255,0.1);
+}
+
+th{
+    background:rgba(99,102,241,0.3);
+}
+
+tr:hover{
+    transform:scale(1.01);
+    transition:.3s;
+}
+
+/* Default Rank Badge */
+.badge{
+    padding:6px 12px;
+    border-radius:20px;
+    background:linear-gradient(90deg,#6366f1,#8b5cf6);
+    font-weight:bold;
+    color:white;
+}
+
+/* 🥇 Gold */
+.gold{
+    background:linear-gradient(90deg,#FFD700,#FFC107);
+    color:#111827;
+    font-weight:bold;
+}
+
+/* 🥈 Silver */
+.silver{
+    background:linear-gradient(90deg,#E5E7EB,#C0C0C0);
+    color:#111827;
+    font-weight:bold;
+}
+
+/* 🥉 Bronze */
+.bronze{
+    background:linear-gradient(90deg,#CD7F32,#8B4513);
+    color:white;
+    font-weight:bold;
+}
+/*select*/
+select{
+
+    padding:10px 20px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:#6366f1;
+
+    color:white;
+
+    font-size:16px;
+
+    cursor:pointer;
+
+    margin-bottom:20px;
+}
+.rank-card{
+    width:300px;
+    margin:20px auto;
+    padding:15px;
+    border-radius:15px;
+    background:linear-gradient(90deg,#2563eb,#7c3aed);
+    color:white;
+    font-size:22px;
+    font-weight:bold;
+    box-shadow:0 0 20px rgba(99,102,241,.5);
+}
+</style>
+
+<div class="lb-container">
+
+    <h1>🏆 Academic Leaderboard</h1>
+    <p>Top Performing Students</p>
+
+    {% if your_rank %}
+    <div class="rank-card">
+        👤 {{ current_user }} <br>
+        🏆 Your Rank: <strong>#{{ your_rank }}</strong>
+    </div>
+    {% endif %}
+
+    <form method="GET">
+
+    <select name="subject" onchange="this.form.submit()">
+
+        <option value="All">All Subjects</option>
+
+        <option value="Python"
+        {% if selected_subject=="Python" %}selected{% endif %}>
+        🐍 Python
+        </option>
+
+        <option value="Java"
+        {% if selected_subject=="Java" %}selected{% endif %}>
+        ☕ Java
+        </option>
+
+        <option value="DBMS"
+        {% if selected_subject=="DBMS" %}selected{% endif %}>
+        🗄 DBMS
+        </option>
+
+        <option value="AI"
+        {% if selected_subject=="AI" %}selected{% endif %}>
+        🤖 AI
+        </option>
+
+    </select>
+
+    <select name="period" onchange="this.form.submit()">
+
+    <option value="all"
+    {% if selected_period=="all" %}selected{% endif %}>
+    🌍 All Time
+    </option>
+
+    <option value="today"
+    {% if selected_period=="today" %}selected{% endif %}>
+    📅 Today
+    </option>
+
+    <option value="week"
+    {% if selected_period=="week" %}selected{% endif %}>
+    📆 This Week
+    </option>
+
+</select>
+
+</form>
+
+<br>
+
+    <table>
+
+        <tr>
+            <th>Rank</th>
+            <th>User</th>
+            <th>Subject</th>
+            <th>Score</th>
+            <th>Total</th>
+            <th>Date</th>
+        </tr>
+
+        {% for row in data %}
+
+        <tr class="
+            {% if loop.index == 1 %}
+                gold
+            {% elif loop.index == 2 %}
+                silver
+            {% elif loop.index == 3 %}
+                bronze
+            {% endif %}
+        ">
+
+            <td>
+
+                {% if loop.index == 1 %}
+                    <span class="badge">🥇</span>
+
+                {% elif loop.index == 2 %}
+                    <span class="badge">🥈</span>
+
+                {% elif loop.index == 3 %}
+                    <span class="badge">🥉</span>
+
+                {% else %}
+                    <span class="badge">{{ loop.index }}</span>
+
+                {% endif %}
+
+            </td>
+
+            <td>{{ row["username"] }}</td>
+            <td>{{ row["subject"] }}</td>
+            <td>{{ row["score"] }}</td>
+            <td>{{ row["total"] }}</td>
+            <td>{{ row["created_at"] }}</td>
+
+        </tr>
+
+        {% endfor %}
+
+    </table>
+
+</div>
+
+{% endblock %}

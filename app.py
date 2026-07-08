@@ -2,10 +2,14 @@ import os
 import sqlite3
 import datetime
 from tkinter import INSERT
-from flask import Flask, render_template, request, redirect, url_for, flash, session
+from flask import Flask, render_template, request, redirect, send_from_directory, url_for, flash, session
 from sqlalchemy import values
 from werkzeug.security import generate_password_hash, check_password_hash
 
+def get_db():
+    conn = sqlite3.connect("database.db")
+    conn.row_factory = sqlite3.Row
+    return conn
 
 app = Flask(__name__)
 app.secret_key = "academic_copilot"
@@ -69,8 +73,14 @@ def show_notes(subject):
 
 #--------------papers--------------------
 @app.route("/papers")
-def papers():
-    return render_template("papers.html")
+def papers():   
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM papers")
+    papers_list = cursor.fetchall()
+    conn.close()
+
+    return render_template("papers.html", papers=papers_list)       
 
 
 # ---------------- SUBJECTS----------------
@@ -177,19 +187,51 @@ def chatbot():
 
 
 # ---------------- QUIZ ----------------
+
 @app.route("/quiz")
 def quiz():
-    '''if 'username' not in session:
-        flash("Please Login First","warning")
-        return redirect(url_for('login'))'''
+
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
     return render_template("quiz.html")
 
+
+# ---------------- QUIZ datetime ----------------
+def save_score(subject, score, total):
+    import datetime
+
+    conn = get_db()
+    cur = conn.cursor()
+
+    cur.execute("""
+        INSERT INTO quiz_results(user_id, subject, score, total, created_at)
+        VALUES (?, ?, ?, ?, ?)
+    """, (
+        session["user_id"],
+        subject,
+        score,
+        total,
+        datetime.date.today().isoformat()
+    ))
+
+    conn.commit()
+    conn.close()
+
+# --------------PYTHON QUIZ----------------
 @app.route("/python_quiz")
 def python_quiz():
+
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
     return render_template("python_quiz.html")
 
 @app.route("/submit_python_quiz", methods=["POST"])
 def submit_python_quiz():
+    
+    if "user_id" not in session:
+        return redirect(url_for("login"))
 
     score = 0
 
@@ -206,22 +248,30 @@ def submit_python_quiz():
         "q10": "AI & ML"
     }
 
-    for q, correct_answer in answers.items():
-        if request.form.get(q) == correct_answer:
+    for q, correct in answers.items():
+        if request.form.get(q) == correct:
             score += 1
 
-    return render_template(
-        "result.html",
-        score=score,
-        total=10
-    )
+    save_score("Python", score, 10)
+    return render_template("result.html", score=score, total=10)
+
+
+# ---------------- JAVA QUIZ ----------------
 
 @app.route("/java_quiz")
 def java_quiz():
+
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
     return render_template("java_quiz.html")
+
 
 @app.route("/submit_java_quiz", methods=["POST"])
 def submit_java_quiz():
+
+    if "user_id" not in session:
+        return redirect(url_for("login"))
 
     score = 0
 
@@ -242,14 +292,26 @@ def submit_java_quiz():
         if request.form.get(q) == correct:
             score += 1
 
+    save_score("Java", score, 10)
     return render_template("result.html", score=score, total=10)
+
+
+# ---------------- DBMS QUIZ ----------------
 
 @app.route("/dbms_quiz")
 def dbms_quiz():
+
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
     return render_template("dbms_quiz.html")
+
 
 @app.route("/submit_dbms_quiz", methods=["POST"])
 def submit_dbms_quiz():
+
+    if "user_id" not in session:
+        return redirect(url_for("login"))
 
     score = 0
 
@@ -266,22 +328,30 @@ def submit_dbms_quiz():
         "q10": "Manage data"
     }
 
-    for q, correct_answer in answers.items():
-        if request.form.get(q) == correct_answer:
+    for q, correct in answers.items():
+        if request.form.get(q) == correct:
             score += 1
 
-    return render_template(
-        "result.html",
-        score=score,
-        total=10
-    )
+    save_score("DBMS", score, 10)
+    return render_template("result.html", score=score, total=10)
+
+
+# ---------------- AI QUIZ ----------------
 
 @app.route("/ai_quiz")
 def ai_quiz():
+
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
     return render_template("ai_quiz.html")
+
 
 @app.route("/submit_ai_quiz", methods=["POST"])
 def submit_ai_quiz():
+
+    if "user_id" not in session:
+        return redirect(url_for("login"))
 
     score = 0
 
@@ -298,17 +368,81 @@ def submit_ai_quiz():
         "q10": "Smart System"
     }
 
-    for q, correct_answer in answers.items():
-        if request.form.get(q) == correct_answer:
+    for q, correct in answers.items():
+        if request.form.get(q) == correct:
             score += 1
 
+    save_score("AI", score, 10)
+    return render_template("result.html", score=score, total=10)
+
+#----------------------LEADERBOARD-----------
+
+from flask import request,session,render_template
+from datetime import date, timedelta
+
+@app.route("/leaderboard")
+def leaderboard():
+
+    conn = get_db()
+    cur = conn.cursor()
+
+    subject = request.args.get("subject", "All")
+    period = request.args.get("period", "all")
+
+    query = """
+        SELECT users.username,
+               quiz_results.subject,
+               quiz_results.score,
+               quiz_results.total,
+               quiz_results.created_at
+        FROM quiz_results
+        JOIN users
+        ON quiz_results.user_id = users.id
+    """
+
+    conditions = []
+    params = []
+
+    if subject != "All":
+        conditions.append("quiz_results.subject=?")
+        params.append(subject)
+
+    if period == "today":
+        conditions.append("created_at=?")
+        params.append(str(date.today()))
+
+    elif period == "week":
+        week = date.today() - timedelta(days=7)
+        conditions.append("created_at>=?")
+        params.append(str(week))
+
+    if conditions:
+        query += " WHERE " + " AND ".join(conditions)
+
+    query += " ORDER BY score DESC"
+
+    cur.execute(query, params)
+    data = cur.fetchall()
+
+    # Logged-in username
+    current_user = session.get("username")
+
+    # Find current user's rank
+    your_rank = None
+
+    for i, row in enumerate(data, start=1):
+        if row["username"] == current_user:
+            your_rank = i
+            break
+
     return render_template(
-        "result.html",
-        score=score,
-        total=10
+        "leaderboard.html",
+        data=data,
+        selected_subject=subject,
+        selected_period=period,
+        current_user=current_user,
+        your_rank=your_rank
     )
-
-
 # ---------------- REGISTER ----------------
 # @app.route("/register", methods=["GET", "POST"])
 # def register():
@@ -431,32 +565,28 @@ def login():
             # ✅ SESSION SET
             session["user_id"] = user[0]
             session["username"] = user[3]
+            session["role"] = user[5]   # 🔥 THIS IS MAIN
 
-            # 🔥 DAU TRACKING (ADD THIS)
+            # 🔥 LOGIN TRACKING
             import datetime
             today = datetime.date.today().isoformat()
 
             conn2 = sqlite3.connect("database.db")
             cur2 = conn2.cursor()
 
-            cur.execute("""
-                INSERT INTO user_activity (user_id, login_date)
-                VALUES (?, ?)
-            """, (user[0], today))
-
-            cur.execute("""
-            INSERT INTO user_activity(user_id, login_date, action)
-            VALUES(?, ?, ?)
-            """, (user_id, today, "Login"))
+            cur2.execute("""
+                INSERT INTO user_activity (user_id, login_date, action)
+                VALUES (?, ?, ?)
+            """, (user[0], today, "Login"))
 
             conn2.commit()
             conn2.close()
 
-            flash("Login Successful","success")
+            flash("Login Successful", "success")
             return redirect(url_for("dashboard"))
 
         else:
-            flash("Invalid Username or Password","danger")
+            flash("Invalid Username or Password", "danger")
 
     return render_template("login.html")
 
