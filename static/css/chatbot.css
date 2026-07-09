@@ -1,0 +1,674 @@
+/* =====================================
+   AI ACADEMIC COPILOT CHATBOT UI
+   ===================================== */
+
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Segoe UI",sans-serif;
+}
+
+
+
+/* Main Layout */
+
+.chatgpt-container{
+
+    display:flex;
+    height:85vh;
+    width:100%;
+    background:#f8fafc;
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:0 15px 40px rgba(0,0,0,0.12);
+
+}
+
+
+
+/* =====================================
+        SIDEBAR
+===================================== */
+
+
+.sidebar{
+
+    width:280px;
+    background:linear-gradient(
+        180deg,
+        #4b2ca0,
+        #101d48
+    );
+
+    color:white;
+    padding:22px;
+
+    display:flex;
+    flex-direction:column;
+
+}
+
+
+
+.sidebar-header{
+
+    text-align:center;
+    margin-bottom:20px;
+
+}
+
+
+
+.sidebar-header h2{
+
+    font-size:25px;
+    margin-bottom:18px;
+
+}
+
+
+
+.new-chat-btn,
+.dark-btn,
+.clear-btn{
+
+    width:100%;
+    padding:12px;
+
+    border:none;
+    border-radius:12px;
+
+    margin-top:12px;
+
+    cursor:pointer;
+    font-size:15px;
+    font-weight:600;
+
+    transition:.3s;
+
+}
+
+
+
+.new-chat-btn{
+
+    background:white;
+    color:#2563eb;
+
+}
+
+
+.dark-btn{
+
+    background:#0f172a;
+    color:white;
+
+}
+
+
+.clear-btn{
+
+    background:#ef4444;
+    color:white;
+
+}
+
+
+
+.new-chat-btn:hover,
+.dark-btn:hover,
+.clear-btn:hover{
+
+    transform:translateY(-3px);
+
+}
+
+
+
+
+
+/* Search */
+
+
+.chat-search{
+
+    margin:15px 0;
+
+    padding:12px;
+
+    border-radius:12px;
+
+    border:none;
+
+    outline:none;
+
+    font-size:14px;
+
+}
+
+
+
+/* History */
+
+
+.history-title{
+
+    margin:10px 0;
+
+}
+
+
+.history-list{
+
+    flex:1;
+
+    overflow-y:auto;
+
+}
+
+
+
+.history-item{
+
+    background:rgba(255,255,255,0.15);
+
+    padding:12px;
+
+    border-radius:12px;
+
+    margin-bottom:10px;
+
+    cursor:pointer;
+
+}
+
+
+
+.history-item:hover{
+
+    background:rgba(255,255,255,0.25);
+
+}
+
+
+.history-item p{
+
+    font-size:13px;
+
+    margin-top:5px;
+
+}
+
+
+
+
+/* =====================================
+        CHAT AREA
+===================================== */
+
+
+.chat-area{
+
+    flex:1;
+
+    display:flex;
+
+    flex-direction:column;
+
+    background:hsl(210, 27%, 56%);
+    /* background:rgb(219, 220, 227); */
+
+}
+
+
+
+
+
+.chat-header{
+
+    padding:22px;
+
+    border-bottom:1px solid #e5e7eb;
+
+}
+
+
+
+.chat-header h1{
+
+    color:#2563eb;
+
+    font-size:28px;
+
+}
+
+
+
+.chat-header p{
+
+    color:#64748b;
+
+    margin-top:5px;
+
+}
+
+
+
+
+
+/* Messages */
+
+
+.messages{
+
+    flex:1;
+
+    padding:25px;
+
+    overflow-y:auto;
+    background:rgb(219, 220, 227);
+
+}
+
+
+
+
+.message{
+
+    display:flex;
+
+    margin-bottom:20px;
+
+    animation:slide .3s ease;
+
+}
+
+
+
+@keyframes slide{
+
+from{
+
+opacity:0;
+
+transform:translateY(15px);
+
+}
+
+to{
+
+opacity:1;
+
+transform:translateY(0);
+
+}
+
+}
+
+
+
+
+.user-message{
+
+    justify-content:flex-end;
+
+}
+
+
+
+.ai-message{
+
+    justify-content:flex-start;
+
+}
+
+
+.avatar{
+
+    width:42px;
+
+    height:42px;
+
+    border-radius:50%;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    margin:0 10px;
+
+    font-size:20px;
+
+}
+
+
+
+.user-avatar{
+
+    background:#10b981;
+
+}
+
+
+
+.ai-avatar{
+
+    background:#2563eb;
+
+}
+
+
+
+
+.bubble{
+
+    max-width:65%;
+
+    padding:15px 18px;
+
+    border-radius:18px;
+
+    line-height:1.6;
+
+    font-size:15px;
+
+}
+
+
+
+.user-bubble{
+
+    background:#2563eb;
+
+    color:white;
+
+    border-bottom-right-radius:5px;
+
+}
+
+
+
+.ai-bubble{
+
+    background:white;
+
+    color:#334155;
+
+    border:1px solid #dbeafe;
+
+    border-bottom-left-radius:5px;
+
+}
+
+
+
+
+/* Copy button */
+
+
+.copy-btn{
+
+    display:block;
+
+    margin-top:8px;
+
+    padding:7px 12px;
+
+    border:none;
+
+    border-radius:8px;
+
+    background:#646870;
+
+    color:white;
+
+    cursor:pointer;
+
+    font-size:10px;
+
+}
+
+
+
+.copy-btn:hover{
+
+    background:#1d4ed8;
+
+}
+
+
+
+
+/* =====================================
+        INPUT
+===================================== */
+
+
+#chatForm{
+
+    padding:18px;
+
+    border-top:1px solid #e5e7eb;
+
+}
+
+
+
+
+.input-box{
+
+    display:flex;
+
+    gap:12px;
+
+}
+
+
+
+
+.input-box select{
+
+    padding:12px;
+
+    border-radius:12px;
+
+    border:1px solid #cbd5e1;
+
+}
+
+
+
+.input-box input{
+
+    flex:1;
+
+    padding:14px;
+
+    border-radius:15px;
+
+    border:2px solid #dbeafe;
+
+    outline:none;
+
+}
+
+
+
+.input-box input:focus{
+
+    border-color:#2563eb;
+
+}
+
+
+
+
+.input-box button{
+
+    width:55px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:#2563eb;
+
+    color:white;
+
+    font-size:22px;
+
+    cursor:pointer;
+
+}
+
+
+
+.input-box button:hover{
+
+    transform:scale(1.1);
+
+}
+
+
+
+
+
+/* Typing */
+
+
+.typing{
+
+    display:none;
+
+    padding:10px 25px;
+
+    color:#2563eb;
+
+    font-weight:bold;
+
+}
+
+
+
+
+/* =====================================
+        DARK MODE
+===================================== */
+
+
+.dark-mode .chatgpt-container{
+
+    background:#020617;
+
+}
+
+
+
+.dark-mode .chat-area{
+
+    background:#020617;
+
+}
+
+
+
+.dark-mode .chat-header{
+
+    background:#020617;
+
+    color:white;
+
+}
+
+
+
+.dark-mode .messages{
+
+    background:#0f172a;
+
+}
+
+
+
+.dark-mode .ai-bubble{
+
+    background:#1e293b;
+
+    color:white;
+
+}
+
+
+
+.dark-mode .chat-header p{
+
+    color:#cbd5e1;
+
+}
+
+
+
+.dark-mode .input-box input,
+.dark-mode .input-box select{
+
+    background:#1e293b;
+
+    color:white;
+
+}
+
+
+
+
+/* Mobile */
+
+
+@media(max-width:900px){
+
+
+.chatgpt-container{
+
+    flex-direction:column;
+
+    height:auto;
+
+}
+
+
+.sidebar{
+
+    width:100%;
+
+}
+
+
+.bubble{
+
+    max-width:85%;
+
+}
+
+
+
+.input-box{
+
+    flex-direction:column;
+
+}
+
+
+.input-box button{
+
+    width:100%;
+
+    border-radius:12px;
+
+}
+
+
+
+}

@@ -1,21 +1,742 @@
 {% extends "base.html" %}
-</style>
+
 {% block content %}
-<div class="container">
-    <div class="card">
-        <div class="logo">🤖</div>
-        <h1>AI Chatbot</h1>
-        <p>Welcome to the AI Chatbot! </p>
-        <form id="chat-form" method="POST">
-            <input type="text" name="question" placeholder="🔍Ask your Question" required>
-            <button type="submit">Ask AI</button>
-        </form>
-        {% if answer %}
-            <div class="card">
-                <h2>AI Response:</h2>
-                <p>{{ answer }}</p>
+
+<div class="chatgpt-container">
+
+    <!-- Sidebar -->
+
+    <aside class="sidebar">
+
+        <div class="sidebar-header">
+
+            <h2>🤖 AI Copilot</h2>
+
+            <button class="new-chat-btn" onclick="location.reload()">
+                ➕ New Chat
+            </button>
+
+        </div>
+
+
+        <input 
+            type="text"
+            id="chatSearch"
+            class="chat-search"
+            placeholder="🔍 Search chats...">
+
+
+        <h3 class="history-title">
+            💬 Chat History
+        </h3>
+
+
+        <div class="history-list" id="historyList">
+
+
+            {% if chats %}
+
+                {% for chat in chats %}
+
+                <div class="history-item">
+
+                    <b>
+                        📘 {{ chat.subject }}
+                    </b>
+
+                    <p>
+                        {{ chat.question[:40] }}...
+                    </p>
+
+                </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <p class="empty">
+                    No chats yet
+                </p>
+
+            {% endif %}
+
+
+        </div>
+
+
+        <button id="darkModeBtn" class="dark-btn">
+            🌙 Dark Mode
+        </button>
+
+
+        <button id="clearChatBtn" class="clear-btn">
+            🗑 Clear Chat
+        </button>
+
+
+    </aside>
+
+
+
+
+
+    <!-- Main Chat -->
+
+    <section class="chat-area">
+
+
+        <div class="chat-header">
+
+            <h1>
+                🤖 AI Academic Assistant
+            </h1>
+
+            <p>
+                Diploma Student Personal Learning Assistant
+            </p>
+
+        </div>
+
+
+
+
+
+        <!-- Messages -->
+
+
+        <div class="messages" id="chatBox">
+
+
+
+            {% if chats %}
+
+
+
+                {% for chat in chats %}
+
+
+
+                <!-- User -->
+
+                <div class="message user-message">
+
+
+                    <div class="bubble user-bubble">
+
+                        {{ chat.question }}
+
+                    </div>
+
+
+                    <div class="avatar user-avatar">
+                        👤
+                    </div>
+
+
+                </div>
+
+
+
+
+
+                <!-- AI -->
+
+
+                <div class="message ai-message">
+
+
+                    <div class="avatar ai-avatar">
+                        🤖
+                    </div>
+
+
+                    <div class="bubble ai-bubble">
+
+
+                        {{ chat.answer|safe }}
+
+
+                        <button 
+                        class="copy-btn"
+                        onclick="copyResponse(this)">
+
+                            📋 Copy
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+                {% endfor %}
+
+            {% else %}
+
+            <div class="welcome">
+
+                <div class="robot">
+                    🤖
+                </div>
+
+                <h2>
+                    Welcome to AI Academic Copilot
+                </h2>
+
+
+                <p>
+                    Ask your Python, Java, DBMS, DCN doubts.
+                </p>
+
+
             </div>
-        {% endif %}
-    </div>
+
+            {% endif %}
+
+        </div>
+
+        <!-- Typing -->
+
+        <div id="typing" class="typing">
+
+            🤖 AI is thinking<span></span>
+
+        </div>
+
+        <!-- Input -->
+
+
+        <form id="chatForm">
+
+
+            <div class="input-box">
+
+
+
+                <select id="subject">
+
+
+                    <option value="General">
+                        General
+                    </option>
+
+
+                    <option value="Python">
+                        Python
+                    </option>
+
+
+                    <option value="Java">
+                        Java
+                    </option>
+
+                    <option value="DBMS">
+                        DBMS
+                    </option>
+
+                    <option value="Operating System">
+                        Operating System
+                    </option>
+
+
+                </select>
+
+                <input
+
+                id="question"
+
+                type="text"
+
+                placeholder="Ask your academic doubt..."
+
+                autocomplete="off"
+
+                required>
+
+
+                <button type="submit">
+
+                    ➤
+
+                </button>
+
+                <button 
+                type="button"
+                id="micBtn"
+                class="mic-btn">
+                🎤
+                </button>
+
+            </div>
+
+
+        </form>
+
+
+
+
+    </section>
+
+
 </div>
+
+
+
+
+
+
+
+<script>
+
+
+const form =
+document.getElementById("chatForm");
+
+
+const chatBox =
+document.getElementById("chatBox");
+
+
+const typing =
+document.getElementById("typing");
+
+
+
+
+
+// Send Message
+
+
+form.addEventListener("submit", async function(e){
+
+
+e.preventDefault();
+
+
+
+let subject =
+document.getElementById("subject").value;
+
+
+let question =
+document.getElementById("question").value;
+
+
+
+if(question.trim()=="")
+return;
+
+
+
+
+
+// User bubble
+
+
+chatBox.innerHTML += `
+
+
+<div class="message user-message">
+
+
+<div class="bubble user-bubble">
+
+${question}
+
+</div>
+
+
+<div class="avatar user-avatar">
+
+👤
+
+</div>
+
+
+</div>
+
+
+`;
+
+
+
+document.getElementById("question").value="";
+
+
+
+typing.style.display="block";
+
+
+
+chatBox.scrollTop =
+chatBox.scrollHeight;
+
+
+
+
+
+
+
+// Flask Request
+
+
+let response =
+await fetch("/chatbot",{
+
+
+method:"POST",
+
+
+headers:{
+
+
+"Content-Type":"application/json"
+
+
+},
+
+
+body:JSON.stringify({
+
+
+subject:subject,
+
+question:question
+
+
+})
+
+
+});
+
+
+
+
+
+let data =
+await response.json();
+
+
+
+
+typing.style.display="none";
+
+
+
+
+
+
+
+// AI Bubble
+
+
+chatBox.innerHTML += `
+
+
+
+<div class="message ai-message">
+
+
+<div class="avatar ai-avatar">
+
+🤖
+
+</div>
+
+
+
+<div class="bubble ai-bubble">
+
+
+${data.answer.replace(/\n/g,"<br>")}
+
+
+
+<button
+class="copy-btn"
+onclick="copyResponse(this)">
+
+📋 Copy
+
+</button>
+
+
+
+</div>
+
+
+</div>
+
+
+
+`;
+
+
+
+chatBox.scrollTop =
+chatBox.scrollHeight;
+
+
+
+});
+
+
+
+
+
+
+
+
+
+// Copy
+
+
+function copyResponse(btn){
+
+
+let text =
+btn.parentElement.innerText.replace("📋 Copy","");
+
+
+navigator.clipboard.writeText(text);
+
+
+btn.innerHTML="✅ Copied";
+
+
+setTimeout(()=>{
+
+
+btn.innerHTML="📋 Copy";
+
+
+},1500);
+
+
+}
+
+
+
+
+
+
+
+
+// Dark Mode
+
+
+document
+.getElementById("darkModeBtn")
+.onclick=function(){
+
+
+document.body.classList.toggle("dark-mode");
+
+
+
+this.innerHTML =
+
+document.body.classList.contains("dark-mode")
+
+?
+
+"☀️ Light Mode"
+
+:
+
+"🌙 Dark Mode";
+
+
+
+};
+
+
+
+
+
+
+
+
+
+// Search Chat
+
+
+document
+.getElementById("chatSearch")
+.addEventListener("keyup",function(){
+
+
+let value =
+this.value.toLowerCase();
+
+
+
+document
+.querySelectorAll(".history-item")
+.forEach(item=>{
+
+
+item.style.display =
+
+item.innerText.toLowerCase()
+.includes(value)
+
+?
+
+"block"
+
+:
+
+"none";
+
+
+});
+
+
+});
+
+
+
+
+
+
+
+
+// Clear Chat
+
+
+document
+.getElementById("clearChatBtn")
+.onclick=function(){
+
+
+if(confirm("Clear chat history?"))
+
+{
+
+location.href="/clear_chat";
+
+}
+
+
+};
+
+
+
+
+
+
+
+window.onload=function(){
+
+
+chatBox.scrollTop =
+chatBox.scrollHeight;
+
+
+}
+</script>
+
+
+<script>
+    // ======================
+// Voice Input
+// ======================
+
+
+const micBtn =
+document.getElementById("micBtn");
+
+
+const questionInput =
+document.getElementById("question");
+
+
+
+const SpeechRecognition =
+window.SpeechRecognition ||
+window.webkitSpeechRecognition;
+
+
+
+if(SpeechRecognition){
+
+
+const recognition =
+new SpeechRecognition();
+
+
+recognition.lang="en-IN";
+
+
+recognition.continuous=false;
+
+
+
+micBtn.onclick=function(){
+
+
+recognition.start();
+
+
+micBtn.innerHTML="🎙️ Listening...";
+
+
+};
+
+
+
+
+recognition.onresult=function(event){
+
+
+let text =
+event.results[0][0].transcript;
+
+
+
+questionInput.value=text;
+
+
+micBtn.innerHTML="🎤";
+
+
+};
+
+
+
+
+recognition.onerror=function(){
+
+
+micBtn.innerHTML="🎤";
+
+
+alert("Voice recognition failed");
+
+
+};
+
+
+
+recognition.onend=function(){
+
+
+micBtn.innerHTML="🎤";
+
+
+};
+
+
+
+}
+
+else{
+
+
+micBtn.style.display="none";
+
+
+}
+</script>
+
 {% endblock %}

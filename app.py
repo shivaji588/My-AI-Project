@@ -3,7 +3,7 @@ import os
 import sqlite3
 import datetime
 from tkinter import INSERT
-from flask import Flask, render_template, request, redirect, send_from_directory, url_for, flash, session
+from flask import Flask, jsonify, render_template, request, redirect, send_from_directory, url_for, flash, session
 from sqlalchemy import values
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -145,50 +145,319 @@ def subject_page(name):
 
 # ---------------- CHATBOT ----------------
 
+# @app.route("/chatbot", methods=["GET", "POST"])
+# def chatbot():
+
+#     answer = ""
+
+#     if request.method == "POST":
+
+#         question = request.form["question"].lower()
+
+#         if "hello" in question or "hi" in question:
+#             answer = "Hello 👋 I am your AI Academic Copilot."
+
+#         elif "flask" in question:
+#             answer = "Flask is a Python framework used to create web applications."
+
+#         elif "html" in question:
+#             answer = "HTML is used to create the structure of web pages."
+
+#         elif "css" in question:
+#             answer = "CSS is used for designing and styling web pages."
+
+#         elif "python project" in question:
+#             answer = "Python project ideas: Chatbot, Quiz App, Student Portal, AI Assistant."
+
+#         elif "ai" in question or "artificial intelligence" in question:
+#             answer = "AI is a technology that enables machines to learn and solve problems."
+
+#         elif "python" in question:
+#             answer = "Python is a high-level programming language."
+
+#         elif "java" in question:
+#             answer = "Java is an object-oriented programming language."
+
+#         elif "dbms" in question or "database" in question:
+#             answer = "DBMS is used to store and manage data."
+
+#         elif "thank" in question:
+#             answer = "You're welcome 😊 Keep learning!"
+
+#         else:
+#             answer = "Sorry, I don't know. Try another academic question."
+
+#     return render_template("chatbot.html", answer=answer)
+def ask_ai(question, subject):
+
+    question = question.lower()
+
+
+    # Python
+
+    if subject == "Python":
+
+        if "list" in question:
+
+            return """
+📘 Python - List
+
+Definition:
+Python List is an ordered and mutable collection used to store multiple values.
+
+✨ Features:
+• Ordered collection
+• Allows duplicate values
+• Mutable (can be changed)
+• Supports different data types
+
+Example:
+
+numbers = [10,20,30]
+
+Used when we need to store multiple items together.
+"""
+
+
+        elif "function" in question:
+
+            return """
+📘 Python - Function
+
+A function is a reusable block of code that performs a specific task.
+
+✨ Advantages:
+• Code reusability
+• Easy debugging
+• Reduces code repetition
+
+Example:
+
+def hello():
+    print("Hello Student")
+"""
+
+
+        elif "python" in question:
+
+            return """
+🐍 Python Programming
+
+Python is a high-level programming language known for simple syntax and powerful libraries.
+
+📚 Used in:
+• Web Development
+• Data Science
+• AI & Machine Learning
+• Automation
+"""
+
+
+        else:
+
+            return """
+🤖 AI Academic Assistant
+
+Python Topics Available:
+
+1. Variables
+2. Data Types
+3. List
+4. Tuple
+5. Function
+6. OOP Concepts
+
+Ask your topic name to learn more.
+"""
+
+
+
+    # Java
+
+    elif subject == "Java":
+
+        return """
+☕ Java Programming
+
+Java is an object-oriented programming language.
+
+Key Concepts:
+
+• Class
+• Object
+• Inheritance
+• Polymorphism
+• Exception Handling
+
+Ask any Java topic for explanation.
+"""
+
+
+
+    # DBMS
+
+    elif subject == "DBMS":
+
+        return """
+🗄️ DBMS
+
+Database Management System is software used to store,
+manage and retrieve data.
+
+Important Topics:
+
+• SQL
+• Primary Key
+• Foreign Key
+• Normalization
+• ER Diagram
+"""
+
+
+
+    # DCN
+
+    elif subject == "DCN":
+
+        return """
+🌐 Data Communication and Networks
+
+DCN deals with communication between computers.
+
+Important Topics:
+
+• OSI Model
+• TCP/IP
+• Switching
+• Transmission Media
+• Network Devices
+"""
+
+
+
+    # Default
+
+    else:
+
+        return """
+🤖 Welcome to AI Academic Copilot
+
+I can help you with:
+
+📘 Python
+☕ Java
+🗄️ DBMS
+🌐 DCN
+⚙️ Operating System
+
+Select a subject and ask your doubt.
+"""
+#========================== CHATBOT =========================
 @app.route("/chatbot", methods=["GET", "POST"])
 def chatbot():
 
-    answer = ""
+    conn = sqlite3.connect("database.db")
+    conn.row_factory = sqlite3.Row
+    cur = conn.cursor()
+
+
+    user_id = session.get("user_id")
+
+
+    if not user_id:
+        return redirect(url_for("login"))
+
+
+
+    # AJAX POST
 
     if request.method == "POST":
 
-        question = request.form["question"].lower()
 
-        if "hello" in question or "hi" in question:
-            answer = "Hello 👋 I am your AI Academic Copilot."
+        data = request.get_json()
 
-        elif "flask" in question:
-            answer = "Flask is a Python framework used to create web applications."
 
-        elif "html" in question:
-            answer = "HTML is used to create the structure of web pages."
+        subject = data.get("subject")
 
-        elif "css" in question:
-            answer = "CSS is used for designing and styling web pages."
+        question = data.get("question")
 
-        elif "python project" in question:
-            answer = "Python project ideas: Chatbot, Quiz App, Student Portal, AI Assistant."
 
-        elif "ai" in question or "artificial intelligence" in question:
-            answer = "AI is a technology that enables machines to learn and solve problems."
 
-        elif "python" in question:
-            answer = "Python is a high-level programming language."
+        # AI response generate
 
-        elif "java" in question:
-            answer = "Java is an object-oriented programming language."
+        answer = ask_ai(question, subject)
 
-        elif "dbms" in question or "database" in question:
-            answer = "DBMS is used to store and manage data."
 
-        elif "thank" in question:
-            answer = "You're welcome 😊 Keep learning!"
 
-        else:
-            answer = "Sorry, I don't know. Try another academic question."
+        # Save chat history
 
-    return render_template("chatbot.html", answer=answer)
+        cur.execute("""
+        INSERT INTO chat_history
+        (user_id, subject, question, answer)
+        VALUES (?, ?, ?, ?)
+        """,
+        (
+            user_id,
+            subject,
+            question,
+            answer
+        ))
 
+
+        conn.commit()
+
+
+        conn.close()
+
+
+
+        return jsonify({
+
+            "answer": answer
+
+        })
+
+
+
+
+    # GET request
+
+    cur.execute("""
+    SELECT *
+    FROM chat_history
+    WHERE user_id=?
+    ORDER BY id ASC
+    """,
+    (user_id,))
+
+
+    chats = cur.fetchall()
+
+
+    conn.close()
+
+
+    return render_template(
+        "chatbot.html",
+        chats=chats
+    )
+#==========clear chat history=========
+@app.route("/clear_chat")
+# @login_required
+def clear_chat():
+
+    conn = sqlite3.connect("database.db")
+    cur = conn.cursor()
+
+    cur.execute("""
+    DELETE FROM chat_history
+    WHERE user_id=?
+    """,(session["user_id"],))
+
+    conn.commit()
+    conn.close()
+
+    return redirect(url_for("chatbot"))
 
 # ---------------- QUIZ ----------------
 

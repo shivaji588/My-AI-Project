@@ -1,0 +1,65 @@
+For Deployment -
+On Local VS code -
+pip freeze > requirements.txt
+
+On Web -
+https://www.pythonanywhere.com/
+
+To remove github repo if required
+cd ..
+rm -rf python-training
+
+git clone https://github.com/freakytejash/python-training.git
+
+Commands to use in python any where bash -
+mkvirtualenv myenv --python=python3.10
+cd python-training
+pip install -r requirements.txt
+
+Set virtual environment on Python Anywhere
+/home/tejashmehta/.virtualenvs/myenv
+
+
+Configuration on WSGI file - 
+import sys
+
+path = '/home/tejashmehta/python-training'
+if path not in sys.path:
+    sys.path.append(path)
+
+from app import app as application
+
+Then Save and back to web tab and reload
+
+To do the changes in your website -
+commit your code then take the pull
+git pull
+
+To check where your database is created on pythonanywhere
+find /home/$(whoami) -name "*.db" 2>/dev/null
+
+Can we sync database via github. --- NO
+
+1. .db file binary file - git diff - its checks only code diff
+
+2. Local mein test data hota Hai
+Live mein real user data hota Hai
+Don't mix
+
+3. Agar live ka .db git mein push kia - password, personal data - public repo
+
+RULE: Database never goes to github
+Code always goes in github
+
+GOLDEN RUle 1 - Database Path -
+Always use Absoulute pathin database.pysqlite3.connect(DB_PATH) not sqlite3.connect('myproject.db)
+os.path.abspath(__file__) gives you correct location always
+
+GOLDEN Rule 2 - what goes in git
+Code -> Always in github (app.py, templates, etc..)
+Database -> Never in github (.db file - add to .gitignore)
+
+Golden Rule 3 - Code change workflow 
+Laptop - git push
+Live - git pull -> reload
+Always both sides - laptop se push karo , live pe pull karo

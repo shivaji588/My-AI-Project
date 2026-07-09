@@ -59,6 +59,18 @@ def init_db():
     )
     """)
 
+    #chat history page
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS chat_history (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER NOT NULL,
+        subject TEXT,
+        question TEXT NOT NULL,
+        answer TEXT NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY(user_id) REFERENCES users(id)
+    )   
+    """)
 
     conn.commit()
     conn.close()
