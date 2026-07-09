@@ -21,7 +21,7 @@ A web application built with Python and Flask.
 
 ## 🚀 How to Run Locally
 ```bash
-git clone https://github.com/TUMHARA_USERNAME/TUMHARA_REPO.git
-cd TUMHARA_REPO
+git clone https://github.com/shivaji588/My-AI-Project.git
+cd My-AI-Project
 pip install -r requirements.txt
 python app.py
