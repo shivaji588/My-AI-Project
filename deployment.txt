@@ -63,3 +63,5 @@ Golden Rule 3 - Code change workflow
 Laptop - git push
 Live - git pull -> reload
 Always both sides - laptop se push karo , live pe pull karo
+
+pip install python-dotenv
