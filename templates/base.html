@@ -62,10 +62,18 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="/about">⚙️About</a>
+                    <a class="nav-link" href="/about">ℹ️ About</a>
                 </li>
 
             </ul>
+            {% if session.get('role') == 'admin' %}
+
+            <a href="/admin">
+            ⚙ Admin Panel
+            </a>
+
+            {% endif %}
+
             <ul class="navbar-nav">
 
                 {% if session.get('user_id') %}
@@ -77,9 +85,9 @@
                 </li>
 
                 <li class="nav-item">
-                    <span class="nav-link">
-                        👤 {{ session.username }}
-                    </span>
+                    <a href="/profile" style="text-decoration:none;color:white;">
+                        👤 {{ session.get('username') }}
+                    </a>
                 </li>
 
                 <li class="nav-item">

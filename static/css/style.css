@@ -32,6 +32,17 @@ nav a:hover{
     color:#facc15;
 }
 
+/* AMAZON STYLE HOVER */
+
+.navbar a:hover{
+
+    border:1px solid white;
+
+    background:rgba(255,255,255,0.08);
+    transform:translateY(-2px);
+
+}
+
 /* Subjects Page */
 
 .subjects-container{
@@ -39,7 +50,7 @@ nav a:hover{
     max-width:1100px;
     margin:40px auto;
     padding:35px;
-    background-color: #2a499c;
+    background-color:#1e3a5f;
 }
 
 

@@ -3,105 +3,543 @@
 {% block content %}
 
 <style>
-body{
-    background: #f4f6fb;
+
+.profile-page{
+    padding:40px;
+    background:#f1f5f9;
+    min-height:90vh;
 }
 
-/* Profile Card */
-.profile-box{
-    width:420px;
-    margin:60px auto;
-    padding:30px;
-    background: white;
-    border-radius:20px;
-    box-shadow:0 15px 35px rgba(0,0,0,0.1);
-    text-align:center;
-    transition:0.3s;
+
+/* MAIN */
+
+.profile-wrapper{
+
+    max-width:1000px;
+    margin:auto;
+
+    background:white;
+
+    border-radius:30px;
+
+    overflow:hidden;
+
+    box-shadow:0 20px 50px rgba(0,0,0,.15);
+
 }
 
-.profile-box:hover{
-    transform:translateY(-5px);
+
+/* COVER */
+
+.cover{
+
+    height:180px;
+
+    background:
+    linear-gradient(135deg,#2563eb,#9333ea);
+
+    position:relative;
+
 }
 
-/* Profile Icon */
-.profile-icon{
-    width:90px;
-    height:90px;
+
+
+/* AVATAR */
+
+.avatar-box{
+
+    position:absolute;
+
+    bottom:-55px;
+
+    left:50%;
+
+    transform:translateX(-50%);
+
+}
+
+
+.avatar{
+
+    width:120px;
+
+    height:120px;
+
     border-radius:50%;
-    background:#4f46e5;
-    color:white;
-    font-size:40px;
+
+    background:white;
+
+    color:#2563eb;
+
     display:flex;
-    align-items:center;
+
     justify-content:center;
-    margin:0 auto 15px;
-    font-weight:bold;
+
+    align-items:center;
+
+    font-size:50px;
+
+    font-weight:800;
+
+    border:6px solid white;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.2);
+
 }
 
-/* Name */
-.profile-box h2{
-    margin:10px 0;
-    color:#111827;
+
+
+.online{
+
+    width:18px;
+
+    height:18px;
+
+    background:#22c55e;
+
+    border-radius:50%;
+
+    position:absolute;
+
+    right:15px;
+
+    bottom:15px;
+
+    border:3px solid white;
+
 }
 
-/* Info Section */
-.info{
-    text-align:left;
-    margin-top:20px;
+
+
+/* CONTENT */
+
+.profile-content{
+
+    padding:80px 40px 40px;
+
+    text-align:center;
+
 }
 
-.info p{
-    background:#f3f4f6;
-    padding:12px;
-    border-radius:10px;
-    margin:10px 0;
-    font-size:15px;
+
+.profile-content h1{
+
+    font-size:34px;
+
+    color:#1e293b;
+
 }
 
-/* Label */
-.info b{
-    color:#4f46e5;
-}
 
-/* Logout Button */
-.logout-btn{
+
+.role{
+
     display:inline-block;
-    margin-top:20px;
-    padding:12px 25px;
-    background:#ef4444;
-    color:white;
-    text-decoration:none;
-    border-radius:10px;
-    transition:0.3s;
+
+    margin-top:10px;
+
+    padding:8px 25px;
+
+    border-radius:25px;
+
+    background:#dbeafe;
+
+    color:#2563eb;
+
+    font-weight:bold;
+
 }
 
-.logout-btn:hover{
-    background:#b91c1c;
+
+
+/* INFO */
+
+.info-section{
+
+    margin-top:40px;
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+
+    gap:20px;
+
 }
+
+
+
+.info-card{
+
+    padding:15px;
+
+    border-radius:20px;
+
+    background:#f8fafc;
+
+    text-align:left;
+
+    transition:.3s;
+
+}
+
+
+
+.info-card:hover{
+
+    transform:translateY(-5px);
+
+}
+
+
+
+.info-card h4{
+
+    color:#64748b;
+
+}
+
+
+.info-card p{
+
+    font-size:18px;
+
+    font-weight:600;
+
+}
+
+
+
+/* STATS */
+
+.stats{
+
+    margin-top:40px;
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+
+    gap:20px;
+
+}
+
+
+
+.stat-card{
+
+    padding:25px;
+
+    border-radius:22px;
+
+    background:linear-gradient(
+    135deg,#eff6ff,#eef2ff);
+
+}
+
+
+.stat-card h2{
+
+    font-size:32px;
+
+    color:#2563eb;
+
+}
+
+
+
+/* PROGRESS */
+
+
+.progress-box{
+
+    margin-top:35px;
+
+    text-align:left;
+
+}
+
+
+
+.progress{
+
+    height:15px;
+
+    background:#e2e8f0;
+
+    border-radius:20px;
+
+    overflow:hidden;
+
+}
+
+
+
+.progress-bar{
+
+    height:100%;
+
+    background:linear-gradient(
+    90deg,#2563eb,#9333ea);
+
+    border-radius:20px;
+
+}
+
+
+
+/* ACHIEVEMENT */
+
+.achievement{
+
+    margin-top:35px;
+
+    padding:25px;
+
+    border-radius:20px;
+
+    background:#fff7ed;
+
+    text-align:left;
+
+}
+
+
+.badge{
+
+    display:inline-block;
+
+    background:#f59e0b;
+
+    color:white;
+
+    padding:8px 15px;
+
+    border-radius:20px;
+
+    margin:5px;
+
+}
+
+
+
+/* BUTTON */
+
+.dashboard-btn{
+
+    display:inline-block;
+
+    margin-top:35px;
+
+    padding:14px 35px;
+
+    background:#2563eb;
+
+    color:white;
+
+    border-radius:30px;
+
+    text-decoration:none;
+
+    font-weight:bold;
+
+}
+
+
+
 </style>
 
-<div class="profile-box">
 
-    <!-- Avatar -->
-    <div class="profile-icon">
-        {{ user.name[0] }}
-    </div>
 
-    <h2>{{ user.name }}</h2>
-    <p style="color:gray;">AI Academic Copilot Student</p>
+<div class="profile-page">
 
-    <div class="info">
 
-        <p><b>📧 Email:</b> {{ user.email }}</p>
-        <p><b>🎓 Course:</b> {{ user.course }}</p>
-        <p><b>📅 Year:</b> {{ user.year }}</p>
+<div class="profile-wrapper">
 
-    </div>
 
-    <a href="/logout" class="logout-btn">
-        🚪 Logout
-    </a>
+<div class="cover">
+
+
+<div class="avatar-box">
+
+<div class="avatar">
+
+{{ user[1][0] }}
 
 </div>
+
+<div class="online"></div>
+
+</div>
+
+
+</div>
+
+
+
+<div class="profile-content">
+
+
+<h1>
+{{ user[1] }}
+</h1>
+
+
+<div class="role">
+
+🎓 {{ user[4]|title }}
+
+</div>
+
+
+
+
+<div class="info-section">
+
+
+<div class="info-card">
+
+<h4>📧 Email</h4>
+
+<p>{{ user[2] }}</p>
+
+</div>
+
+
+<div class="info-card">
+
+<h4>👤 Username</h4>
+
+<p>{{ user[3] }}</p>
+
+</div>
+
+
+<div class="info-card">
+
+<h4>🆔 Student ID</h4>
+
+<p>{{ user[0] }}</p>
+
+</div>
+
+<div class="info-card">
+
+<h4>🔐 Account Status</h4>
+
+<p style="color:#16a34a;">
+🟢 Active
+</p>
+
+</div>
+
+<div class="info-card">
+
+<h4>🕒 Last Active</h4>
+
+<p>{{ last_active }}</p>
+
+</div>
+
+</div>
+
+
+
+
+
+<div class="stats">
+
+
+<div class="stat-card">
+
+<h2>🔥 {{ streak }}</h2>
+<p>Day Streak</p>
+
+</div>
+
+
+<div class="stat-card">
+<h2>{{ progress }}%</h2>
+<p>Learning Progress</p>
+
+</div>
+
+
+<div class="stat-card">
+
+<h2>{{ quiz_count }}</h2>
+<p>Quiz Completed</p>
+
+
+</div>
+<div class="stat-card">
+<h2>{{ notes_count }}</h2>
+<p>Notes</p>
+</div>
+
+</div>
+
+
+
+
+
+<div class="progress-box">
+
+<h3>📈 Overall Learning Progress</h3>
+
+<div class="progress">
+
+<div class="progress-bar"
+style="width:{{ progress }}%">
+</div>
+</div>
+
+</div>
+
+
+
+
+
+<div class="achievement">
+
+<h3>🏆 Achievements</h3>
+
+
+<span class="badge">
+🔥 Active Learner
+</span>
+
+
+<span class="badge">
+📚 Note Explorer
+</span>
+
+
+<span class="badge">
+🧠 Quiz Starter
+</span>
+
+
+</div>
+
+
+
+
+<a href="/dashboard"
+class="dashboard-btn">
+
+⬅ Dashboard
+
+</a>
+
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
 
 {% endblock %}

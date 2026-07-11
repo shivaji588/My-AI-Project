@@ -2,60 +2,66 @@
 {% block content %}
 
 <style>
-
+body{
+    background:#f4f7fc;
+    font-family:'Segoe UI',sans-serif;
+}
 /* ================= MAIN LAYOUT ================= */
 
 .dashboard-container{
     display:flex;
-    min-height:80vh;
-    margin-top:20px;
-    color:black;
+    gap:25px;
+    min-height:85vh;
+    margin:25px;
 }
 
 /* ================= SIDEBAR ================= */
 
 .sidebar{
-    width:250px;
-    background:rgba(25, 8, 8, 0.08);
-    backdrop-filter:blur(15px);
+    width:260px;
+    background:linear-gradient(135deg,#2563eb,#3b82f6);    
+    color:white;
+    padding:25px;
     border-radius:20px;
-    padding:20px;
-    border:1px solid rgba(175, 105, 105, 0.15);
+    box-shadow:0 15px 35px rgba(0,0,0,.15);
 }
 
 .sidebar h2{
-    font-size:22px;
-    margin-bottom:20px;
+    color:white;
+    text-align:center;
+    margin-bottom:30px;
 }
 
 .sidebar a{
     display:block;
-    padding:10px 15px;
-    margin:8px 0;
-    border-radius:10px;
-    color:blue;
+    padding:14px;
+    margin:10px 0;
+    color:white;
     text-decoration:none;
-    transition:0.3s;
+    border-radius:12px;
+    transition:.3s;
 }
 
 .sidebar a:hover{
-    background:rgb(149, 163, 185);
-    transform:translateX(5px);
+    background:rgba(255,255,255,.15);
+    transform:translateX(8px);
 }
 
 /* ================= MAIN CONTENT ================= */
 
 .main-content{
     flex:1;
-    padding:20px;
 }
 
 /* ================= HEADER ================= */
 
 .dashboard-header{
-    margin-bottom:30px;
+    background:white;
+    padding:25px;
+    border-radius:20px;
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+    margin-bottom:25px;
 }
-
 .dashboard-header h1{
     font-size:36px;
     font-weight:800;
@@ -144,11 +150,12 @@
 /* ================= WELCOME ================= */
 
 .welcome-box{
-    background:rgba(255,255,255,0.08);
-    padding:20px;
-    border-radius:15px;
-    margin-bottom:25px;
-    border:1px solid rgba(255,255,255,0.15);
+    background:linear-gradient(135deg,#2563eb,#3b82f6);
+    color:white;
+    padding:30px;
+    border-radius:20px;
+    margin-bottom:30px;
+    box-shadow:0 12px 25px rgba(37,99,235,.25);
 }
 
 </style>
@@ -166,6 +173,7 @@
         <a href="/quiz">🧠 Quiz</a>
         <a href="/chatbot">🤖 AI Chat</a>
         <a href="/subjects">📖 Subjects</a>
+        <a href="/leaderboard">🏆 Leaderboard</a>
 
     </div>
 
@@ -210,21 +218,34 @@
         </div>
 
         
-        <div class="timeline-box">
-        <h2>📅 Today's Activity</h2>
+        <!-- ================= TODAY ACTIVITY GRAPH ================= -->
 
-        <ul>
-            {% for t in timeline %}
-                <li>✔ {{ t[0] }} - {{ t[1] }}</li>
-            {% endfor %}
-        </ul>
+        <div class="chart-box">
+
+            <h2>📅 Today's Activity</h2>
+
+            <div class="chart-container">
+
+                <canvas id="todayChart"></canvas>
+
+            </div>
+
         </div>
 
-        <div style="margin-top:40px;">
-        <h2>📈 Weekly Activity Graph</h2>
-        <canvas id="myChart"></canvas>
-        </div>
 
+        <!-- ================= WEEKLY ACTIVITY GRAPH ================= -->
+
+        <div class="chart-box">
+
+            <h2>📈 Weekly Activity Graph</h2>
+
+            <div class="chart-container">
+
+                <canvas id="weeklyChart"></canvas>
+
+            </div>
+
+        </div>
         <!-- ================= QUICK ACTIONS ================= -->
         <h2 style="margin:30px 0 20px;">⚡ Quick Actions</h2>
 
@@ -253,27 +274,105 @@
 </div>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<script>
-const ctx = document.getElementById('myChart');
 
-new Chart(ctx, {
-    type: 'line',
-    data: {
-        labels: {{ labels | tojson }},
-        datasets: [{
-            label: 'Active Users',
-            data: {{ values | tojson }},
-            borderWidth: 3
+<script>
+
+// ================= TODAY BAR GRAPH =================
+
+const todayCtx = document.getElementById('todayChart');
+
+
+new Chart(todayCtx, {
+
+    type:'bar',
+
+    data:{
+
+        labels: {{ today_labels | tojson }},
+
+        datasets:[{
+
+            label:'Today Activity',
+
+            data: {{ today_values | tojson }},
+
+            borderWidth:2
+
         }]
+
     },
-    options: {
-        responsive: true,
-        scales: {
-            y: {
-                beginAtZero: true
+
+    options:{
+
+        responsive:true,
+
+        maintainAspectRatio:false,
+
+        scales:{
+
+            y:{
+
+                beginAtZero:true
+
             }
+
         }
+
     }
+
 });
+
+
+
+// ================= WEEKLY LINE GRAPH =================
+
+
+const weeklyCtx = document.getElementById('weeklyChart');
+
+
+new Chart(weeklyCtx, {
+
+    type:'line',
+
+    data:{
+
+        labels: {{ labels | tojson }},
+
+        datasets:[{
+
+            label:'Active Users',
+
+            data: {{ values | tojson }},
+
+            borderWidth:3,
+
+            tension:0.4,
+
+            fill:true
+
+        }]
+
+    },
+
+    options:{
+
+        responsive:true,
+
+        maintainAspectRatio:false,
+
+        scales:{
+
+            y:{
+
+                beginAtZero:true
+
+            }
+
+        }
+
+    }
+
+});
+
 </script>
 {%endblock%}

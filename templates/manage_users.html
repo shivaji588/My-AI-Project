@@ -1,0 +1,426 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+
+.user-container{
+    padding:40px;
+}
+
+
+.user-card{
+
+    background:white;
+    padding:30px;
+    border-radius:20px;
+    box-shadow:0 10px 25px rgba(0,0,0,.1);
+
+}
+
+
+
+/* TABLE */
+
+table{
+
+width:100%;
+border-collapse:collapse;
+margin-top:20px;
+
+}
+
+
+th{
+
+background:#2563eb;
+color:white;
+padding:15px;
+
+}
+
+
+td{
+
+padding:15px;
+text-align:center;
+border-bottom:1px solid #ddd;
+
+}
+
+
+/* ADMIN HIGHLIGHT */
+
+.admin-row{
+
+    background:#fff7ed;
+
+    font-weight:600;
+
+}
+
+
+.admin-row td:first-child{
+
+    border-left:5px solid #f59e0b;
+
+}
+
+
+
+/* BADGES */
+
+
+.admin-badge{
+
+    background:#f59e0b;
+
+    color:white;
+
+    padding:7px 15px;
+
+    border-radius:20px;
+
+    font-weight:bold;
+
+}
+
+
+
+.student-badge{
+
+    background:#dbeafe;
+
+    color:#2563eb;
+
+    padding:7px 15px;
+
+    border-radius:20px;
+
+    font-weight:bold;
+
+}
+
+
+
+
+/* BUTTON */
+
+
+.btn{
+
+padding:8px 15px;
+border-radius:20px;
+text-decoration:none;
+color:white;
+margin:3px;
+
+}
+
+
+
+.view{
+
+background:#2563eb;
+
+}
+
+
+
+.role{
+
+background:#10b981;
+
+}
+
+
+
+
+.delete{
+
+background:#ef4444;
+
+}
+
+
+
+
+.user-count{
+
+background:#2563eb;
+
+color:white;
+
+padding:12px 25px;
+
+border-radius:25px;
+
+font-weight:bold;
+
+}
+
+
+</style>
+
+
+
+<div class="user-container">
+
+
+<div class="user-card">
+
+
+<h1>👥 Manage Users</h1>
+
+
+
+<div style="display:flex;gap:20px;align-items:center;">
+
+
+<div class="user-count">
+
+👥 Total Users : {{ users|length }}
+
+</div>
+
+
+
+<input 
+type="text"
+id="searchUser"
+placeholder="🔍 Search User..."
+onkeyup="searchUser()"
+style="
+padding:12px;
+border-radius:20px;
+border:1px solid #ddd;
+width:250px;
+">
+
+
+</div>
+
+
+
+
+
+<table>
+
+
+<tr>
+
+<th>👤 Name</th>
+
+<th>📧 Email</th>
+
+<th>🔑 Username</th>
+
+<th>🎭 Role</th>
+
+<th>⚙ Action</th>
+
+</tr>
+
+
+
+
+
+{% for user in users %}
+
+
+
+<tr class="{% if user[4]=='admin' %}admin-row{% endif %}">
+
+
+
+<td>
+
+{{ user[1] }}
+
+{% if user[4]=='admin' %}
+
+👑
+
+{% endif %}
+
+</td>
+
+
+
+
+
+<td>
+
+{{ user[2] }}
+
+</td>
+
+
+
+
+<td>
+
+{{ user[3] }}
+
+</td>
+
+
+
+
+
+<td>
+
+
+{% if user[4]=='admin' %}
+
+
+<span class="admin-badge">
+
+👑 Admin
+
+</span>
+
+
+
+{% else %}
+
+
+
+<span class="student-badge">
+
+🎓 Student
+
+</span>
+
+
+
+{% endif %}
+
+
+</td>
+
+
+
+
+
+<td>
+
+
+
+<a href="/user_details/{{ user[0] }}"
+class="btn view">
+
+👁 View
+
+</a>
+
+
+
+
+<a href="/change_role/{{ user[0] }}"
+class="btn role">
+
+🔄 Change Role
+
+</a>
+
+
+
+
+<a href="/delete_user/{{ user[0] }}"
+class="btn delete"
+
+onclick="return confirm('Delete User?')">
+
+🗑 Delete
+
+</a>
+
+
+
+</td>
+
+
+
+</tr>
+
+
+
+
+
+{% endfor %}
+
+
+
+
+</table>
+
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+<script>
+
+
+function searchUser(){
+
+
+let input =
+document.getElementById("searchUser")
+.value.toLowerCase();
+
+
+
+let rows =
+document.querySelectorAll("table tr");
+
+
+
+rows.forEach((row,index)=>{
+
+
+if(index==0)
+
+return;
+
+
+
+let text=row.innerText.toLowerCase();
+
+
+
+if(text.includes(input)){
+
+
+row.style.display="";
+
+
+}
+
+else{
+
+
+row.style.display="none";
+
+
+}
+
+
+});
+
+
+}
+
+
+
+</script>
+
+
+{% endblock %}

@@ -1,0 +1,306 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+
+.admin-page{
+
+    min-height:90vh;
+    padding:50px;
+    background:linear-gradient(135deg,#eef2ff,#f8fafc);
+
+}
+
+
+/* HEADER */
+
+.admin-header{
+
+    background:linear-gradient(135deg,#2563eb,#7c3aed);
+
+    color:white;
+
+    padding:40px;
+
+    border-radius:30px;
+
+    text-align:center;
+
+    box-shadow:0 20px 40px rgba(0,0,0,.15);
+
+}
+
+
+.admin-header h1{
+
+    font-size:42px;
+    margin-bottom:10px;
+
+}
+
+
+
+/* GRID */
+
+.admin-grid{
+
+    margin-top:40px;
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+
+    gap:25px;
+
+}
+
+
+
+
+/* CARDS */
+
+
+.admin-card{
+
+    background:white;
+
+    padding:35px 25px;
+
+    border-radius:25px;
+
+    text-align:center;
+
+    box-shadow:0 15px 30px rgba(0,0,0,.08);
+
+    transition:.3s;
+
+}
+
+
+
+.admin-card:hover{
+
+    transform:translateY(-10px);
+
+    box-shadow:0 25px 45px rgba(0,0,0,.15);
+
+}
+
+
+
+.admin-icon{
+
+    font-size:45px;
+
+    margin-bottom:15px;
+
+}
+
+
+
+.admin-card h3{
+
+    color:#1e293b;
+
+}
+
+
+
+
+/* BUTTON */
+
+.admin-btn{
+
+    display:inline-block;
+
+    margin-top:15px;
+
+    padding:12px 25px;
+
+    border-radius:30px;
+
+    background:#2563eb;
+
+    color:white;
+
+    text-decoration:none;
+
+    font-weight:bold;
+
+    transition:.3s;
+
+}
+
+
+
+.admin-btn:hover{
+
+    background:#1d4ed8;
+
+    transform:scale(1.05);
+
+}
+
+
+
+
+/* DANGER */
+
+.logout-btn{
+
+    background:#ef4444;
+
+}
+
+
+
+.logout-btn:hover{
+
+    background:#dc2626;
+
+}
+
+
+
+</style>
+
+
+
+<div class="admin-page">
+
+
+<!-- HEADER -->
+
+<div class="admin-header">
+
+<h1>
+⚙ Admin Dashboard
+</h1>
+
+<p>
+Manage AI Academic Copilot System
+</p>
+
+
+</div>
+
+
+
+
+
+<!-- CARDS -->
+
+<div class="admin-grid">
+
+
+
+<div class="admin-card">
+
+<div class="admin-icon">
+👥
+</div>
+
+<h3>
+User Management
+</h3>
+
+<p>
+View, edit and manage students
+</p>
+
+
+<a href="/manage_users" class="admin-btn">
+Manage Users
+</a>
+
+
+</div>
+
+
+
+
+
+
+<div class="admin-card">
+
+<div class="admin-icon">
+📄
+</div>
+
+<h3>
+Paper Management
+</h3>
+
+<p>
+Add, edit and delete papers
+</p>
+
+
+<a href="/manage_papers" class="admin-btn">
+Manage Papers
+</a>
+
+
+</div>
+
+
+
+
+
+
+
+<div class="admin-card">
+
+<div class="admin-icon">
+➕
+</div>
+
+<h3>
+Add New Paper
+</h3>
+
+<p>
+Upload new study papers
+</p>
+
+
+<a href="/add_paper" class="admin-btn">
+Add Paper
+</a>
+
+
+</div>
+
+<div class="admin-card">
+
+<div class="admin-icon">
+🏠
+</div>
+
+<h3>
+Home Page
+</h3>
+
+<p>
+Return to main website
+</p>
+
+
+<a href="/" class="admin-btn">
+Go Home
+</a>
+
+
+</div>
+
+
+
+
+</div>
+
+
+</div>
+
+
+{% endblock %}

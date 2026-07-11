@@ -36,11 +36,141 @@ def index():
 def about():
     return render_template("about.html")
 
+#-----------ADMIN PANAL--------------
+@app.route("/admin")
+def admin():
 
+    if session.get("role") != "admin":
+        flash("Access Denied! Admin only.", "danger")
+        return redirect(url_for("dashboard"))
+
+    return render_template("admin.html")
+
+#===============manage users========================
+@app.route("/manage_users")
+def manage_users():
+
+    if session.get("role") != "admin":
+        return redirect("/")
+
+
+    conn = sqlite3.connect("database.db")
+    cur = conn.cursor()
+
+    cur.execute("""
+        SELECT id, fullname, email, username, role
+        FROM users
+    """)
+
+    users = cur.fetchall()
+
+    conn.close()
+
+
+    return render_template(
+        "manage_users.html",
+        users=users
+    )
+
+#=============role change route=================
+@app.route("/change_role/<int:id>")
+def change_role(id):
+
+    conn = sqlite3.connect("database.db")
+    cur = conn.cursor()
+
+
+    cur.execute("""
+    UPDATE users
+    SET role =
+    CASE
+        WHEN role='student' THEN 'admin'
+        ELSE 'student'
+    END
+    WHERE id=?
+    """,(id,))
+
+
+    conn.commit()
+    conn.close()
+
+
+    return redirect("/manage_users")
+
+#=================delete user route========================
+@app.route("/delete_user/<int:id>")
+def delete_user(id):
+
+    conn = sqlite3.connect("database.db")
+    cur = conn.cursor()
+
+
+    cur.execute(
+        "DELETE FROM users WHERE id=?",
+        (id,)
+    )
+
+
+    conn.commit()
+    conn.close()
+
+
+    return redirect("/manage_users")
+
+#=================user details route========================
+@app.route("/user_details/<int:id>")
+def user_details(id):
+
+    if session.get("role") != "admin":
+        return redirect("/")
+
+
+    conn = sqlite3.connect("database.db")
+    cur = conn.cursor()
+
+
+    cur.execute("""
+    SELECT id, fullname, email, username, role
+    FROM users
+    WHERE id=?
+    """,(id,))
+
+
+    user = cur.fetchone()
+
+    conn.close()
+
+
+    return render_template(
+        "user_details.html",
+        user=user
+    )
+
+#----------------NOTES----------------
 @app.route("/notes")
 def notes():
-    return render_template("notes.html")
 
+    if "user_id" not in session:
+        flash("Please login first to access this page.", "warning")
+        return redirect(url_for("login"))
+
+    import datetime
+
+    conn = sqlite3.connect("database.db")
+    cur = conn.cursor()
+
+    today = datetime.date.today().isoformat()
+
+    cur.execute("""
+        INSERT INTO user_activity(user_id, login_date, action)
+        VALUES (?, ?, ?)
+    """,
+    (session["user_id"], today, "Notes"))
+
+    conn.commit()
+    conn.close()
+
+    return render_template("notes.html")
 #--------------notes_view--------------
 @app.route("/notes/<subject>")
 def show_notes(subject):
@@ -84,17 +214,64 @@ def papers():
     papers_list = cursor.fetchall()
     conn.close()
 
-    return render_template("papers.html", papers=papers_list)       
+    return render_template("papers.html", papers=papers_list)   
+
+#========================paper add================================
+@app.route("/add_paper", methods=["GET","POST"])
+def add_paper():
+
+    if request.method == "POST":
+
+        title = request.form["title"]
+        year = request.form["year"]
+        file_name = request.form["file_name"]
 
 
+        conn = sqlite3.connect("database.db")
+        cur = conn.cursor()
+
+
+        cur.execute("""
+        INSERT INTO papers(title, year, file_name)
+        VALUES(?,?,?)
+        """,
+        (title, year, file_name))
+
+
+        conn.commit()
+        conn.close()
+
+
+        flash("Paper Added Successfully","success")
+
+        return redirect("/papers")
+
+
+    return render_template("add_paper.html")   
+
+#========================paper manage================================ 
+@app.route("/manage_papers")
+def manage_papers():
+
+    conn = sqlite3.connect("database.db")
+    cur = conn.cursor()
+
+    cur.execute("SELECT * FROM papers")
+
+    papers = cur.fetchall()
+
+    conn.close()
+
+    return render_template(
+        "manage_papers.html",
+        papers=papers
+    )  
 # ---------------- SUBJECTS----------------
 @app.route("/subjects")
 def subjects():
     return render_template("subjects.html")
 
 #---------------- SUBJECT DETAILS ----------------
-from flask import render_template
-
 @app.route("/subject/<name>")
 def subject_page(name):
 
@@ -465,6 +642,7 @@ def clear_chat():
 def quiz():
 
     if "user_id" not in session:
+        flash("Please login first to access this page.", "warning")
         return redirect(url_for("login"))
 
     return render_template("quiz.html")
@@ -789,34 +967,7 @@ def register():
 
 
 # ---------------- LOGIN ----------------
-# @app.route("/login", methods=["GET","POST"])
-# def login():
 
-#     if request.method=="POST":
-
-#         username=request.form["username"]
-#         password=request.form["password"]
-
-#         conn=sqlite3.connect("database.db")
-#         cur=conn.cursor()
-
-#         cur.execute("SELECT * FROM users WHERE username=?",(username,))
-#         user=cur.fetchone()
-
-#         conn.close()
-
-#         if user and check_password_hash(user[4],password):
-
-#             session["user_id"]=user[0]
-#             session["username"]=user[3]
-
-#             flash("Login Successful","success")
-
-#             return redirect(url_for("dashboard"))
-
-#         flash("Invalid Username or Password","danger")
-
-#     return render_template("login.html")
 @app.route("/login", methods=["GET", "POST"])
 def login():
 
@@ -864,20 +1015,6 @@ def login():
     return render_template("login.html")
 
 # ---------------- DASHBOARD ----------------
-# @app.route("/dashboard")
-# def dashboard():
-
-#     if "user_id" not in session:
-
-#         flash("Please Login First","warning")
-
-#         return redirect(url_for("login"))
-
-#     return render_template(
-#         "dashboard.html",
-#         user=session["username"]
-#     )
-
 
 @app.route("/dashboard")
 def dashboard():
@@ -887,11 +1024,15 @@ def dashboard():
 
     import datetime
 
+    # ================= WEEKLY ACTIVITY GRAPH =================
+
     dates = []
     values = []
 
     for i in range(6, -1, -1):
+
         day = (datetime.date.today() - datetime.timedelta(days=i)).isoformat()
+
         dates.append(day)
 
         cur.execute("""
@@ -899,67 +1040,231 @@ def dashboard():
             FROM user_activity
             WHERE login_date=?
         """, (day,))
+
         count = cur.fetchone()[0]
+
         values.append(count)
 
-    # 👥 Total Users
+
+
+    # ================= TOTAL USERS =================
+
     cur.execute("SELECT COUNT(*) FROM users")
+
     total_users = cur.fetchone()[0]
 
-    # 📊 DAU (today)
+
+
+    # ================= DAU =================
+
     today = datetime.date.today().isoformat()
+
+
     cur.execute("""
         SELECT COUNT(DISTINCT user_id)
         FROM user_activity
         WHERE login_date=?
     """, (today,))
+
+
     dau = cur.fetchone()[0]
 
-    # 📅 WAU
+
+
+    # ================= WAU =================
+
     cur.execute("""
         SELECT COUNT(DISTINCT user_id)
         FROM user_activity
         WHERE login_date >= date('now','-7 day')
     """)
+
+
     wau = cur.fetchone()[0]
 
-    # 🔥 Total logins
-    cur.execute("SELECT COUNT(*) FROM user_activity")
+
+
+    # ================= TOTAL LOGINS =================
+
+    cur.execute("""
+        SELECT COUNT(*)
+        FROM user_activity
+    """)
+
+
     total_logins = cur.fetchone()[0]
+
+
+
+    # ================= TODAY ACTIVITY BAR GRAPH =================
+
+
+    cur.execute("""
+        SELECT action, COUNT(*)
+        FROM user_activity
+        WHERE login_date=?
+        GROUP BY action
+    """,(today,))
+
+
+    today_activity = cur.fetchall()
+
+
+    today_labels = []
+    today_values = []
+
+
+    for row in today_activity:
+
+        today_labels.append(row[0])
+
+        today_values.append(row[1])
+
+
+
+    # ================= RECENT ACTIVITY =================
+
+
+    cur.execute("""
+        SELECT login_date, action
+        FROM user_activity
+        ORDER BY id DESC
+        LIMIT 10
+    """)
+
+
+    timeline = cur.fetchall()
+
+
 
     conn.close()
 
+
+
     return render_template(
         "dashboard.html",
+
         total_users=total_users,
+
         dau=dau,
+
         wau=wau,
+
         total_logins=total_logins,
+
+
+        # Weekly Graph
         labels=dates,
-        values=values
+
+        values=values,
+
+
+        # Today's Graph
+        today_labels=today_labels,
+
+        today_values=today_values,
+
+
+        timeline=timeline
     )
 # ---------------- PROFILE ----------------
 @app.route("/profile")
 def profile():
 
     if "user_id" not in session:
-        return redirect(url_for("login"))
+        return redirect("/login")
+
 
     conn = sqlite3.connect("database.db")
-    conn.row_factory = sqlite3.Row
     cur = conn.cursor()
 
-    cur.execute(
-        "SELECT fullname,email,username FROM users WHERE id=?",
-        (session["user_id"],)
-    )
+
+    # User Details
+    cur.execute("""
+    SELECT id, fullname, email, username, role
+    FROM users
+    WHERE id=?
+    """,(session["user_id"],))
 
     user = cur.fetchone()
 
+
+
+    # Quiz Completed Count
+    cur.execute("""
+    SELECT COUNT(*)
+    FROM quiz_results
+    WHERE user_id=?
+    """,(session["user_id"],))
+
+    quiz_count = cur.fetchone()[0]
+
+
+
+    # Notes Count (जर notes table असेल तर)
+    # नाही असेल तर 0 ठेवू
+    notes_count = 0
+
+        # Total Login Days
+    cur.execute("""
+    SELECT COUNT(DISTINCT login_date)
+    FROM user_activity
+    WHERE user_id=?
+    """,(session["user_id"],))
+
+    login_days = cur.fetchone()[0]
+
+
+    # Learning Progress Calculation
+
+    total_activity = quiz_count + login_days
+
+    target = 50   # maximum expected activity
+
+    progress = int(
+        (total_activity / target) * 100
+    )
+
+
+    if progress > 100:
+        progress = 100
+
+    # Login Streak
+    cur.execute("""
+    SELECT COUNT(DISTINCT login_date)
+    FROM user_activity
+    WHERE user_id=?
+    """,(session["user_id"],))
+
+    streak = cur.fetchone()[0]
+
+    # Last Active Date
+    cur.execute("""
+    SELECT login_date
+    FROM user_activity
+    WHERE user_id=?
+    ORDER BY id DESC
+    LIMIT 1
+    """,(session["user_id"],))
+
+    last_active = cur.fetchone()
+
+    if last_active:
+        last_active = last_active[0]
+    else:
+        last_active = "No Activity"
+
     conn.close()
 
-    return render_template("profile.html", user=user)
-
+    return render_template(
+        "profile.html",
+        user=user,
+        quiz_count=quiz_count,
+        streak=streak,
+        notes_count=notes_count,
+        progress=progress,
+        last_active=last_active
+    )
 # ---------------- LOGOUT ----------------
 @app.route("/logout")
 def logout():

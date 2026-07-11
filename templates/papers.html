@@ -218,6 +218,15 @@
         <h1>📄 Previous Year Papers</h1>
         <p>Download and practice exam papers</p>
 
+        <!-- ADMIN BUTTONS INSIDE CARD -->
+            {% if session.get('role') == 'admin' %}
+            <div style="margin-top:10px;">
+                <a href="/admin" class="view-btn">
+                    ✏ Manage Papers
+                </a>
+            </div>
+            {% endif %}
+
         <!-- FILTER -->
         <div class="filter-box">
 
@@ -284,17 +293,6 @@
                 <button class="view-btn">View</button>
                 <button class="download-btn">Download</button>
             </div>
-
-             <!-- ADMIN BUTTONS INSIDE CARD -->
-           {% if session.get('role') == 'admin' %}
-
-            <div style="margin-top:10px;">
-                <a href="/admin/edit/{{ paper['id'] }}" class="view-btn">✏ Edit</a>
-                <a href="/admin/delete/{{ paper['id'] }}" class="download-btn">🗑 Delete</a>
-            </div>
-
-            {% endif %}
-
         </div>
 
     </div>

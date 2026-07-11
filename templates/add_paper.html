@@ -1,0 +1,302 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+
+.add-page{
+
+    min-height:90vh;
+
+    padding:50px;
+
+    background:linear-gradient(135deg,#eef2ff,#f8fafc);
+
+}
+
+
+/* CONTAINER */
+
+.add-container{
+
+    max-width:600px;
+
+    margin:auto;
+
+}
+
+
+
+/* CARD */
+
+.add-card{
+
+    background:white;
+
+    padding:40px;
+
+    border-radius:30px;
+
+    box-shadow:0 20px 40px rgba(0,0,0,.12);
+
+}
+
+
+
+/* HEADER */
+
+.add-header{
+
+    text-align:center;
+
+    margin-bottom:30px;
+
+}
+
+
+.add-header h1{
+
+    font-size:35px;
+
+    color:#1e293b;
+
+}
+
+
+.add-header p{
+
+    color:#64748b;
+
+}
+
+
+
+/* INPUT */
+
+.form-group{
+
+    margin-bottom:20px;
+
+}
+
+
+
+.form-group label{
+
+    display:block;
+
+    margin-bottom:8px;
+
+    font-weight:600;
+
+    color:#334155;
+
+}
+
+
+
+.form-group input{
+
+    width:100%;
+
+    padding:15px;
+
+    border-radius:15px;
+
+    border:1px solid #cbd5e1;
+
+    outline:none;
+
+    font-size:16px;
+
+    transition:.3s;
+
+}
+
+
+
+.form-group input:focus{
+
+    border-color:#2563eb;
+
+    box-shadow:0 0 10px rgba(37,99,235,.2);
+
+}
+
+
+
+/* BUTTON */
+
+
+.add-btn{
+
+    width:100%;
+
+    padding:15px;
+
+    border:none;
+
+    border-radius:30px;
+
+    background:linear-gradient(135deg,#2563eb,#7c3aed);
+
+    color:white;
+
+    font-size:17px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+
+
+.add-btn:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:0 15px 25px rgba(37,99,235,.3);
+
+}
+
+
+
+/* BACK */
+
+.back-btn{
+
+    display:block;
+
+    text-align:center;
+
+    margin-top:20px;
+
+    text-decoration:none;
+
+    color:#2563eb;
+
+    font-weight:bold;
+
+}
+
+
+</style>
+
+
+
+<div class="add-page">
+
+
+<div class="add-container">
+
+
+<div class="add-card">
+
+
+
+<div class="add-header">
+
+<h1>
+➕ Add New Paper
+</h1>
+
+<p>
+Upload previous year papers for students
+</p>
+
+</div>
+
+
+
+
+<form method="POST">
+
+
+
+<div class="form-group">
+
+<label>
+📄 Paper Title
+</label>
+
+<input 
+type="text"
+name="title"
+placeholder="Enter paper title"
+required>
+
+</div>
+
+
+
+
+
+<div class="form-group">
+
+<label>
+📅 Year
+</label>
+
+<input 
+type="text"
+name="year"
+placeholder="Example: 2025"
+required>
+
+</div>
+
+
+
+
+
+<div class="form-group">
+
+<label>
+📁 File Name
+</label>
+
+<input 
+type="text"
+name="file_name"
+placeholder="Example: DCN_2025.pdf"
+required>
+
+</div>
+
+
+
+
+
+<button class="add-btn" type="submit">
+
+➕ Add Paper
+
+</button>
+
+
+
+</form>
+
+
+
+<a href="/admin" class="back-btn">
+
+⬅ Back to Admin Panel
+
+</a>
+
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+{% endblock %}

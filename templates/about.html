@@ -1,98 +1,666 @@
-{% extends "base.html"%}
-{%block content%}
-<title>About AI Academic Copilot</title>
+{% extends "base.html" %}
+
+{% block content %}
+
 <style>
-body{
-    font-family:Arial;
-    background:#f4f6ff;
-    margin:0;
-}
-.container{
 
-    width:70%;
-    margin:auto;
-    margin-top:40px;
+*{
+    box-sizing:border-box;
+}
+
+.about-page{
+
+    padding:40px;
+
+    background:
+    radial-gradient(circle at top left,#dbeafe,#f8fafc 40%),
+    radial-gradient(circle at bottom right,#ede9fe,#ffffff);
+
+    min-height:100vh;
 
 }
+
+
+
+/* HERO */
+
+.about-hero{
+
+    min-height:420px;
+
+    border-radius:35px;
+
+    padding:60px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:40px;
+
+    background:
+    linear-gradient(135deg,#2563eb,#7c3aed);
+
+    color:white;
+
+    overflow:hidden;
+
+}
+
+
+.hero-text{
+
+    max-width:600px;
+
+}
+
+
+.hero-text h1{
+
+    font-size:55px;
+
+    font-weight:900;
+
+}
+
+
+.hero-text span{
+
+    color:#facc15;
+
+}
+
+
+.hero-text p{
+
+    font-size:20px;
+
+    line-height:1.6;
+
+    opacity:.9;
+
+}
+
+
+
+
+.ai-circle{
+
+    width:260px;
+
+    height:260px;
+
+    border-radius:50%;
+
+    background:rgba(255,255,255,.15);
+
+    backdrop-filter:blur(15px);
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:100px;
+
+    box-shadow:
+    0 0 60px rgba(255,255,255,.3);
+
+}
+
+
+
+
+/* SECTION TITLE */
+
+
+.title{
+
+    text-align:center;
+
+    margin:60px 0 30px;
+
+}
+
+
+.title h2{
+
+    font-size:35px;
+
+    color:#0f172a;
+
+}
+
+
+.title p{
+
+    color:#64748b;
+
+}
+
+
+
+/* ABOUT CARD */
+
+
+.about-card{
+
+    background:white;
+
+    padding:40px;
+
+    border-radius:30px;
+
+    box-shadow:
+    0 20px 40px rgba(0,0,0,.08);
+
+    line-height:1.8;
+
+    font-size:18px;
+
+}
+
+
+
+
+/* MISSION */
+
+
+.grid{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(auto-fit,minmax(250px,1fr));
+
+    gap:25px;
+
+}
+
+
+
 .card{
 
     background:white;
-    padding:30px;
-    border-radius:15px;
-    box-shadow:0 0 15px #ccc;
-}
-h1{
 
-    text-align:center;
+    padding:30px;
+
+    border-radius:25px;
+
+    box-shadow:
+    0 15px 30px rgba(0,0,0,.08);
+
+    transition:.4s;
+
+}
+
+
+.card:hover{
+
+    transform:
+    translateY(-10px);
+
+    box-shadow:
+    0 25px 45px rgba(0,0,0,.15);
+
+}
+
+
+
+.card-icon{
+
+    font-size:40px;
+
+}
+
+
+
+.card h3{
+
     color:#2563eb;
 
 }
-h2{
 
-    color:#333;
+
+
+
+
+/* FEATURE */
+
+
+.feature{
+
+    background:
+    linear-gradient(135deg,#eff6ff,#eef2ff);
 
 }
-p{
 
-    font-size:18px;
-    line-height:1.6;
+
+
+
+/* AI SECTION */
+
+
+.ai-section{
+
+    margin-top:50px;
+
+    padding:45px;
+
+    border-radius:30px;
+
+    background:#0f172a;
+
+    color:white;
+
+    text-align:center;
 
 }
-.features{
+
+
+.ai-section h2{
+
+    color:#60a5fa;
+
+    font-size:35px;
+
+}
+
+
+
+
+
+/* TECH */
+
+
+.tech{
 
     display:flex;
-    gap:20px;
+
+    justify-content:center;
+
+    flex-wrap:wrap;
+
+    gap:15px;
 
 }
-.box{
 
-    background:#f1f5ff;
-    padding:15px;
+
+
+.tech span{
+
+    padding:12px 25px;
+
+    border-radius:30px;
+
+    background:#2563eb;
+
+    color:white;
+
+    font-weight:600;
+
+}
+
+
+
+
+/* ROADMAP */
+
+
+.roadmap{
+
+    background:white;
+
+    padding:35px;
+
+    border-radius:30px;
+
+}
+
+
+.step{
+
+    padding:18px;
+
+    margin:15px 0;
+
+    border-left:5px solid #2563eb;
+
+    background:#f8fafc;
+
     border-radius:10px;
-    flex:1;
 
 }
+
+
 </style>
 
-</body>
 
-<div class="container">
+
+
+
+<div class="about-page">
+
+
+
+<!-- HERO -->
+
+
+<div class="about-hero">
+
+
+<div class="hero-text">
+
+
+<h1>
+🤖 AI <span>Academic</span> Copilot
+</h1>
+
+
+<p>
+
+A smart AI-powered learning platform designed
+to help diploma students learn smarter,
+prepare better and achieve academic success.
+
+</p>
+
+
+</div>
+
+
+
+<div class="ai-circle">
+
+🤖
+
+</div>
+
+
+</div>
+
+
+
+
+
+<!-- ABOUT -->
+
+
+<div class="title">
+
+<h2>📌 About The Project</h2>
+
+<p>Understanding our vision</p>
+
+</div>
+
+
+<div class="about-card">
+
+
+AI Academic Copilot is an intelligent educational assistant
+that combines Artificial Intelligence with modern web
+technology to create a personalized learning experience.
+
+
+<br><br>
+
+
+The platform provides students with digital notes,
+previous year papers, AI doubt solving, quizzes and
+performance tracking features in one place.
+
+
+<br><br>
+
+
+The goal is to reduce learning difficulties and provide
+students a smarter way to prepare for exams.
+
+
+
+</div>
+
+
+
+
+
+
+<!-- WHY -->
+
+
+<div class="title">
+
+<h2>🎯 Why This Project?</h2>
+
+</div>
+
+
+
+<div class="grid">
+
+
 <div class="card">
-<h1>🤖 AI Academic Copilot</h1>
+
+<div class="card-icon">📚</div>
+
+<h3>Easy Learning</h3>
+
 <p>
-AI Academic Copilot is an intelligent learning platform
-designed to help students with research papers, notes,
-AI chatbot assistance and quizzes.
+All academic resources available in one platform.
+</p>
+
+</div>
+
+
+
+<div class="card">
+
+<div class="card-icon">🤖</div>
+
+<h3>AI Assistance</h3>
+
+<p>
+Instant help for student doubts and concepts.
+</p>
+
+</div>
+
+
+
+<div class="card">
+
+<div class="card-icon">📊</div>
+
+<h3>Smart Tracking</h3>
+
+<p>
+Monitor learning progress and activities.
+</p>
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+<!-- FEATURES -->
+
+
+<div class="title">
+
+<h2>🚀 Platform Features</h2>
+
+</div>
+
+
+
+<div class="grid">
+
+
+<div class="card feature">
+
+<h3>📖 Smart Notes</h3>
+
+<p>
+Organized subject-wise study materials.
+</p>
+
+</div>
+
+
+
+<div class="card feature">
+
+<h3>📄 Previous Papers</h3>
+
+<p>
+Practice important exam questions.
+</p>
+
+</div>
+
+
+
+<div class="card feature">
+
+<h3>🧠 Quiz System</h3>
+
+<p>
+Evaluate knowledge with online quizzes.
+</p>
+
+</div>
+
+
+
+<div class="card feature">
+
+<h3>🤖 AI Chatbot</h3>
+
+<p>
+Personal academic assistant anytime.
+</p>
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+<!-- AI -->
+
+
+<div class="ai-section">
+
+
+<h2>
+🧠 Artificial Intelligence Integration
+</h2>
+
+
+<p>
+
+AI helps students by providing personalized guidance,
+quick answers and intelligent learning support.
+
 </p>
 
 
-<h2>✨ Features</h2>
-<div class="features">
-<div class="box">
-📄
-<h3>Research Papers</h3>
-<p>Explore academic papers and learning resources.</p>
-</div>
-
-<div class="box">
-🧠
-<h3>AI Chatbot</h3>
-<p>Get instant answers and learning support.</p>
-</div>
-
-<div class="box">
-📝
-<h3>Quiz Generator</h3>
-<p>Test your knowledge with interactive quizzes.</p>
-</div>
 </div>
 
 
-<h2>🎯 Goal</h2>
-<p>
-Our goal is to make learning easier, smarter and more interactive
-using Artificial Intelligence.
-</p>
+
+
+
+
+<!-- TECH -->
+
+
+<div class="title">
+
+<h2>💻 Technology Stack</h2>
+
 </div>
+
+
+<div class="tech">
+
+
+<span>Python</span>
+
+<span>Flask</span>
+
+<span>SQLite</span>
+
+<span>HTML5</span>
+
+<span>CSS3</span>
+
+<span>JavaScript</span>
+
+
 </div>
+
+
+
+
+
+
+
+<!-- ROADMAP -->
+
+
+<div class="title">
+
+<h2>🔮 Future Enhancements</h2>
+
+</div>
+
+
+<div class="roadmap">
+
+
+<div class="step">
+✨ AI Study Planner
+</div>
+
+
+<div class="step">
+🎤 Voice Based AI Assistant
+</div>
+
+
+<div class="step">
+📈 AI Performance Prediction
+</div>
+
+
+<div class="step">
+📝 Automatic Question Generator
+</div>
+
+
+</div>
+
+
+
+
+</div>
+
+
 {% endblock %}
