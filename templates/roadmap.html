@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <h2 class="text-center mb-4">
+        🗺️ AI Study Roadmap Generator
+    </h2>
+
+    <form method="POST">
+
+        <div class="mb-3">
+            <label class="form-label">Subject</label>
+
+            <input
+                type="text"
+                name="subject"
+                class="form-control"
+                placeholder="Python / Java / DBMS"
+                required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Goal</label>
+
+            <input
+                type="text"
+                name="goal"
+                class="form-control"
+                placeholder="Score 90%"
+                required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Days</label>
+
+            <input
+                type="number"
+                name="days"
+                class="form-control"
+                placeholder="15"
+                required>
+        </div>
+
+        <div class="mb-3">
+
+            <label class="form-label">Level</label>
+
+            <select
+                name="level"
+                class="form-select">
+
+                <option>Beginner</option>
+                <option>Intermediate</option>
+                <option>Advanced</option>
+
+            </select>
+
+        </div>
+
+        <button
+            class="btn btn-primary w-100">
+
+            🚀 Generate Roadmap
+
+        </button>
+
+    </form>
+
+    {% if roadmap %}
+
+    <div class="card shadow mt-5">
+
+        <div class="card-body">
+
+            <h4>📚 Your AI Study Roadmap</h4>
+
+            <hr>
+
+            <pre style="white-space: pre-wrap;">{{ roadmap }}</pre>
+
+        </div>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}
