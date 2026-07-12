@@ -2,6 +2,8 @@ from database import init_db
 import os
 import sqlite3
 import datetime
+from groq import Groq
+from dotenv import load_dotenv
 from tkinter import INSERT
 from flask import Flask, jsonify, render_template, request, redirect, send_from_directory, url_for, flash, session
 from sqlalchemy import values
@@ -14,6 +16,13 @@ def get_db():
 
 app = Flask(__name__)
 app.secret_key = "academic_copilot"
+
+#Groq Client
+load_dotenv()
+
+client = Groq(
+    api_key=os.getenv("GROQ_API_KEY")
+)
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_PATH = os.path.join(BASE_DIR, "database.db")
@@ -171,6 +180,7 @@ def notes():
     conn.close()
 
     return render_template("notes.html")
+
 #--------------notes_view--------------
 @app.route("/notes/<subject>")
 def show_notes(subject):
@@ -320,51 +330,8 @@ def subject_page(name):
     else:
         return "Subject not found", 404
 
-# ---------------- CHATBOT ----------------
+# ---------------- CHATBOT ask ai----------------
 
-# @app.route("/chatbot", methods=["GET", "POST"])
-# def chatbot():
-
-#     answer = ""
-
-#     if request.method == "POST":
-
-#         question = request.form["question"].lower()
-
-#         if "hello" in question or "hi" in question:
-#             answer = "Hello 👋 I am your AI Academic Copilot."
-
-#         elif "flask" in question:
-#             answer = "Flask is a Python framework used to create web applications."
-
-#         elif "html" in question:
-#             answer = "HTML is used to create the structure of web pages."
-
-#         elif "css" in question:
-#             answer = "CSS is used for designing and styling web pages."
-
-#         elif "python project" in question:
-#             answer = "Python project ideas: Chatbot, Quiz App, Student Portal, AI Assistant."
-
-#         elif "ai" in question or "artificial intelligence" in question:
-#             answer = "AI is a technology that enables machines to learn and solve problems."
-
-#         elif "python" in question:
-#             answer = "Python is a high-level programming language."
-
-#         elif "java" in question:
-#             answer = "Java is an object-oriented programming language."
-
-#         elif "dbms" in question or "database" in question:
-#             answer = "DBMS is used to store and manage data."
-
-#         elif "thank" in question:
-#             answer = "You're welcome 😊 Keep learning!"
-
-#         else:
-#             answer = "Sorry, I don't know. Try another academic question."
-
-#     return render_template("chatbot.html", answer=answer)
 def ask_ai(question, subject):
 
     question = question.lower()
@@ -529,6 +496,65 @@ I can help you with:
 
 Select a subject and ask your doubt.
 """
+#---------------AI Roadmap Function---------------------
+def generate_roadmap(subject, goal, days, level):
+
+    prompt = f"""
+You are an expert academic mentor.
+
+Create a detailed {days}-day study roadmap.
+
+Subject: {subject}
+Level: {level}
+Goal: {goal}
+
+For each day provide:
+
+📘 Topics to Study
+💻 Practice Tasks
+📝 Revision Tips
+💡 Motivation
+
+Make the roadmap clear, professional, and easy for students to follow.
+"""
+
+    response = client.chat.completions.create(
+        model="llama-3.3-70b-versatile",
+        messages=[
+            {
+                "role": "user",
+                "content": prompt
+            }
+        ]
+    )
+
+    return response.choices[0].message.content
+
+#-----------------------Roadmap-------------------------------
+@app.route("/roadmap", methods=["GET", "POST"])
+def roadmap():
+
+    roadmap = ""
+
+    if request.method == "POST":
+
+        subject = request.form["subject"]
+        goal = request.form["goal"]
+        days = request.form["days"]
+        level = request.form["level"]
+
+        roadmap = generate_roadmap(
+            subject,
+            goal,
+            days,
+            level
+        )
+
+    return render_template(
+        "roadmap.html",
+        roadmap=roadmap
+    )
+
 #========================== CHATBOT =========================
 @app.route("/chatbot", methods=["GET", "POST"])
 def chatbot():
