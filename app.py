@@ -330,172 +330,6 @@ def subject_page(name):
     else:
         return "Subject not found", 404
 
-# ---------------- CHATBOT ask ai----------------
-
-def ask_ai(question, subject):
-
-    question = question.lower()
-
-
-    # Python
-
-    if subject == "Python":
-
-        if "list" in question:
-
-            return """
-📘 Python - List
-
-Definition:
-Python List is an ordered and mutable collection used to store multiple values.
-
-✨ Features:
-• Ordered collection
-• Allows duplicate values
-• Mutable (can be changed)
-• Supports different data types
-
-Example:
-
-numbers = [10,20,30]
-
-Used when we need to store multiple items together.
-"""
-
-
-        elif "function" in question:
-
-            return """
-📘 Python - Function
-
-A function is a reusable block of code that performs a specific task.
-
-✨ Advantages:
-• Code reusability
-• Easy debugging
-• Reduces code repetition
-
-Example:
-
-def hello():
-    print("Hello Student")
-"""
-
-
-        elif "python" in question:
-
-            return """
-🐍 Python Programming
-
-Python is a high-level programming language known for simple syntax and powerful libraries.
-
-📚 Used in:
-• Web Development
-• Data Science
-• AI & Machine Learning
-• Automation
-"""
-
-
-        else:
-
-            return """
-🤖 AI Academic Assistant
-
-Python Topics Available:
-
-1. Variables
-2. Data Types
-3. List
-4. Tuple
-5. Function
-6. OOP Concepts
-
-Ask your topic name to learn more.
-"""
-
-
-
-    # Java
-
-    elif subject == "Java":
-
-        return """
-☕ Java Programming
-
-Java is an object-oriented programming language.
-
-Key Concepts:
-
-• Class
-• Object
-• Inheritance
-• Polymorphism
-• Exception Handling
-
-Ask any Java topic for explanation.
-"""
-
-
-
-    # DBMS
-
-    elif subject == "DBMS":
-
-        return """
-🗄️ DBMS
-
-Database Management System is software used to store,
-manage and retrieve data.
-
-Important Topics:
-
-• SQL
-• Primary Key
-• Foreign Key
-• Normalization
-• ER Diagram
-"""
-
-
-
-    # DCN
-
-    elif subject == "DCN":
-
-        return """
-🌐 Data Communication and Networks
-
-DCN deals with communication between computers.
-
-Important Topics:
-
-• OSI Model
-• TCP/IP
-• Switching
-• Transmission Media
-• Network Devices
-"""
-
-
-
-    # Default
-
-    else:
-
-        return """
-🤖 Welcome to AI Academic Copilot
-
-I can help you with:
-
-📘 Python
-☕ Java
-🗄️ DBMS
-🌐 DCN
-⚙️ Operating System
-
-Select a subject and ask your doubt.
-"""
 #---------------AI Roadmap Function---------------------
 def generate_roadmap(subject, goal, days, level):
 
@@ -555,6 +389,7 @@ def roadmap():
         roadmap=roadmap
     )
 
+
 #========================== CHATBOT =========================
 @app.route("/chatbot", methods=["GET", "POST"])
 def chatbot():
@@ -563,82 +398,107 @@ def chatbot():
     conn.row_factory = sqlite3.Row
     cur = conn.cursor()
 
-
     user_id = session.get("user_id")
-
 
     if not user_id:
         return redirect(url_for("login"))
 
-
-
-    # AJAX POST
-
+    # ===================== POST =====================
     if request.method == "POST":
-
 
         data = request.get_json()
 
-
         subject = data.get("subject")
-
         question = data.get("question")
 
+        system_prompt = f"""
+You are AI Academic Copilot.
 
+You are an AI assistant specially designed for Diploma and Engineering students.
 
-        # AI response generate
+Rules:
+1. Answer ONLY academic questions.
+2. Subjects include:
+   - Python
+   - Java
+   - DBMS
+   - Operating System
+   - Computer Networks (DCN)
+   - Data Structures
+   - Software Engineering
+   - Digital Electronics
+   - Microprocessor
+   - C Programming
+   - Mathematics
+3. Explain concepts in simple and easy language.
+4. Give examples whenever possible.
+5. If the user asks anything unrelated to academics (movies, cricket, celebrities, politics, jokes, etc.), politely reply:
+6.Give answer in 2 lines if user says definaation otherwise explain  
 
-        answer = ask_ai(question, subject)
+"Sorry! I am an Academic AI Assistant. I can answer only Diploma and Engineering academic questions."
 
+Current Subject: {subject}
+"""
 
+        try:
 
-        # Save chat history
+            response = client.chat.completions.create(
 
+                model="llama-3.3-70b-versatile",
+
+                messages=[
+                    {
+                        "role": "system",
+                        "content": system_prompt
+                    },
+                    {
+                        "role": "user",
+                        "content": question
+                    }
+                ],
+
+                temperature=0.5,
+                max_tokens=1000
+
+            )
+
+            answer = response.choices[0].message.content
+
+        except Exception as e:
+
+            answer = f"Error: {str(e)}"
+
+        # Save Chat History
         cur.execute("""
-        INSERT INTO chat_history
-        (user_id, subject, question, answer)
-        VALUES (?, ?, ?, ?)
-        """,
-        (
+            INSERT INTO chat_history
+            (user_id, subject, question, answer)
+            VALUES (?, ?, ?, ?)
+        """, (
             user_id,
             subject,
             question,
             answer
         ))
 
-
         conn.commit()
-
-
         conn.close()
 
-
-
         return jsonify({
-
             "answer": answer
-
         })
 
-
-
-
-    # GET request
+    # ===================== GET =====================
 
     cur.execute("""
-    SELECT *
-    FROM chat_history
-    WHERE user_id=?
-    ORDER BY id ASC
-    """,
-    (user_id,))
-
+        SELECT *
+        FROM chat_history
+        WHERE user_id=?
+        ORDER BY id ASC
+    """, (user_id,))
 
     chats = cur.fetchall()
 
-
     conn.close()
-
 
     return render_template(
         "chatbot.html",
@@ -662,7 +522,7 @@ def clear_chat():
 
     return redirect(url_for("chatbot"))
 
-# ---------------- QUIZ ----------------
+# ---------------- QUIZ ----------------------------------------
 
 @app.route("/quiz")
 def quiz():

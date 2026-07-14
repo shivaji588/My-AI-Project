@@ -72,6 +72,23 @@ def init_db():
     )   
     """)
 
+    # ================= CHAT HISTORY MIGRATION =================
+
+    try:
+        cursor.execute("""
+            ALTER TABLE chat_history ADD COLUMN chat_id TEXT
+        """)
+    except sqlite3.OperationalError:
+        pass
+
+
+    try:
+        cursor.execute("""
+            ALTER TABLE chat_history ADD COLUMN chat_title TEXT
+        """)
+    except sqlite3.OperationalError:
+        pass
+
     conn.commit()
     conn.close()
 
