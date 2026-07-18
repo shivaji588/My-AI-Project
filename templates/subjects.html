@@ -1,193 +1,542 @@
 {% extends "base.html" %}
+
 {% block content %}
 
 <style>
 
-/* ================= PAGE BACKGROUND ================= */
+/* ================= PAGE ================= */
 
 .subjects-container{
+
     padding:60px 20px;
     color:white;
-    background:linear-gradient(135deg,#0f172a,#1e3a8a,#2563eb);
+    background:
+    linear-gradient(135deg,#0f172a,#1e40af,#2563eb);
+
     border-radius:25px;
+    min-height:90vh;
+
 }
+
 
 /* ================= TITLE ================= */
 
 .subjects-container h1{
+
     text-align:center;
-    font-size:42px;
-    font-weight:800;
+    font-size:45px;
+    font-weight:900;
+    margin-bottom:10px;
+
 }
 
-.subjects-container p{
+
+.subjects-container > p{
+
     text-align:center;
     color:#dbeafe;
-    margin-bottom:30px;
+    font-size:18px;
+    margin-bottom:35px;
+
 }
 
-/* ================= SEARCH BOX ================= */
+
+
+/* ================= SEARCH ================= */
+
 
 #searchInput{
+
     display:block;
-    margin:0 auto 40px auto;
+
+    margin:0 auto 45px;
+
     width:55%;
-    padding:14px 20px;
-    border-radius:30px;
+
+    padding:15px 25px;
+
+    border-radius:35px;
+
     border:none;
+
     outline:none;
-    background:rgba(255,255,255,0.10);
+
+    background:rgba(255,255,255,0.15);
+
     color:white;
-    backdrop-filter:blur(12px);
-    transition:0.3s;
+
+    font-size:16px;
+
+    backdrop-filter:blur(15px);
+
+    transition:.3s;
+
 }
+
 
 #searchInput::placeholder{
-    color:#cbd5e1;
+
+    color:#e0e7ff;
+
 }
 
+
 #searchInput:focus{
+
     width:60%;
-    box-shadow:0 0 15px rgba(56,189,248,0.4);
+
+    box-shadow:
+    0 0 20px rgba(56,189,248,.6);
+
 }
+
+
 
 /* ================= GRID ================= */
 
+
 .subject-grid{
+
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-    gap:25px;
-    max-width:1100px;
+
+    grid-template-columns:
+    repeat(auto-fit,minmax(230px,1fr));
+
+    gap:30px;
+
+    max-width:1150px;
+
     margin:auto;
+
 }
+
+
 
 /* ================= CARD ================= */
 
+
 .subject-card{
-    background:rgba(255,255,255,0.08);
-    backdrop-filter:blur(15px);
-    border-radius:20px;
-    padding:25px;
+
+    padding:30px 20px;
+
+    border-radius:25px;
+
     text-align:center;
-    border:1px solid rgba(255,255,255,0.15);
-    transition:0.3s;
+
+    color:white;
+
+    position:relative;
+
+    overflow:hidden;
+
+    border:1px solid rgba(255,255,255,.25);
+
+    backdrop-filter:blur(15px);
+
+    transition:.4s ease;
+
 }
+
+
+/* MULTI COLORS */
+
+
+.subject-card:nth-child(1){
+
+background:linear-gradient(135deg,#22c55e,#15803d);
+
+}
+
+
+.subject-card:nth-child(2){
+
+background:linear-gradient(135deg,#f97316,#dc2626);
+
+}
+
+
+.subject-card:nth-child(3){
+
+background:linear-gradient(135deg,#06b6d4,#2563eb);
+
+}
+
+
+.subject-card:nth-child(4){
+
+background:linear-gradient(135deg,#8b5cf6,#db2777);
+
+}
+
+
+.subject-card:nth-child(5){
+
+background:linear-gradient(135deg,#eab308,#f97316);
+
+}
+
+
+.subject-card:nth-child(6){
+
+background:linear-gradient(135deg,#14b8a6,#0f766e);
+
+}
+
+
 
 .subject-card:hover{
-    transform:translateY(-10px);
-    box-shadow:0 15px 35px rgba(37,99,235,0.35);
+
+    transform:
+    translateY(-12px)
+    scale(1.04);
+
+
+    box-shadow:
+    0 20px 40px rgba(0,0,0,.35);
+
 }
 
-/* ================= ICON TEXT ================= */
+
+
+/* SHINE EFFECT */
+
+
+.subject-card::before{
+
+    content:"";
+
+    position:absolute;
+
+    top:0;
+
+    left:-120%;
+
+    width:100%;
+
+    height:100%;
+
+
+    background:
+    linear-gradient(
+    120deg,
+    transparent,
+    rgba(255,255,255,.35),
+    transparent
+    );
+
+
+    transition:.6s;
+
+}
+
+
+.subject-card:hover::before{
+
+    left:120%;
+
+}
+
+
+
+/* TEXT */
+
 
 .subject-card h3{
-    color:#ffffff;
-    margin-bottom:10px;
+
+    font-size:26px;
+
+    font-weight:900;
+
+    margin-bottom:12px;
+
 }
 
+
 .subject-card p{
-    color:#dbeafe;
+
+    color:white;
+
+    opacity:.9;
+
+    font-size:16px;
+
 }
+
+
 
 /* ================= BUTTON ================= */
 
+
 .subject-card .btn{
+
+
     display:inline-block;
-    margin-top:15px;
-    padding:10px 22px;
-    border-radius:25px;
-    background:linear-gradient(90deg,#2563eb,#06b6d4);
-    color:white;
+
+    margin-top:20px;
+
+    padding:12px 25px;
+
+    border-radius:30px;
+
+    background:white;
+
+    color:#1e3a8a;
+
     text-decoration:none;
-    font-weight:bold;
-    transition:0.3s;
+
+    font-weight:800;
+
+    transition:.3s;
+
 }
+
+
 
 .subject-card .btn:hover{
-    transform:scale(1.05);
-    box-shadow:0 10px 25px rgba(56,189,248,0.3);
+
+
+    transform:scale(1.1);
+
+    box-shadow:
+    0 10px 25px rgba(255,255,255,.4);
+
 }
 
-/* ================= RESPONSIVE ================= */
+
+
+/* ================= MOBILE ================= */
+
 
 @media(max-width:768px){
-    #searchInput{
-        width:90%;
-    }
+
+
+#searchInput{
+
+width:90%;
+
 }
+
+
+.subjects-container h1{
+
+font-size:32px;
+
+}
+
+
+}
+
+
 
 </style>
 
-<!-- ================= PAGE ================= -->
+
 
 <div class="subjects-container">
 
-    <h1>📚 Subjects</h1>
-    <p>Select a subject to access notes, papers and resources</p>
 
-    <input type="text"
-           id="searchInput"
-           placeholder="🔍 Search Subject..."
-           onkeyup="searchSubjects()">
+<h1>
+📚 Subjects
+</h1>
 
-    <div class="subject-grid">
 
-        <div class="subject-card">
-            <h3>🐍 Python</h3>
-            <p>Programming Fundamentals</p>
-            <a href="/subject/python" class="btn">Open Subject</a>
-        </div>
+<p>
+Select a subject to access AI notes, quiz and resources
+</p>
 
-        <div class="subject-card">
-            <h3>☕ Java</h3>
-            <p>Object Oriented Programming</p>
-            <a href="/subject/java" class="btn">Open Subject</a>
-        </div>
 
-        <div class="subject-card">
-            <h3>🌐 Web Development</h3>
-            <p>HTML, CSS, Flask</p>
-            <a href="/subject/web" class="btn">Open Subject</a>
-        </div>
 
-        <div class="subject-card">
-            <h3>🗄️ DBMS</h3>
-            <p>Database Management System</p>
-            <a href="/subject/dbms" class="btn">Open Subject</a>
-        </div>
+<input 
+type="text"
+id="searchInput"
+placeholder="🔍 Search Subject..."
+onkeyup="searchSubjects()">
 
-        <div class="subject-card">
-            <h3>🤖 AI</h3>
-            <p>Artificial Intelligence</p>
-            <a href="/subject/ai" class="btn">Open Subject</a>
-        </div>
 
-        <div class="subject-card">
-            <h3>📊 Data Science</h3>
-            <p>Data Analysis & ML</p>
-            <a href="/subject/datascience" class="btn">Open Subject</a>
-        </div>
 
-    </div>
+<div class="subject-grid">
+
+
+
+<div class="subject-card">
+
+<h3>
+🐍 Python
+</h3>
+
+<p>
+Programming Fundamentals
+</p>
+
+<a href="/subject/python" class="btn">
+Open Subject
+</a>
 
 </div>
 
+
+
+
+<div class="subject-card">
+
+<h3>
+☕ Java
+</h3>
+
+<p>
+Object Oriented Programming
+</p>
+
+<a href="/subject/java" class="btn">
+Open Subject
+</a>
+
+</div>
+
+
+
+
+
+<div class="subject-card">
+
+<h3>
+🌐 Web Development
+</h3>
+
+<p>
+HTML, CSS, Flask
+</p>
+
+<a href="/subject/web" class="btn">
+Open Subject
+</a>
+
+</div>
+
+
+
+
+
+<div class="subject-card">
+
+<h3>
+🗄️ DBMS
+</h3>
+
+<p>
+Database Management System
+</p>
+
+<a href="/subject/dbms" class="btn">
+Open Subject
+</a>
+
+</div>
+
+
+
+
+
+<div class="subject-card">
+
+<h3>
+🤖 AI
+</h3>
+
+<p>
+Artificial Intelligence
+</p>
+
+<a href="/subject/ai" class="btn">
+Open Subject
+</a>
+
+</div>
+
+
+
+
+
+<div class="subject-card">
+
+<h3>
+📊 Data Science
+</h3>
+
+<p>
+Data Analysis & Machine Learning
+</p>
+
+<a href="/subject/datascience" class="btn">
+Open Subject
+</a>
+
+</div>
+
+
+
+</div>
+
+
+</div>
+
+
+
+
 <script>
-function searchSubjects() {
-    let input = document.getElementById("searchInput");
-    let filter = input.value.toLowerCase();
-    let cards = document.getElementsByClassName("subject-card");
 
-    for(let i = 0; i < cards.length; i++) {
-        let text = cards[i].innerText.toLowerCase();
 
-        if(text.includes(filter)) {
-            cards[i].style.display = "";
-        } else {
-            cards[i].style.display = "none";
-        }
-    }
+function searchSubjects(){
+
+
+let input =
+document.getElementById("searchInput");
+
+
+let filter =
+input.value.toLowerCase();
+
+
+
+let cards =
+document.getElementsByClassName("subject-card");
+
+
+
+for(let i=0;i<cards.length;i++){
+
+
+let text =
+cards[i].innerText.toLowerCase();
+
+
+
+if(text.includes(filter)){
+
+
+cards[i].style.display="";
+
+
 }
+
+else{
+
+
+cards[i].style.display="none";
+
+
+}
+
+
+}
+
+
+
+}
+
+
 </script>
+
+
 
 {% endblock %}

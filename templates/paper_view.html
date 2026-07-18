@@ -1,0 +1,198 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+
+.paper-view-page{
+
+    padding:40px;
+
+    background:linear-gradient(135deg,#1b3165,#2563eb);
+
+    min-height:90vh;
+
+    border-radius:20px;
+
+    color:white;
+
+}
+
+
+.paper-card{
+
+    background:rgba(255,255,255,0.12);
+
+    backdrop-filter:blur(15px);
+
+    padding:30px;
+
+    border-radius:25px;
+
+}
+
+
+
+.paper-card h1{
+
+    font-size:35px;
+
+}
+
+
+.info{
+
+    margin:15px 0;
+
+    color:#dbeafe;
+
+}
+
+
+
+.pdf-box{
+
+    margin-top:30px;
+
+    background:white;
+
+    padding:10px;
+
+    border-radius:15px;
+
+}
+
+
+
+iframe{
+
+    width:100%;
+
+    height:600px;
+
+    border:none;
+
+    border-radius:10px;
+
+}
+
+
+
+/* BUTTON */
+
+.btn{
+
+    display:inline-block;
+
+    margin-top:25px;
+
+    padding:12px 25px;
+
+    border-radius:30px;
+
+    color:white;
+
+    text-decoration:none;
+
+    font-weight:bold;
+
+}
+
+
+
+.back-btn{
+
+    background:#475569;
+
+}
+
+
+
+.download-btn{
+
+    background:linear-gradient(90deg,#10b981,#06b6d4);
+
+}
+
+
+
+</style>
+
+
+
+<div class="paper-view-page">
+
+
+<div class="paper-card">
+
+
+
+<h1>
+📄 {{paper[1]}}
+</h1>
+
+
+
+<div class="info">
+
+📅 Year : {{paper[2]}}
+
+</div>
+
+
+<div class="info">
+
+📁 File : {{paper[3]}}
+
+</div>
+
+
+
+
+<div class="pdf-box">
+<iframe
+    src="{{ url_for('static', filename='uploads/' + paper[3]) }}#toolbar=1"
+    style="
+    width:100%;
+    height:700px;
+    border:none;
+    border-radius:10px;">
+</iframe>
+
+
+</div>
+
+
+
+
+
+<a href="/static/uploads/{{paper[3]}}"
+
+download
+
+class="btn download-btn">
+
+⬇ Download PDF
+
+</a>
+
+
+
+<a href="/papers"
+
+class="btn back-btn">
+
+⬅ Back to Papers
+
+</a>
+
+
+
+</div>
+
+
+</div>
+
+
+
+{% endblock %}

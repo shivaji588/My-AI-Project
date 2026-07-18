@@ -10,9 +10,13 @@
 
     padding:50px;
 
-    background:linear-gradient(135deg,#eef2ff,#f8fafc);
+    background:
+    linear-gradient(135deg,#1b3165,#2563eb);
+
+    border-radius:20px;
 
 }
+
 
 
 /* CONTAINER */
@@ -31,15 +35,19 @@
 
 .add-card{
 
-    background:white;
+    background:rgba(255,255,255,0.12);
+
+    backdrop-filter:blur(15px);
 
     padding:40px;
 
     border-radius:30px;
 
-    box-shadow:0 20px 40px rgba(0,0,0,.12);
+    box-shadow:0 20px 40px rgba(0,0,0,.25);
 
 }
+
+
 
 
 
@@ -54,24 +62,29 @@
 }
 
 
+
 .add-header h1{
 
     font-size:35px;
 
-    color:#1e293b;
+    color:white;
 
 }
+
 
 
 .add-header p{
 
-    color:#64748b;
+    color:#dbeafe;
 
 }
 
 
 
-/* INPUT */
+
+
+
+/* FORM */
 
 .form-group{
 
@@ -89,9 +102,10 @@
 
     font-weight:600;
 
-    color:#334155;
+    color:white;
 
 }
+
 
 
 
@@ -103,13 +117,15 @@
 
     border-radius:15px;
 
-    border:1px solid #cbd5e1;
+    border:none;
 
     outline:none;
 
     font-size:16px;
 
-    transition:.3s;
+    background:white;
+
+    color:#1e293b;
 
 }
 
@@ -117,18 +133,28 @@
 
 .form-group input:focus{
 
-    border-color:#2563eb;
-
-    box-shadow:0 0 10px rgba(37,99,235,.2);
+    box-shadow:0 0 12px rgba(255,255,255,.4);
 
 }
 
 
 
+
+/* FILE INPUT */
+
+.file-input{
+
+    padding:12px !important;
+
+}
+
+
+
+
 /* BUTTON */
 
-
 .add-btn{
+
 
     width:100%;
 
@@ -138,15 +164,22 @@
 
     border-radius:30px;
 
-    background:linear-gradient(135deg,#2563eb,#7c3aed);
+
+    background:
+    linear-gradient(90deg,#10b981,#06b6d4);
+
 
     color:white;
 
+
     font-size:17px;
+
 
     font-weight:bold;
 
+
     cursor:pointer;
+
 
     transition:.3s;
 
@@ -154,19 +187,25 @@
 
 
 
+
 .add-btn:hover{
+
 
     transform:translateY(-3px);
 
-    box-shadow:0 15px 25px rgba(37,99,235,.3);
+    box-shadow:0 15px 25px rgba(16,185,129,.4);
 
 }
 
 
 
+
+
 /* BACK */
 
+
 .back-btn{
+
 
     display:block;
 
@@ -174,45 +213,70 @@
 
     margin-top:20px;
 
+
     text-decoration:none;
 
-    color:#2563eb;
+
+    color:#dbeafe;
+
 
     font-weight:bold;
 
 }
 
 
+
+
 </style>
+
+
 
 
 
 <div class="add-page">
 
 
+
 <div class="add-container">
+
 
 
 <div class="add-card">
 
 
 
+
+
 <div class="add-header">
 
+
 <h1>
+
 ➕ Add New Paper
+
 </h1>
 
+
 <p>
+
 Upload previous year papers for students
+
 </p>
+
 
 </div>
 
 
 
 
-<form method="POST">
+
+
+
+<form method="POST" 
+enctype="multipart/form-data">
+
+
+
 
 
 
@@ -222,13 +286,21 @@ Upload previous year papers for students
 📄 Paper Title
 </label>
 
-<input 
+
+<input
+
 type="text"
+
 name="title"
-placeholder="Enter paper title"
+
+placeholder="Example: Java MSBTE Paper"
+
 required>
 
+
 </div>
+
+
 
 
 
@@ -240,13 +312,21 @@ required>
 📅 Year
 </label>
 
-<input 
+
+<input
+
 type="text"
+
 name="year"
+
 placeholder="Example: 2025"
+
 required>
 
+
 </div>
+
+
 
 
 
@@ -255,14 +335,22 @@ required>
 <div class="form-group">
 
 <label>
-📁 File Name
+📁 Upload PDF
 </label>
 
-<input 
-type="text"
-name="file_name"
-placeholder="Example: DCN_2025.pdf"
+
+<input
+
+class="file-input"
+
+type="file"
+
+name="paper_file"
+
+accept=".pdf"
+
 required>
+
 
 </div>
 
@@ -270,11 +358,20 @@ required>
 
 
 
-<button class="add-btn" type="submit">
 
-➕ Add Paper
+
+<button
+
+class="add-btn"
+
+type="submit">
+
+
+➕ Upload Paper
+
 
 </button>
+
 
 
 
@@ -282,7 +379,12 @@ required>
 
 
 
-<a href="/admin" class="back-btn">
+
+
+
+<a href="/admin"
+
+class="back-btn">
 
 ⬅ Back to Admin Panel
 
@@ -290,13 +392,18 @@ required>
 
 
 
+
+
+
+</div>
+
+
 </div>
 
 
 </div>
 
 
-</div>
 
 
 {% endblock %}

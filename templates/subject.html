@@ -1,103 +1,321 @@
 {% extends "base.html" %}
+
 {% block content %}
 
 <style>
+
 .subject-page{
-    padding:50px;
+    padding:40px;
     color:white;
     background:linear-gradient(135deg,#1b3165,#3b5cb4);
     min-height:100vh;
     border-radius:20px;
 }
 
-.card{
-    background:rgba(218, 187, 187, 0.1);
+
+/* Header */
+
+.subject-header{
+    background:rgba(255,255,255,0.12);
     padding:25px;
-    border-radius:15px;
-    margin-top:20px;
+    border-radius:20px;
 }
 
-li{
-    margin:10px 0;
+
+.subject-header h1{
+    font-size:40px;
 }
-.back-btn{
-    display:inline-block;
+
+
+/* Cards */
+
+.card-box{
+
+    background:rgba(255,255,255,0.12);
+    padding:25px;
+    border-radius:18px;
     margin-top:25px;
-    padding:12px 22px;
-    background:linear-gradient(90deg,#2563eb,#8a999c);
-    color:white;
-    text-decoration:none;
-    border-radius:30px;
-    font-weight:bold;
-    position:relative;
+    backdrop-filter:blur(10px);
+
+}
+
+
+.card-box h3{
+    color:#fff;
+}
+
+
+/* Progress */
+
+.progress{
+
+    height:15px;
+    background:#ddd;
+    border-radius:20px;
     overflow:hidden;
-    transition:0.3s ease;
+
 }
 
-/* hover effect */
-.back-btn:hover{
-    transform:translateY(-3px) scale(1.05);
-    box-shadow:0 10px 25px rgba(37,99,235,0.4);
-}
 
-/* animated shine effect */
-.back-btn::before{
-    content:"";
-    position:absolute;
-    top:0;
-    left:-100%;
-    width:100%;
+.progress-bar{
+
     height:100%;
-    background:linear-gradient(
-        120deg,
-        transparent,
-        rgba(255,255,255,0.4),
-        transparent
-    );
-    transition:0.5s;
-}
-
-.back-btn:hover::before{
-    left:100%;
-}
-
-/* quiz button */
-.quiz-btn{
-    display:inline-block;
-    margin-top:20px;
-    padding:12px 20px;
     background:linear-gradient(90deg,#10b981,#06b6d4);
+
+}
+
+
+
+/* Buttons */
+
+.btn-custom{
+
+    display:inline-block;
+    margin:10px;
+    padding:12px 22px;
+    border-radius:30px;
     color:white;
     text-decoration:none;
-    border-radius:25px;
     font-weight:bold;
-    transition:0.3s;
-    position:relative;
-    overflow:hidden;
+    transition:.3s;
+
 }
 
-.quiz-btn:hover{
-    transform:translateY(-3px) scale(1.05);
-    box-shadow:0 10px 25px rgba(16,185,129,0.4);
+
+.btn-custom:hover{
+
+    transform:translateY(-4px);
+    box-shadow:0 10px 20px rgba(0,0,0,.3);
+
 }
+
+
+/* Different buttons */
+
+
+.notes-btn{
+    background:linear-gradient(90deg,#2563eb,#4f46e5);
+}
+
+
+.quiz-btn{
+
+    background:linear-gradient(90deg,#10b981,#06b6d4);
+
+}
+
+
+.viva-btn{
+
+    background:linear-gradient(90deg,#f59e0b,#ef4444);
+
+}
+
+
+.ai-btn{
+
+    background:linear-gradient(90deg,#8b5cf6,#ec4899);
+
+}
+
+
+.back-btn{
+
+    background:linear-gradient(90deg,#64748b,#334155);
+
+}
+
+
+
+ul li{
+
+    margin:12px 0;
+    font-size:17px;
+
+}
+
 </style>
+
+
 
 <div class="subject-page">
 
-    <h1>{{ subject.title }}</h1>
-    <p>{{ subject.desc }}</p>
 
-    <div class="card">
-        <h3 style="color:white">📘 Notes</h3>
-        <ul>
-            {% for note in subject.notes %}
-                <li>{{ note }}</li>
-            {% endfor %}
-            <a href="/subjects" class="back-btn">⬅️ Back to subjects</a>
-            <a href="/{{ key }}_quiz" class="quiz-btn">🧠 Open Quiz</a>
-        </ul>
-    </div>
+<!-- Subject Header -->
+
+<div class="subject-header">
+
+<h1>
+{{subject.title}}
+</h1>
+
+
+<p>
+{{subject.desc}}
+</p>
+
+
+<h4>
+Difficulty : Intermediate
+</h4>
+
 
 </div>
+
+
+
+
+
+<!-- Progress -->
+
+<div class="card-box">
+
+<h3>
+📊 Learning Progress
+</h3>
+
+
+<div class="progress">
+
+<div class="progress-bar"
+style="width:10%">
+</div>
+
+</div>
+
+
+<p>
+Completed Topics : %
+</p>
+
+
+</div>
+
+
+
+
+
+<!-- Topics -->
+
+
+<div class="card-box">
+
+
+<h3>
+📘 Topics Covered
+</h3>
+
+
+<ul>
+
+{% for topic in subject.topics %}
+
+<li>
+{{topic}}
+</li>
+
+{% endfor %}
+
+
+</ul>
+
+
+</div>
+
+
+
+
+
+<!-- Important Topics -->
+
+
+<div class="card-box">
+
+
+<h3>
+⭐ Important Exam Topics
+</h3>
+
+
+<ul>
+
+<li>Frequently asked questions</li>
+
+<li>MSBTE Important Concepts</li>
+
+<li>Practical Based Topics</li>
+
+<li>Viva Important Points</li>
+
+
+</ul>
+
+
+</div>
+
+
+
+
+
+<!-- Resources -->
+
+
+<div class="card-box">
+
+
+<h3>
+📂 Resources
+</h3>
+
+
+<a href="/notes/{{key}}" 
+class="btn-custom notes-btn">
+
+📚 View Notes
+
+</a>
+
+
+
+<a href="/{{key}}_quiz"
+class="btn-custom quiz-btn">
+
+🧠 Take Quiz
+
+</a>
+
+
+
+<a href="/{{key}}_viva"
+class="btn-custom viva-btn">
+
+🎤 Viva Generator
+
+</a>
+
+
+
+<a href="/chatbot?subject={{key}}"
+class="btn-custom ai-btn">
+
+🤖 Ask AI
+
+</a>
+
+
+</div>
+
+
+<a href="/subjects"
+class="btn-custom back-btn">
+
+⬅️ Back to Subjects
+
+</a>
+
+
+
+</div>
+
 
 {% endblock %}
