@@ -5,9 +5,7 @@ import datetime
 from werkzeug.utils import secure_filename
 from groq import Groq
 from dotenv import load_dotenv
-from tkinter import INSERT
 from flask import Flask, jsonify, render_template, request, redirect, send_from_directory, url_for, flash, session
-from sqlalchemy import values
 from werkzeug.security import generate_password_hash, check_password_hash
 
 def get_db():
@@ -25,8 +23,8 @@ client = Groq(
     api_key=os.getenv("GROQ_API_KEY")
 )
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-DB_PATH = os.path.join(BASE_DIR, "database.db")
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))   #Base path app.py ka path show
+DB_PATH = os.path.join(BASE_DIR, "database.db")         #Database Path
 
 init_db()  # Initialize the database on app startup
 
