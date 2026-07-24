@@ -37,12 +37,13 @@
     border:none;
     outline:none;
     background:rgba(255,255,255,0.10);
+    color:white;
     backdrop-filter:blur(12px);
     transition:0.3s;
 }
 
 #searchInput::placeholder{
-    color:#cbd5e1; 
+    color:#cbd5e1;
 }
 
 #searchInput:focus{
@@ -188,11 +189,16 @@
 function searchNotes() {
     let input = document.getElementById("searchInput");
     let filter = input.value.toLowerCase();
-    let cards = document.getElementsByClassName("note-card");
+    let cards = document.getElementsByClassName("Notes-card");
 
-    for (let i = 0; i < cards.length; i++) {
+    for(let i = 0; i < cards.length; i++) {
         let text = cards[i].innerText.toLowerCase();
-        cards[i].style.display = text.includes(filter) ? "" : "none";
+
+        if(text.includes(filter)) {
+            cards[i].style.display = "";
+        } else {
+            cards[i].style.display = "none";
+        }
     }
 }
 </script>

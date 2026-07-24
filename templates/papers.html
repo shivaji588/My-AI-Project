@@ -1,340 +1,628 @@
 {% extends "base.html" %}
+
 {% block content %}
 
 <style>
-/* PAGE */
+
 .papers-page{
+
     padding:50px;
+
     color:white;
-    background:linear-gradient(135deg,#1b3165,#3b5cb4);
+
+    background:
+    linear-gradient(135deg,#1b3165,#2563eb);
+
     min-height:100vh;
+
     border-radius:20px;
 
-    animation: fadePage 0.6s ease-in-out;
 }
 
-/* PAGE ANIMATION */
-@keyframes fadePage{
-    from{
-        opacity:0;
-        transform:translateY(20px);
-    }
-    to{
-        opacity:1;
-        transform:translateY(0);
-    }
-}
+
 
 /* HEADER */
+
 .papers-header{
+
     text-align:center;
-    margin-bottom:20px;
+
 }
+
 
 .papers-header h1{
-    font-size:32px;
+
+    font-size:38px;
+
+    font-weight:800;
+
 }
+
 
 .papers-header p{
-    opacity:0.9;
+
+    color:#dbeafe;
+
 }
+
+
+
+
 
 /* FILTER */
+
 .filter-box{
+
     display:flex;
+
     justify-content:center;
-    align-items:center;
-    gap:15px;
-    margin-top:20px;
+
+    gap:20px;
+
+    margin:35px 0;
+
     flex-wrap:wrap;
+
 }
 
-/* SEARCH */
-.search-wrapper{
-    position:relative;
-    width:45%;
-}
 
-.search-wrapper input{
-    width:100%;
-    padding:14px 18px;
-    border-radius:30px;
-    border:none;
-    outline:none;
-    background:rgba(255,255,255,0.15);
-    color:white;
-    backdrop-filter:blur(10px);
 
-    transition:all 0.3s ease;
-}
-
-.search-wrapper input::placeholder{
-    color:rgba(255,255,255,0.7);
-}
-
-.search-wrapper input:focus{
-    transform:scale(1.02);
-    box-shadow:0 0 15px rgba(255,255,255,0.3);
-}
-
-/* DROPDOWN */
+#searchInput,
 #yearFilter{
-    padding:12px 18px;
-    border-radius:25px;
+
+
+    padding:14px 20px;
+
+    border-radius:30px;
+
     border:none;
+
     outline:none;
-    background:rgba(255,255,255,0.15);
+
+    background:rgba(255,255,255,.15);
+
     color:white;
-    cursor:pointer;
 
-    transition:all 0.3s ease;
 }
 
-#yearFilter:hover{
-    transform:scale(1.05);
+
+
+#searchInput{
+
+    width:45%;
+
 }
+
+
+
+#searchInput::placeholder{
+
+    color:#dbeafe;
+
+}
+
 
 #yearFilter option{
+
     color:black;
+
 }
 
-/* GRID */
-.papers-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
-    gap:20px;
-    margin-top:30px;
-}
 
-/* CARD */
-.paper-card{
-    background:rgba(255,255,255,0.1);
+
+
+
+/* PAPER LIST */
+
+
+.paper-row{
+
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+
     padding:25px;
-    border-radius:15px;
-    text-align:center;
-    backdrop-filter:blur(8px);
 
-    opacity:0;
-    animation: cardIn 0.6s ease forwards;
 
-    transition:all 0.3s ease;
+    margin-bottom:20px;
+
+
+    background:
+    rgba(255,255,255,.12);
+
+
+    border-radius:18px;
+
+
+    border-left:5px solid #38bdf8;
+
+
+    transition:.3s;
+
+
 }
 
-/* STAGGER ANIMATION */
-.paper-card:nth-child(1){ animation-delay:0.1s; }
-.paper-card:nth-child(2){ animation-delay:0.2s; }
-.paper-card:nth-child(3){ animation-delay:0.3s; }
-.paper-card:nth-child(4){ animation-delay:0.4s; }
 
-/* CARD ANIMATION */
-@keyframes cardIn{
-    from{
-        opacity:0;
-        transform:translateY(25px) scale(0.95);
-    }
-    to{
-        opacity:1;
-        transform:translateY(0) scale(1);
-    }
+
+.paper-row:hover{
+
+    transform:translateX(8px);
+
+    background:
+    rgba(255,255,255,.18);
+
 }
 
-/* HOVER */
-.paper-card:hover{
-    transform:translateY(-8px) scale(1.02);
-    background:rgba(255,255,255,0.18);
-    box-shadow:0 15px 30px rgba(0,0,0,0.25);
+
+
+
+
+.paper-info{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:25px;
+
 }
 
-/* YEAR */
-.paper-year{
-    background:rgba(255,255,255,0.25);
-    display:inline-block;
-    padding:5px 12px;
-    border-radius:20px;
-    font-size:12px;
-    margin-bottom:10px;
-}
 
-/* BUTTONS */
-.buttons{
-    margin-top:15px;
-}
 
-.view-btn, .download-btn{
-    padding:10px 15px;
-    border:none;
+.year{
+
+
+    background:
+    linear-gradient(135deg,#2563eb,#06b6d4);
+
+
+    padding:12px 18px;
+
+
     border-radius:25px;
-    cursor:pointer;
-    margin:5px;
+
+
     font-weight:bold;
 
-    transition:all 0.25s ease;
-    position:relative;
-    overflow:hidden;
 }
+
+
+
+
+.paper-info h3{
+
+    margin:0;
+
+    font-size:22px;
+
+}
+
+
+
+.paper-info p{
+
+    margin-top:6px;
+
+    color:#dbeafe;
+
+}
+
+
+
+
+
+/* BUTTON */
+
+
+.btn{
+
+
+    display:inline-block;
+
+    padding:10px 20px;
+
+
+    border-radius:25px;
+
+
+    color:white;
+
+
+    text-decoration:none;
+
+
+    font-weight:bold;
+
+
+    margin-left:8px;
+
+}
+
+
 
 .view-btn{
-    background:linear-gradient(90deg,#6366f1,#8b5cf6);
-    color:white;
+
+    background:
+    linear-gradient(90deg,#6366f1,#8b5cf6);
+
 }
+
+
 
 .download-btn{
-    background:linear-gradient(90deg,#10b981,#06b6d4);
-    color:white;
+
+    background:
+    linear-gradient(90deg,#10b981,#06b6d4);
+
 }
 
-.view-btn:hover,
-.download-btn:hover{
-    transform:scale(1.08);
+
+
+.btn:hover{
+
+    transform:translateY(-3px);
+
 }
 
-.view-btn:active,
-.download-btn:active{
-    transform:scale(0.95);
-}
 
-/* BACK BUTTON */
+
+
 .back-btn{
+
     display:inline-block;
-    margin-top:30px;
-    padding:12px 22px;
-    background:linear-gradient(90deg,#2563eb,#8a999c);
+
+    margin-top:35px;
+
+    padding:12px 25px;
+
+
+    background:#475569;
+
+
+    border-radius:25px;
+
+
     color:white;
+
+
     text-decoration:none;
-    border-radius:30px;
+
+
     font-weight:bold;
-    transition:0.3s;
+
+
 }
 
-.back-btn:hover{
-    transform:translateY(-3px) scale(1.05);
+
+
+
+
+@media(max-width:700px){
+
+
+.paper-row{
+
+flex-direction:column;
+
+gap:20px;
+
+align-items:flex-start;
+
 }
+
+
+.paper-info{
+
+flex-direction:column;
+
+align-items:flex-start;
+
+}
+
+
+#searchInput{
+
+width:90%;
+
+}
+
+}
+
+
 </style>
+
+
+
+
 
 <div class="papers-page">
 
-    <!-- HEADER -->
-    <div class="papers-header">
-        <h1>📄 Previous Year Papers</h1>
-        <p>Download and practice exam papers</p>
 
-        <!-- ADMIN BUTTONS INSIDE CARD -->
-            {% if session.get('role') == 'admin' %}
-            <div style="margin-top:10px;">
-                <a href="/admin" class="view-btn">
-                    ✏ Manage Papers
-                </a>
-            </div>
-            {% endif %}
 
-        <!-- FILTER -->
-        <div class="filter-box">
+<div class="papers-header">
 
-            <div class="search-wrapper">
-                <input type="text"
-                       id="searchInput"
-                       placeholder="🔍 Search Papers..."
-                       onkeyup="filterPapers()">
-            </div>
 
-            <select id="yearFilter" onchange="filterPapers()">
-                <option value="all">📚 All Years</option>
-                <option value="2025">2025</option>
-                <option value="2024">2024</option>
-                <option value="2023">2023</option>
-                <option value="model">Model Papers</option>
-            </select>
+<h1>
+📄 Academic Papers
+</h1>
 
-        </div>
-    </div>
 
-    <!-- GRID -->
-    <div class="papers-grid">
+<p>
+Practice MSBTE previous papers and improve preparation
+</p>
 
-        <div class="paper-card">
-            <div class="paper-year">2025</div>
-            <h3>Latest Papers</h3>
-            <p>Updated question papers</p>
-
-            <div class="buttons">
-                <button class="view-btn">View</button>
-                <button class="download-btn">Download</button>
-            </div>
-        </div>
-
-        <div class="paper-card">
-            <div class="paper-year">2024</div>
-            <h3>University Papers</h3>
-            <p>Previous exam sets</p>
-
-            <div class="buttons">
-                <button class="view-btn">View</button>
-                <button class="download-btn">Download</button>
-            </div>
-        </div>
-
-        <div class="paper-card">
-            <div class="paper-year">2023</div>
-            <h3>Old Papers</h3>
-            <p>Practice material</p>
-
-            <div class="buttons">
-                <button class="view-btn">View</button>
-                <button class="download-btn">Download</button>
-            </div>
-        </div>
-
-        <div class="paper-card">
-            <div class="paper-year">Model</div>
-            <h3>Model Papers</h3>
-            <p>Important questions</p>
-
-            <div class="buttons">
-                <button class="view-btn">View</button>
-                <button class="download-btn">Download</button>
-            </div>
-        </div>
-
-    </div>
-
-    <!-- BACK -->
-    <div style="text-align:center;">
-        <a href="/subjects" class="back-btn">⬅️ Back</a>
-    </div>
 
 </div>
 
-<!-- JS -->
+
+
+
+
+
+<!-- SEARCH -->
+
+
+<div class="filter-box">
+
+
+<input
+
+type="text"
+
+id="searchInput"
+
+placeholder="🔍 Search Paper..."
+
+onkeyup="filterPapers()"
+
+>
+
+
+
+<select id="yearFilter" onchange="filterPapers()">
+
+
+
+<option value="all">
+All Years
+</option>
+
+
+<option value="2025">
+2025
+</option>
+
+
+<option value="2024">
+2024
+</option>
+
+
+<option value="2023">
+2023
+</option>
+
+
+
+</select>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- DATABASE PAPERS -->
+
+
+<div id="papersList">
+
+
+
+{% for paper in papers %}
+
+
+
+<div class="paper-row">
+
+
+
+<div class="paper-info">
+
+
+
+<span class="year">
+
+{{paper[2]}}
+
+</span>
+
+
+
+<div>
+
+
+<h3>
+
+{{paper[1]}}
+
+</h3>
+
+
+<p>
+
+MSBTE Previous Year Question Paper
+
+</p>
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+<div>
+
+
+
+<a href="/view_paper/{{paper[0]}}"
+
+class="btn view-btn">
+
+👁 View
+
+</a>
+
+
+
+
+
+<a href="/static/uploads/{{paper[3]}}"
+
+download
+
+class="btn download-btn">
+
+⬇ Download
+
+</a>
+
+
+
+</div>
+
+
+
+
+</div>
+
+
+
+{% else %}
+
+
+<h3 style="text-align:center">
+
+No Papers Available
+
+</h3>
+
+
+{% endfor %}
+
+
+
+</div>
+
+
+
+
+
+
+
+<div style="text-align:center">
+
+
+<a href="/subjects"
+
+class="back-btn">
+
+⬅ Back
+
+</a>
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+
 <script>
-function filterPapers() {
 
-    let input = document.getElementById("searchInput").value.toLowerCase();
-    let filterYear = document.getElementById("yearFilter").value.toLowerCase();
 
-    let cards = document.getElementsByClassName("paper-card");
+function filterPapers(){
 
-    for (let i = 0; i < cards.length; i++) {
 
-        let title = cards[i].getElementsByTagName("h3")[0].innerText.toLowerCase();
-        let desc = cards[i].getElementsByTagName("p")[0].innerText.toLowerCase();
-        let year = cards[i].getElementsByClassName("paper-year")[0].innerText.toLowerCase();
+let input =
+document.getElementById("searchInput")
+.value
+.toLowerCase();
 
-        let matchSearch =
-            title.includes(input) ||
-            desc.includes(input) ||
-            year.includes(input);
 
-        let matchFilter =
-            (filterYear === "all") ||
-            (year.includes(filterYear));
 
-        if (matchSearch && matchFilter) {
-            cards[i].style.display = "block";
-        } else {
-            cards[i].style.display = "none";
-        }
-    }
+let year =
+document.getElementById("yearFilter")
+.value;
+
+
+
+let papers =
+document.getElementsByClassName("paper-row");
+
+
+
+for(let i=0;i<papers.length;i++){
+
+
+let text =
+papers[i].innerText.toLowerCase();
+
+
+
+if(
+text.includes(input)
+&&
+(year=="all" || text.includes(year))
+){
+
+
+papers[i].style.display="flex";
+
+
 }
+
+else{
+
+
+papers[i].style.display="none";
+
+
+}
+
+
+}
+
+
+}
+
+
 </script>
+
+
+
 
 {% endblock %}

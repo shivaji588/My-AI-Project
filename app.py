@@ -2,11 +2,10 @@ from database import init_db
 import os
 import sqlite3
 import datetime
+from werkzeug.utils import secure_filename
 from groq import Groq
 from dotenv import load_dotenv
-from tkinter import INSERT
 from flask import Flask, jsonify, render_template, request, redirect, send_from_directory, url_for, flash, session
-from sqlalchemy import values
 from werkzeug.security import generate_password_hash, check_password_hash
 
 def get_db():
@@ -24,8 +23,8 @@ client = Groq(
     api_key=os.getenv("GROQ_API_KEY")
 )
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-DB_PATH = os.path.join(BASE_DIR, "database.db")
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))   #Base path app.py ka path show
+DB_PATH = os.path.join(BASE_DIR, "database.db")         #Database Path
 
 init_db()  # Initialize the database on app startup
 
@@ -163,8 +162,6 @@ def notes():
         flash("Please login first to access this page.", "warning")
         return redirect(url_for("login"))
 
-    import datetime
-
     conn = sqlite3.connect("database.db")
     cur = conn.cursor()
 
@@ -181,40 +178,53 @@ def notes():
 
     return render_template("notes.html")
 
-#--------------notes_view--------------
+#=====================notes view========================
+
 @app.route("/notes/<subject>")
 def show_notes(subject):
 
-    notes_data = {
-        "python": {
-            "title": "🐍 Python Notes",
-            "notes": ["Variables", "Loops", "Functions", "OOP"]
-        },
-        "java": {
-            "title": "☕ Java Notes",
-            "notes": ["Classes", "Objects", "Inheritance", "Polymorphism"]
-        },
-        "web": {
-            "title": "🌐 Web Notes",
-            "notes": ["HTML", "CSS", "Flask Routing"]
-        },
-        "dbms": {
-            "title": "🗄 DBMS Notes",
-            "notes": ["SQL", "Joins", "Normalization"]
-        },
-        "ai": {
-            "title": "🤖 AI Notes",
-            "notes": ["Search Algorithms", "Machine Learning Basics"]
-        }
-    }
+    prompt = f"""
+    Generate detailed MSBTE diploma notes for {subject} subject.
 
-    data = notes_data.get(subject)
+    Include:
+    - Unit wise topics
+    - Definition
+    - Important points
+    - Examples
+    - Exam points
 
-    if data:
-        return render_template("notes_view.html", data=data)
-    else:
-        return "Notes not found", 404
+    Make it simple and easy to understand.
+    create attractive notes
+    use diploma books for reference
+    use related emoji for notes
+    use spaces for notes
+    """
 
+
+    response = client.chat.completions.create(
+
+        model="llama-3.1-8b-instant",
+
+        messages=[
+            {
+                "role": "user",
+                "content": prompt
+            }
+        ],
+
+        temperature=0.5
+    )
+
+
+    notes = response.choices[0].message.content
+
+
+    return render_template(
+        "notes_view.html",
+        subject=subject,
+        notes=notes
+    )
+    
 #--------------papers--------------------
 @app.route("/papers")
 def papers():   
@@ -226,38 +236,96 @@ def papers():
 
     return render_template("papers.html", papers=papers_list)   
 
-#========================paper add================================
+#======================== paper add ================================
+
+UPLOAD_FOLDER = "static/uploads"
+
+app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
+
+
 @app.route("/add_paper", methods=["GET","POST"])
 def add_paper():
 
     if request.method == "POST":
 
-        title = request.form["title"]
-        year = request.form["year"]
-        file_name = request.form["file_name"]
 
+        title = request.form["title"]
+
+        year = request.form["year"]
+
+
+        file = request.files["paper_file"]
+
+
+
+        if file.filename == "":
+
+            flash("Please select PDF file","danger")
+
+            return redirect("/add_paper")
+
+
+
+        filename = secure_filename(file.filename)
+
+
+
+        # create upload folder if not exists
+
+        if not os.path.exists(UPLOAD_FOLDER):
+
+            os.makedirs(UPLOAD_FOLDER)
+
+
+
+        # save pdf
+
+        file.save(
+            os.path.join(
+                UPLOAD_FOLDER,
+                filename
+            )
+        )
+
+
+
+        # save filename in database
 
         conn = sqlite3.connect("database.db")
+
         cur = conn.cursor()
+
 
 
         cur.execute("""
         INSERT INTO papers(title, year, file_name)
         VALUES(?,?,?)
         """,
-        (title, year, file_name))
+        (
+            title,
+            year,
+            filename
+        ))
+
 
 
         conn.commit()
+
         conn.close()
 
 
-        flash("Paper Added Successfully","success")
+
+        flash(
+            "Paper Added Successfully",
+            "success"
+        )
+
 
         return redirect("/papers")
 
 
-    return render_template("add_paper.html")   
+
+    return render_template("add_paper.html")
 
 #========================paper manage================================ 
 @app.route("/manage_papers")
@@ -276,6 +344,222 @@ def manage_papers():
         "manage_papers.html",
         papers=papers
     )  
+
+#======================== delete paper ========================
+
+@app.route("/admin/delete/<int:id>")
+def delete_paper(id):
+
+    # only admin access
+    if session.get("role") != "admin":
+        return "Unauthorized Access",403
+
+
+    conn = sqlite3.connect("database.db")
+    cur = conn.cursor()
+
+
+    # get file name before delete
+    cur.execute(
+        "SELECT file_name FROM papers WHERE id=?",
+        (id,)
+    )
+
+    paper = cur.fetchone()
+
+
+
+    if paper:
+
+        file_path = os.path.join(
+            "static/uploads",
+            paper[0]
+        )
+
+
+        # delete pdf file
+        if os.path.exists(file_path):
+
+            os.remove(file_path)
+
+
+
+        # delete database record
+        cur.execute(
+            "DELETE FROM papers WHERE id=?",
+            (id,)
+        )
+
+        paper = cur.fetchone()
+
+        print("PAPER DATA:", paper)
+
+        conn.commit()
+
+
+
+    conn.close()
+
+
+    flash(
+        "Paper Deleted Successfully",
+        "success"
+    )
+
+
+    return redirect("/manage_papers")
+
+#======================== edit paper ========================
+
+@app.route("/admin/edit/<int:id>", methods=["GET","POST"])
+def edit_paper(id):
+
+    if session.get("role") != "admin":
+        return "Unauthorized Access",403
+
+
+    conn = sqlite3.connect("database.db")
+    cur = conn.cursor()
+
+
+    # POST UPDATE
+    if request.method == "POST":
+
+        title = request.form["title"]
+        year = request.form["year"]
+
+        new_file = request.files.get("paper_file")
+
+
+        # old file get
+        cur.execute(
+            "SELECT file_name FROM papers WHERE id=?",
+            (id,)
+        )
+
+        old_paper = cur.fetchone()
+
+        old_file = old_paper[0]
+
+
+
+        # if new pdf uploaded
+        if new_file and new_file.filename != "":
+
+            filename = new_file.filename
+
+
+            upload_path = os.path.join(
+                "static/uploads",
+                filename
+            )
+
+
+            new_file.save(upload_path)
+
+
+
+            # delete old pdf
+            old_path = os.path.join(
+                "static/uploads",
+                old_file
+            )
+
+
+            if os.path.exists(old_path):
+                os.remove(old_path)
+
+
+
+            cur.execute("""
+            UPDATE papers
+            SET title=?, year=?, file_name=?
+            WHERE id=?
+            """,
+            (
+                title,
+                year,
+                filename,
+                id
+            ))
+
+
+        else:
+
+
+            cur.execute("""
+            UPDATE papers
+            SET title=?, year=?
+            WHERE id=?
+            """,
+            (
+                title,
+                year,
+                id
+            ))
+
+
+
+        conn.commit()
+        conn.close()
+
+
+        flash(
+            "Paper Updated Successfully",
+            "success"
+        )
+
+
+        return redirect("/manage_papers")
+
+
+
+
+    # GET DATA
+
+    cur.execute(
+        "SELECT * FROM papers WHERE id=?",
+        (id,)
+    )
+
+    paper = cur.fetchone()
+
+
+    conn.close()
+
+
+    return render_template(
+        "edit_paper.html",
+        paper=paper
+    )
+
+#======================== view paper ========================
+
+@app.route("/view_paper/<int:id>")
+def view_paper(id):
+
+    conn = get_db()
+    cursor = conn.cursor()
+
+    cursor.execute(
+        "SELECT * FROM papers WHERE id=?",
+        (id,)
+    )
+
+    paper = cursor.fetchone()
+
+    conn.close()
+
+
+    if paper:
+
+        return render_template(
+            "paper_view.html",
+            paper=paper
+        )
+
+
+    return "Paper Not Found",404
 # ---------------- SUBJECTS----------------
 @app.route("/subjects")
 def subjects():
@@ -330,172 +614,6 @@ def subject_page(name):
     else:
         return "Subject not found", 404
 
-# ---------------- CHATBOT ask ai----------------
-
-def ask_ai(question, subject):
-
-    question = question.lower()
-
-
-    # Python
-
-    if subject == "Python":
-
-        if "list" in question:
-
-            return """
-📘 Python - List
-
-Definition:
-Python List is an ordered and mutable collection used to store multiple values.
-
-✨ Features:
-• Ordered collection
-• Allows duplicate values
-• Mutable (can be changed)
-• Supports different data types
-
-Example:
-
-numbers = [10,20,30]
-
-Used when we need to store multiple items together.
-"""
-
-
-        elif "function" in question:
-
-            return """
-📘 Python - Function
-
-A function is a reusable block of code that performs a specific task.
-
-✨ Advantages:
-• Code reusability
-• Easy debugging
-• Reduces code repetition
-
-Example:
-
-def hello():
-    print("Hello Student")
-"""
-
-
-        elif "python" in question:
-
-            return """
-🐍 Python Programming
-
-Python is a high-level programming language known for simple syntax and powerful libraries.
-
-📚 Used in:
-• Web Development
-• Data Science
-• AI & Machine Learning
-• Automation
-"""
-
-
-        else:
-
-            return """
-🤖 AI Academic Assistant
-
-Python Topics Available:
-
-1. Variables
-2. Data Types
-3. List
-4. Tuple
-5. Function
-6. OOP Concepts
-
-Ask your topic name to learn more.
-"""
-
-
-
-    # Java
-
-    elif subject == "Java":
-
-        return """
-☕ Java Programming
-
-Java is an object-oriented programming language.
-
-Key Concepts:
-
-• Class
-• Object
-• Inheritance
-• Polymorphism
-• Exception Handling
-
-Ask any Java topic for explanation.
-"""
-
-
-
-    # DBMS
-
-    elif subject == "DBMS":
-
-        return """
-🗄️ DBMS
-
-Database Management System is software used to store,
-manage and retrieve data.
-
-Important Topics:
-
-• SQL
-• Primary Key
-• Foreign Key
-• Normalization
-• ER Diagram
-"""
-
-
-
-    # DCN
-
-    elif subject == "DCN":
-
-        return """
-🌐 Data Communication and Networks
-
-DCN deals with communication between computers.
-
-Important Topics:
-
-• OSI Model
-• TCP/IP
-• Switching
-• Transmission Media
-• Network Devices
-"""
-
-
-
-    # Default
-
-    else:
-
-        return """
-🤖 Welcome to AI Academic Copilot
-
-I can help you with:
-
-📘 Python
-☕ Java
-🗄️ DBMS
-🌐 DCN
-⚙️ Operating System
-
-Select a subject and ask your doubt.
-"""
 #---------------AI Roadmap Function---------------------
 def generate_roadmap(subject, goal, days, level):
 
@@ -555,6 +673,7 @@ def roadmap():
         roadmap=roadmap
     )
 
+
 #========================== CHATBOT =========================
 @app.route("/chatbot", methods=["GET", "POST"])
 def chatbot():
@@ -563,82 +682,107 @@ def chatbot():
     conn.row_factory = sqlite3.Row
     cur = conn.cursor()
 
-
     user_id = session.get("user_id")
-
 
     if not user_id:
         return redirect(url_for("login"))
 
-
-
-    # AJAX POST
-
+    # ===================== POST =====================
     if request.method == "POST":
-
 
         data = request.get_json()
 
-
         subject = data.get("subject")
-
         question = data.get("question")
 
+        system_prompt = f"""
+You are AI Academic Copilot.
 
+You are an AI assistant specially designed for Diploma and Engineering students.
 
-        # AI response generate
+Rules:
+1. Answer ONLY academic questions.
+2. Subjects include:
+   - Python
+   - Java
+   - DBMS
+   - Operating System
+   - Computer Networks (DCN)
+   - Data Structures
+   - Software Engineering
+   - Digital Electronics
+   - Microprocessor
+   - C Programming
+   - Mathematics
+3. Explain concepts in simple and easy language.
+4. Give examples whenever possible.
+5. If the user asks anything unrelated to academics (movies, cricket, celebrities, politics, jokes, etc.), politely reply:
+6.Give answer in 2 lines if user says definaation otherwise explain  
 
-        answer = ask_ai(question, subject)
+"Sorry! I am an Academic AI Assistant. I can answer only Diploma and Engineering academic questions."
 
+Current Subject: {subject}
+"""
 
+        try:
 
-        # Save chat history
+            response = client.chat.completions.create(
 
+                model="llama-3.3-70b-versatile",
+
+                messages=[
+                    {
+                        "role": "system",
+                        "content": system_prompt
+                    },
+                    {
+                        "role": "user",
+                        "content": question
+                    }
+                ],
+
+                temperature=0.5,
+                max_tokens=1000
+
+            )
+
+            answer = response.choices[0].message.content
+
+        except Exception as e:
+
+            answer = f"Error: {str(e)}"
+
+        # Save Chat History
         cur.execute("""
-        INSERT INTO chat_history
-        (user_id, subject, question, answer)
-        VALUES (?, ?, ?, ?)
-        """,
-        (
+            INSERT INTO chat_history
+            (user_id, subject, question, answer)
+            VALUES (?, ?, ?, ?)
+        """, (
             user_id,
             subject,
             question,
             answer
         ))
 
-
         conn.commit()
-
-
         conn.close()
 
-
-
         return jsonify({
-
             "answer": answer
-
         })
 
-
-
-
-    # GET request
+    # ===================== GET =====================
 
     cur.execute("""
-    SELECT *
-    FROM chat_history
-    WHERE user_id=?
-    ORDER BY id ASC
-    """,
-    (user_id,))
-
+        SELECT *
+        FROM chat_history
+        WHERE user_id=?
+        ORDER BY id ASC
+    """, (user_id,))
 
     chats = cur.fetchall()
 
-
     conn.close()
-
 
     return render_template(
         "chatbot.html",
@@ -662,7 +806,7 @@ def clear_chat():
 
     return redirect(url_for("chatbot"))
 
-# ---------------- QUIZ ----------------
+# ---------------- QUIZ ----------------------------------------
 
 @app.route("/quiz")
 def quiz():
@@ -921,41 +1065,6 @@ def leaderboard():
         your_rank=your_rank
     )
 # ---------------- REGISTER ----------------
-# @app.route("/register", methods=["GET", "POST"])
-# def register():
-
-#     if request.method == "POST":
-
-#         fullname = request.form["fullname"]
-#         email = request.form["email"]
-#         username = request.form["username"]
-#         password = request.form["password"]
-
-#         conn = sqlite3.connect("database.db")
-#         cur = conn.cursor()
-
-#         try:
-
-#             cur.execute("""
-#             INSERT INTO users(fullname,email,username,password)
-#             VALUES(?,?,?,?)
-#             """,(fullname,email,username,password))
-
-#             conn.commit()
-
-#             flash("Account Created Successfully ✅","success")
-
-#             return redirect(url_for("login"))
-
-#         except sqlite3.IntegrityError:
-
-#             flash("Email or Username already exists","danger")
-
-#         finally:
-
-#             conn.close()
-
-#     return render_template("register.html")
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -1225,10 +1334,6 @@ def profile():
 
     quiz_count = cur.fetchone()[0]
 
-
-
-    # Notes Count (जर notes table असेल तर)
-    # नाही असेल तर 0 ठेवू
     notes_count = 0
 
         # Total Login Days
@@ -1305,3 +1410,4 @@ def logout():
 
 if __name__ == "__main__":
     app.run(debug=True)
+    
