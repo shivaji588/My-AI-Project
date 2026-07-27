@@ -158,10 +158,30 @@ border-radius:25px;
 font-weight:bold;
 
 }
+.back-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    margin-bottom:20px;
+    padding:12px 20px;
+    background:#1e3a8a;
+    color:#fff;
+    text-decoration:none;
+    border-radius:12px;
+    font-weight:600;
+    transition:.3s;
+    box-shadow:0 5px 15px rgba(30,58,138,.25);
+}
 
+.back-btn:hover{
+    background:#2563eb;
+    transform:translateY(-2px);
+}
 
 </style>
-
+<a href="{{ url_for('admin') }}" class="back-btn">
+    ⬅️ Back to Admin Panel
+</a>
 
 
 <div class="user-container">

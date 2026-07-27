@@ -60,31 +60,49 @@ def init_db():
     """)
 
     #chat history page
+    # CHAT HISTORY TABLE
     cursor.execute("""
-        CREATE TABLE IF NOT EXISTS chat_history (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        user_id INTEGER NOT NULL,
-        subject TEXT,
-        question TEXT NOT NULL,
-        answer TEXT NOT NULL,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        FOREIGN KEY(user_id) REFERENCES users(id)
-    )   
+    CREATE TABLE IF NOT EXISTS chat_history (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER NOT NULL,
+    subject TEXT,
+    question TEXT NOT NULL,
+    answer TEXT NOT NULL,
+    feedback TEXT DEFAULT 'Not Rated',
+    chat_id TEXT,
+    chat_title TEXT,
+    is_reported INTEGER DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY(user_id) REFERENCES users(id)
+    )
     """)
 
     # ================= CHAT HISTORY MIGRATION =================
 
+    # Add chat_id column
     try:
         cursor.execute("""
-            ALTER TABLE chat_history ADD COLUMN chat_id TEXT
+            ALTER TABLE chat_history 
+            ADD COLUMN chat_id TEXT
         """)
     except sqlite3.OperationalError:
         pass
 
 
+    # Add chat_title column
     try:
         cursor.execute("""
-            ALTER TABLE chat_history ADD COLUMN chat_title TEXT
+            ALTER TABLE chat_history 
+            ADD COLUMN chat_title TEXT
+        """)
+    except sqlite3.OperationalError:
+        pass
+
+    # Add report status column
+    try:
+        cursor.execute("""
+            ALTER TABLE chat_history 
+            ADD COLUMN is_reported INTEGER DEFAULT 0
         """)
     except sqlite3.OperationalError:
         pass
