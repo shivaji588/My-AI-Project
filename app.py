@@ -24,7 +24,7 @@ client = Groq(
 )
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))   #Base path app.py ka path show
-DB_PATH = os.path.join(BASE_DIR, "database.db")         #Database Path
+DB_PATH = "/home/YogitaDalvi/database.db"        #Database Path
 
 init_db()  # Initialize the database on app startup
 
@@ -62,7 +62,7 @@ def manage_users():
         return redirect("/")
 
 
-    conn = sqlite3.connect("database.db")
+    conn = sqlite3.connect(DB_PATH)
     cur = conn.cursor()
 
     cur.execute("""
@@ -84,7 +84,7 @@ def manage_users():
 @app.route("/change_role/<int:id>")
 def change_role(id):
 
-    conn = sqlite3.connect("database.db")
+    conn = sqlite3.connect(DB_PATH)
     cur = conn.cursor()
 
 
@@ -109,7 +109,7 @@ def change_role(id):
 @app.route("/delete_user/<int:id>")
 def delete_user(id):
 
-    conn = sqlite3.connect("database.db")
+    conn = sqlite3.connect(DB_PATH)
     cur = conn.cursor()
 
 
@@ -133,7 +133,7 @@ def user_details(id):
         return redirect("/")
 
 
-    conn = sqlite3.connect("database.db")
+    conn = sqlite3.connect(DB_PATH)
     cur = conn.cursor()
 
 
@@ -295,7 +295,7 @@ def notes():
         flash("Please login first to access this page.", "warning")
         return redirect(url_for("login"))
 
-    conn = sqlite3.connect("database.db")
+    conn = sqlite3.connect(DB_PATH)
     cur = conn.cursor()
 
     today = datetime.date.today().isoformat()
@@ -420,11 +420,9 @@ def add_paper():
             )
         )
 
-
-
         # save filename in database
 
-        conn = sqlite3.connect("database.db")
+        conn = sqlite3.connect(DB_PATH)
 
         cur = conn.cursor()
 
@@ -464,7 +462,7 @@ def add_paper():
 @app.route("/manage_papers")
 def manage_papers():
 
-    conn = sqlite3.connect("database.db")
+    conn = sqlite3.connect(DB_PATH)
     cur = conn.cursor()
 
     cur.execute("SELECT * FROM papers")
@@ -488,7 +486,7 @@ def delete_paper(id):
         return "Unauthorized Access",403
 
 
-    conn = sqlite3.connect("database.db")
+    conn = sqlite3.connect(DB_PATH)
     cur = conn.cursor()
 
 
@@ -551,7 +549,7 @@ def edit_paper(id):
         return "Unauthorized Access",403
 
 
-    conn = sqlite3.connect("database.db")
+    conn = sqlite3.connect(DB_PATH)
     cur = conn.cursor()
 
 
@@ -811,7 +809,7 @@ def roadmap():
 @app.route("/chatbot", methods=["GET", "POST"])
 def chatbot():
 
-    conn = sqlite3.connect("database.db")
+    conn = sqlite3.connect(DB_PATH)
     conn.row_factory = sqlite3.Row
     cur = conn.cursor()
 
@@ -932,7 +930,7 @@ Current Subject: {subject}
 # @login_required
 def clear_chat():
 
-    conn = sqlite3.connect("database.db")
+    conn = sqlite3.connect(DB_PATH)
     cur = conn.cursor()
 
     cur.execute("""
@@ -1248,7 +1246,7 @@ def register():
         # 🔥 FIX HERE
         password = generate_password_hash(request.form["password"])
 
-        conn = sqlite3.connect("database.db")
+        conn = sqlite3.connect(DB_PATH)
         cur = conn.cursor()
 
         try:
@@ -1281,7 +1279,7 @@ def login():
         username = request.form["username"]
         password = request.form["password"]
 
-        conn = sqlite3.connect("database.db")
+        conn = sqlite3.connect(DB_PATH)
         cur = conn.cursor()
 
         cur.execute("SELECT * FROM users WHERE username=?", (username,))
@@ -1300,7 +1298,7 @@ def login():
             import datetime
             today = datetime.date.today().isoformat()
 
-            conn2 = sqlite3.connect("database.db")
+            conn2 = sqlite3.connect(DB_PATH)
             cur2 = conn2.cursor()
 
             cur2.execute("""
@@ -1324,7 +1322,7 @@ def login():
 @app.route("/dashboard")
 def dashboard():
 
-    conn = sqlite3.connect("database.db")
+    conn = sqlite3.connect(DB_PATH)
     cur = conn.cursor()
 
     import datetime
@@ -1480,7 +1478,7 @@ def profile():
         return redirect("/login")
 
 
-    conn = sqlite3.connect("database.db")
+    conn = sqlite3.connect(DB_PATH)
     cur = conn.cursor()
 
 
