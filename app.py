@@ -24,7 +24,7 @@ client = Groq(
 )
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))   #Base path app.py ka path show
-DB_PATH = "/home/YogitaDalvi/database.db"        #Database Path
+DB_PATH = os.path.join(BASE_DIR, "database.db")         #Database Path
 
 init_db()  # Initialize the database on app startup
 
