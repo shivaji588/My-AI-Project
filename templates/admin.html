@@ -4,121 +4,259 @@
 
 <style>
 
-.admin-page{
-
-    min-height:90vh;
-    padding:50px;
-    background:linear-gradient(135deg,#eef2ff,#f8fafc);
-
+*{
+    box-sizing:border-box;
 }
 
+body{
+    background:#f4f7fc;
+}
 
-/* HEADER */
+.admin-container{
+    width:95%;
+    max-width:1400px;
+    margin:40px auto;
+}
 
-.admin-header{
+/* ================= HERO ================= */
 
-    background:linear-gradient(135deg,#2563eb,#7c3aed);
+.hero{
+
+    background:linear-gradient(135deg,#2563eb,#4f46e5,#7c3aed);
+
+    border-radius:28px;
+
+    padding:45px;
 
     color:white;
 
-    padding:40px;
+    display:flex;
 
-    border-radius:30px;
+    justify-content:space-between;
 
-    text-align:center;
+    align-items:center;
 
-    box-shadow:0 20px 40px rgba(0,0,0,.15);
+    flex-wrap:wrap;
+
+    box-shadow:0 18px 40px rgba(37,99,235,.30);
 
 }
 
+.hero h1{
 
-.admin-header h1{
+    margin:0;
 
     font-size:42px;
-    margin-bottom:10px;
+
+    font-weight:700;
 
 }
 
+.hero p{
 
+    margin-top:12px;
 
-/* GRID */
+    color:#e0e7ff;
 
-.admin-grid{
+    font-size:18px;
 
-    margin-top:40px;
+}
+
+.hero-icon{
+
+    font-size:90px;
+
+}
+
+/* ================= STATS ================= */
+
+.stats{
+
+    margin:35px 0;
 
     display:grid;
 
     grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
 
-    gap:25px;
+    gap:22px;
 
 }
 
+.stat{
 
+    background:#fff;
 
+    border-radius:20px;
 
-/* CARDS */
+    padding:25px;
 
+    display:flex;
 
-.admin-card{
+    align-items:center;
 
-    background:white;
+    gap:18px;
 
-    padding:35px 25px;
-
-    border-radius:25px;
-
-    text-align:center;
-
-    box-shadow:0 15px 30px rgba(0,0,0,.08);
+    box-shadow:0 12px 25px rgba(0,0,0,.08);
 
     transition:.3s;
 
 }
 
+.stat:hover{
 
+    transform:translateY(-8px);
 
-.admin-card:hover{
+}
+
+.stat-icon{
+
+    width:65px;
+
+    height:65px;
+
+    border-radius:18px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:30px;
+
+    background:#eef2ff;
+
+}
+
+.stat h2{
+
+    margin:0;
+
+    color:#1e3a8a;
+
+}
+
+.stat p{
+
+    margin-top:6px;
+
+    color:#64748b;
+
+}
+
+/* ================= GRID ================= */
+
+.admin-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(270px,1fr));
+
+    gap:28px;
+
+}
+
+/* ================= CARD ================= */
+
+.card{
+
+    background:white;
+
+    border-radius:24px;
+
+    padding:30px;
+
+    text-align:center;
+
+    box-shadow:0 12px 30px rgba(0,0,0,.08);
+
+    transition:.35s;
+
+    position:relative;
+
+    overflow:hidden;
+
+}
+
+.card::before{
+
+    content:"";
+
+    position:absolute;
+
+    top:0;
+
+    left:0;
+
+    width:100%;
+
+    height:6px;
+
+    background:linear-gradient(90deg,#2563eb,#7c3aed);
+
+}
+
+.card:hover{
 
     transform:translateY(-10px);
 
-    box-shadow:0 25px 45px rgba(0,0,0,.15);
+    box-shadow:0 20px 40px rgba(0,0,0,.15);
 
 }
 
+.icon{
 
+    width:85px;
 
-.admin-icon{
+    height:85px;
 
-    font-size:45px;
+    margin:auto;
 
-    margin-bottom:15px;
+    border-radius:50%;
+
+    background:linear-gradient(135deg,#2563eb,#7c3aed);
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    color:white;
+
+    font-size:38px;
+
+    margin-bottom:20px;
 
 }
 
-
-
-.admin-card h3{
+.card h3{
 
     color:#1e293b;
 
+    margin-bottom:12px;
+
 }
 
+.card p{
 
+    color:#64748b;
 
+    min-height:48px;
 
-/* BUTTON */
+}
 
-.admin-btn{
+/* ================= BUTTON ================= */
+
+.btn{
 
     display:inline-block;
 
-    margin-top:15px;
+    margin-top:18px;
 
-    padding:12px 25px;
+    padding:12px 28px;
 
-    border-radius:30px;
+    border-radius:50px;
 
     background:#2563eb;
 
@@ -126,15 +264,13 @@
 
     text-decoration:none;
 
-    font-weight:bold;
+    font-weight:600;
 
     transition:.3s;
 
 }
 
-
-
-.admin-btn:hover{
+.btn:hover{
 
     background:#1d4ed8;
 
@@ -142,165 +278,248 @@
 
 }
 
+.home{
 
+    background:#10b981;
 
+}
 
-/* DANGER */
+.home:hover{
 
-.logout-btn{
+    background:#059669;
+
+}
+
+.logout{
 
     background:#ef4444;
 
 }
 
-
-
-.logout-btn:hover{
+.logout:hover{
 
     background:#dc2626;
 
 }
 
-
-
 </style>
 
+<div class="admin-container">
 
+<!-- ================= HEADER ================= -->
 
-<div class="admin-page">
+<div class="hero">
 
+<div>
 
-<!-- HEADER -->
+<h1>⚙ AI Academic Copilot</h1>
 
-<div class="admin-header">
-
-<h1>
-⚙ Admin Dashboard
-</h1>
-
-<p>
-Manage AI Academic Copilot System
-</p>
-
+<p>Professional Admin Control Panel</p>
 
 </div>
 
+<div class="hero-icon">
 
+🛡️
 
+</div>
 
+</div>
 
-<!-- CARDS -->
+<!-- ================= STATS ================= -->
+
+<div class="stats">
+
+<div class="stat">
+
+<div class="stat-icon">👥</div>
+
+<div>
+
+<h2>Users</h2>
+
+<p>Manage Students</p>
+
+</div>
+
+</div>
+
+<div class="stat">
+
+<div class="stat-icon">📄</div>
+
+<div>
+
+<h2>Papers</h2>
+
+<p>Question Paper Library</p>
+
+</div>
+
+</div>
+
+<div class="stat">
+
+<div class="stat-icon">🤖</div>
+
+<div>
+
+<h2>AI</h2>
+
+<p>Chat Monitoring</p>
+
+</div>
+
+</div>
+
+<div class="stat">
+
+<div class="stat-icon">📊</div>
+
+<div>
+
+<h2>Reports</h2>
+
+<p>Quiz Analytics</p>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ================= MODULES ================= -->
 
 <div class="admin-grid">
 
+<!-- USER -->
 
+<div class="card">
 
-<div class="admin-card">
+<div class="icon">👥</div>
 
-<div class="admin-icon">
-👥
-</div>
+<h3>User Management</h3>
 
-<h3>
-User Management
-</h3>
+<p>View, search and manage all registered students.</p>
 
-<p>
-View, edit and manage students
-</p>
+<a href="/manage_users" class="btn">
 
-
-<a href="/manage_users" class="admin-btn">
 Manage Users
+
 </a>
 
-
 </div>
 
+<!-- PAPER -->
 
+<div class="card">
 
+<div class="icon">📄</div>
 
+<h3>Paper Management</h3>
 
+<p>Edit, upload and organize previous year papers.</p>
 
-<div class="admin-card">
+<a href="/manage_papers" class="btn">
 
-<div class="admin-icon">
-📄
-</div>
-
-<h3>
-Paper Management
-</h3>
-
-<p>
-Add, edit and delete papers
-</p>
-
-
-<a href="/manage_papers" class="admin-btn">
 Manage Papers
+
 </a>
 
-
 </div>
 
+<!-- ADD PAPER -->
 
+<div class="card">
 
+<div class="icon">➕</div>
 
+<h3>Add Paper</h3>
 
+<p>Upload new examination papers with subject and year.</p>
 
+<a href="/add_paper" class="btn">
 
-<div class="admin-card">
+Upload Paper
 
-<div class="admin-icon">
-➕
-</div>
-
-<h3>
-Add New Paper
-</h3>
-
-<p>
-Upload new study papers
-</p>
-
-
-<a href="/add_paper" class="admin-btn">
-Add Paper
 </a>
 
+</div>
+
+<!-- CHAT -->
+
+<div class="card">
+
+<div class="icon">🤖</div>
+
+<h3>AI Chat History</h3>
+
+<p>Monitor AI conversations, feedback and student queries.</p>
+
+<a href="/chat_history" class="btn">
+
+View Chats
+
+</a>
 
 </div>
 
-<div class="admin-card">
+<!-- QUIZ -->
 
-<div class="admin-icon">
-🏠
+<div class="card">
+
+<div class="icon">📊</div>
+
+<h3>Quiz Results</h3>
+
+<p>Analyze quiz scores and student performance.</p>
+
+<a href="/quiz_results" class="btn">
+
+View Results
+
+</a>
+
 </div>
 
-<h3>
-Home Page
-</h3>
+<!-- HOME -->
 
-<p>
-Return to main website
-</p>
+<div class="card">
 
+<div class="icon">🏠</div>
 
-<a href="/" class="admin-btn">
+<h3>Home</h3>
+
+<p>Return to the AI Academic Copilot home page.</p>
+
+<a href="/" class="btn home">
+
 Go Home
+
 </a>
 
+</div>
+
+<!-- LOGOUT -->
+
+<div class="card">
+
+<div class="icon">🚪</div>
+
+<h3>Logout</h3>
+
+<p>Securely sign out from the admin dashboard.</p>
+
+<a href="/logout" class="btn logout">
+
+Logout
+
+</a>
 
 </div>
 
-
-
-
 </div>
 
-
 </div>
-
 
 {% endblock %}

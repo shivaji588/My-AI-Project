@@ -153,7 +153,140 @@ def user_details(id):
         "user_details.html",
         user=user
     )
+#================ ADMIN CHAT HISTORY =================
 
+@app.route("/chat_history")
+def chat_history():
+
+    if session.get("role") != "admin":
+        flash("Admin access only!", "danger")
+        return redirect(url_for("dashboard"))
+
+    conn = sqlite3.connect(DB_PATH)
+    conn.row_factory = sqlite3.Row
+    cur = conn.cursor()
+
+    search = request.args.get("search", "")
+
+    # ================= DASHBOARD STATS =================
+
+    cur.execute("SELECT COUNT(*) FROM chat_history")
+    total_chats = cur.fetchone()[0]
+
+    cur.execute("""
+        SELECT COUNT(*)
+        FROM chat_history
+        WHERE feedback='Helpful'
+    """)
+    helpful = cur.fetchone()[0]
+
+    cur.execute("""
+        SELECT COUNT(*)
+        FROM chat_history
+        WHERE feedback='Not Helpful'
+    """)
+    not_helpful = cur.fetchone()[0]
+
+    cur.execute("""
+        SELECT COUNT(DISTINCT user_id)
+        FROM chat_history
+    """)
+    total_users = cur.fetchone()[0]
+
+    # ================= CHAT LIST =================
+
+    if search:
+
+        cur.execute("""
+        SELECT
+            chat_history.id,
+            users.username,
+            chat_history.subject,
+            chat_history.question,
+            chat_history.answer,
+            chat_history.feedback,
+            chat_history.created_at
+
+        FROM chat_history
+
+        JOIN users
+        ON chat_history.user_id = users.id
+
+        WHERE
+            users.username LIKE ?
+            OR chat_history.subject LIKE ?
+            OR chat_history.question LIKE ?
+
+        ORDER BY chat_history.id DESC
+        """,
+        (
+            "%" + search + "%",
+            "%" + search + "%",
+            "%" + search + "%"
+        ))
+
+    else:
+
+        cur.execute("""
+        SELECT
+            chat_history.id,
+            users.username,
+            chat_history.subject,
+            chat_history.question,
+            chat_history.answer,
+            chat_history.feedback,
+            chat_history.created_at
+
+        FROM chat_history
+
+        JOIN users
+        ON chat_history.user_id = users.id
+
+        ORDER BY chat_history.id DESC
+        """)
+
+    chats = cur.fetchall()
+
+    conn.close()
+
+    return render_template(
+        "chat_history.html",
+        chats=chats,
+        total_chats=total_chats,
+        helpful=helpful,
+        not_helpful=not_helpful,
+        total_users=total_users
+    )
+#================ DELETE CHAT =================
+
+@app.route("/delete_chat/<int:id>")
+def delete_chat(id):
+
+    if session.get("role") != "admin":
+        return "Unauthorized Access",403
+
+
+    conn = sqlite3.connect(DB_PATH)
+    cur = conn.cursor()
+
+
+    cur.execute("""
+    DELETE FROM chat_history
+    WHERE id=?
+    """,(id,))
+
+
+    conn.commit()
+    conn.close()
+
+
+    flash(
+        "Chat deleted successfully",
+        "success"
+    )
+
+
+    return redirect("/chat_history")
 #----------------NOTES----------------
 @app.route("/notes")
 def notes():
@@ -764,13 +897,19 @@ Current Subject: {subject}
             answer
         ))
 
+
+        # get inserted chat id
+        chat_id = cur.lastrowid
+
+
         conn.commit()
         conn.close()
 
-        return jsonify({
-            "answer": answer
-        })
 
+        return jsonify({
+            "answer": answer,
+            "chat_id": chat_id
+        })
     # ===================== GET =====================
 
     cur.execute("""
@@ -803,6 +942,37 @@ def clear_chat():
 
     conn.commit()
     conn.close()
+
+    return redirect(url_for("chatbot"))
+
+#================ CHAT FEEDBACK =================
+
+@app.route("/chat_feedback/<int:id>/<status>")
+def chat_feedback(id,status):
+
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
+
+    conn = sqlite3.connect(DB_PATH)
+    cur = conn.cursor()
+
+
+    cur.execute("""
+    UPDATE chat_history
+    SET feedback=?
+    WHERE id=? AND user_id=?
+    """,
+    (
+        status,
+        id,
+        session["user_id"]
+    ))
+
+
+    conn.commit()
+    conn.close()
+
 
     return redirect(url_for("chatbot"))
 

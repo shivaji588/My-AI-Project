@@ -451,6 +451,21 @@ chatBox.innerHTML += `
 
 ${data.answer.replace(/\n/g,"<br>")}
 
+<br><br>
+
+<div class="feedback">
+
+<p>Was this answer helpful?</p>
+
+<a href="/chat_feedback/${data.chat_id}/Helpful">
+👍 Helpful
+</a>
+
+<a href="/chat_feedback/${data.chat_id}/Not Helpful">
+👎 Not Helpful
+</a>
+
+</div>
 
 
 <button
