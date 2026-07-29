@@ -13,7 +13,6 @@
     overflow:hidden;
 }
 
-/* glowing effect */
 .ai-quiz-container::before{
     content:"";
     position:absolute;
@@ -26,7 +25,6 @@
     opacity:0.35;
 }
 
-/* TITLE */
 .ai-quiz-container h1{
     font-size:38px;
     margin-bottom:10px;
@@ -37,86 +35,107 @@
     margin-bottom:40px;
 }
 
-/* GRID */
+
 .quiz-grid{
     display:grid;
     grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
     gap:25px;
 }
 
-/* CARD */
+
 .quiz-card{
-    background: rgba(255,255,255,0.07);
-    backdrop-filter: blur(12px);
+    background:rgba(255,255,255,0.07);
+    backdrop-filter:blur(12px);
     padding:25px;
     border-radius:20px;
     box-shadow:0 10px 30px rgba(0,0,0,0.3);
     transition:0.3s;
     border:1px solid rgba(255,255,255,0.1);
-    animation: fadeUp 0.6s ease forwards;
 }
 
-/* animation */
-@keyframes fadeUp{
-    from{
-        opacity:0;
-        transform:translateY(25px);
-    }
-    to{
-        opacity:1;
-        transform:translateY(0);
-    }
-}
 
-/* hover */
 .quiz-card:hover{
     transform:translateY(-10px) scale(1.03);
     border:1px solid #6366f1;
     box-shadow:0 15px 40px rgba(99,102,241,0.3);
 }
 
-/* ICON */
+
 .quiz-icon{
     font-size:40px;
     margin-bottom:10px;
 }
 
-/* BUTTON */
+
+/* BUTTONS */
+
 .quiz-card a{
+
     display:inline-block;
+
     margin-top:15px;
+
     padding:10px 18px;
+
     border-radius:25px;
+
     text-decoration:none;
+
     font-weight:bold;
+
     color:white;
-    background: linear-gradient(90deg,#6366f1,#22c55e);
+
+    background:linear-gradient(90deg,#6366f1,#22c55e);
+
     transition:0.3s;
+
 }
+
 
 .quiz-card a:hover{
+
     transform:scale(1.08);
+
 }
 
-/* floating dots */
+
+/* AI BUTTON */
+
+.ai-btn{
+
+    background:linear-gradient(90deg,#f59e0b,#ef4444) !important;
+
+    margin-left:8px;
+
+}
+
+
+.ai-btn:hover{
+
+    box-shadow:0 10px 25px rgba(245,158,11,.5);
+
+}
+
+
+/* dots */
+
 .dot{
+
     position:absolute;
     width:6px;
     height:6px;
     background:white;
     border-radius:50%;
     opacity:0.25;
-    animation: float 6s infinite ease-in-out;
+
 }
 
-@keyframes float{
-    0%,100%{ transform:translateY(0); }
-    50%{ transform:translateY(-20px); }
-}
 
 .leaderboard-btn{
 
     display:inline-block;
+
+    margin-top:35px;
 
     padding:10px 20px;
 
@@ -130,73 +149,155 @@
 
     font-weight:bold;
 
-    transition:0.3s;
-
-    box-shadow:0 8px 20px rgba(245,158,11,0.3);
-
 }
+
+
 .leaderboard-btn:hover{
 
     background:white;
+
     color:#f97316;
-    border:1px solid #f59e0b;
-
-    box-shadow:
-    0 0 10px rgba(245,158,11,.5),
-    0 10px 25px rgba(245,158,11,.3);
-
-    transform:translateY(-3px);
 
 }
+
 </style>
+
 
 <div class="ai-quiz-container">
 
-    <h1>🤖 AI Quiz Hub</h1>
-    <p>Test your knowledge with smart subject quizzes</p>
 
-    <!-- floating dots -->
-    <div class="dot" style="top:20%;left:10%"></div>
-    <div class="dot" style="top:40%;left:80%"></div>
-    <div class="dot" style="top:70%;left:30%"></div>
-    <div class="dot" style="top:60%;left:70%"></div>
-    
-    <div class="quiz-grid">
-        <div class="quiz-card">
+<h1>🤖 AI Quiz Hub</h1>
 
-            <div class="quiz-icon">🐍</div>
-            <h3>Python Quiz</h3>
-            <p>Test Python basics & logic</p>
-            <a href="/python_quiz">Start</a>
-        </div>
+<p>
+Test your knowledge with smart subject quizzes
+</p>
 
-        <div class="quiz-card">
-            <div class="quiz-icon">☕</div>
-            <h3>Java Quiz</h3>
-            <p>OOP & Java concepts</p>
-            <a href="/java_quiz">Start</a>
-        </div>
 
-        <div class="quiz-card">
-            <div class="quiz-icon">🗄</div>
-            <h3>DBMS Quiz</h3>
-            <p>Database fundamentals</p>
-            <a href="/dbms_quiz">Start</a>
-        </div>
 
-        <div class="quiz-card">
-            <div class="quiz-icon">🤖</div>
-            <h3>AI Quiz</h3>
-            <p>Artificial Intelligence basics</p>
-            <a href="/ai_quiz">Start</a>
-        </div>
+<div class="dot" style="top:20%;left:10%"></div>
+<div class="dot" style="top:40%;left:80%"></div>
+<div class="dot" style="top:70%;left:30%"></div>
+<div class="dot" style="top:60%;left:70%"></div>
 
-    </div>
 
-    <a href="/leaderboard" class="leaderboard-btn">
-    🏆 Leaderboard
-    </a>
+
+<div class="quiz-grid">
+
+
+
+<!-- PYTHON -->
+
+<div class="quiz-card">
+
+<div class="quiz-icon">🐍</div>
+
+<h3>Python Quiz</h3>
+
+<p>Test Python basics & logic</p>
+
+
+<a href="/python_quiz">
+Start
+</a>
+
+
+<a href="/ai_quiz_generator?subject=Python" class="ai-btn">
+🤖 AI Quiz
+</a>
+
 
 </div>
+
+
+
+
+<!-- JAVA -->
+
+<div class="quiz-card">
+
+<div class="quiz-icon">☕</div>
+
+<h3>Java Quiz</h3>
+
+<p>OOP & Java concepts</p>
+
+
+<a href="/java_quiz">
+Start
+</a>
+
+
+<a href="/ai_quiz_generator?subject=Java" class="ai-btn">
+🤖 AI Quiz
+</a>
+
+
+</div>
+
+
+
+
+<!-- DBMS -->
+
+<div class="quiz-card">
+
+<div class="quiz-icon">🗄</div>
+
+<h3>DBMS Quiz</h3>
+
+<p>Database fundamentals</p>
+
+
+<a href="/dbms_quiz">
+Start
+</a>
+
+
+<a href="/ai_quiz_generator?subject=DBMS" class="ai-btn">
+🤖 AI Quiz
+</a>
+
+
+</div>
+
+
+
+
+<!-- AI -->
+
+<div class="quiz-card">
+
+<div class="quiz-icon">🤖</div>
+
+<h3>AI Quiz</h3>
+
+<p>Artificial Intelligence basics</p>
+
+
+<a href="/ai_quiz">
+Start
+</a>
+
+
+<a href="/ai_quiz_generator?subject=AI" class="ai-btn">
+🤖 AI Quiz
+</a>
+
+
+</div>
+
+
+
+</div>
+
+
+
+<a href="/leaderboard" class="leaderboard-btn">
+🏆 Leaderboard
+</a>
+
+
+</div>
+
 
 {% endblock %}

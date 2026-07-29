@@ -1164,6 +1164,435 @@ def submit_ai_quiz():
     save_score("AI", score, 10)
     return render_template("result.html", score=score, total=10)
 
+#================ AI QUIZ GENERATOR =================
+
+import json
+
+
+@app.route('/ai_quiz_generator')
+def ai_quiz_generator():
+
+    if 'user_id' not in session:
+        return redirect('/login')
+
+
+    subject = request.args.get('subject')
+
+
+    prompt = f"""
+
+Generate exactly 10 multiple choice quiz questions for {subject}.
+
+IMPORTANT RULES:
+- Return ONLY valid JSON.
+- Do not add markdown.
+- Do not add ```json.
+- Do not add any extra text.
+- Start response with [
+- End response with ]
+
+JSON FORMAT:
+
+[
+ {{
+ "question":"Question text",
+ "options":[
+    "Option 1",
+    "Option 2",
+    "Option 3",
+    "Option 4"
+ ],
+ "answer":"Correct option exactly same as options",
+ "explanation":"Short explanation"
+ }}
+]
+
+
+Rules:
+- Questions should be diploma student level.
+- Each question must have exactly 4 options.
+- Answer must match one option exactly.
+- Explanation should be 1 or 2 lines only.
+
+Subject: {subject}
+
+"""
+
+
+    try:
+
+        response = client.chat.completions.create(
+
+            model="llama-3.1-8b-instant",
+
+            messages=[
+                {
+                    "role":"user",
+                    "content":prompt
+                }
+            ],
+
+            temperature=0.2
+        )
+
+
+        ai_response = response.choices[0].message.content
+
+
+        print("========= AI RESPONSE =========")
+        print(ai_response)
+        print("===============================")
+
+
+
+        # Remove markdown
+        ai_response = ai_response.replace(
+            "```json",
+            ""
+        )
+
+        ai_response = ai_response.replace(
+            "```",
+            ""
+        )
+
+
+        ai_response = ai_response.strip()
+
+
+
+        # Extract JSON only
+
+        start = ai_response.find("[")
+
+        end = ai_response.rfind("]") + 1
+
+
+
+        if start == -1 or end == 0:
+
+            raise Exception(
+                "JSON not found"
+            )
+
+
+
+        json_text = ai_response[start:end]
+
+
+
+        quiz_data = json.loads(
+            json_text
+        )
+
+
+
+        if not isinstance(quiz_data,list):
+
+            raise Exception(
+                "Invalid quiz list"
+            )
+
+
+
+    except Exception as e:
+
+
+        print(
+            "JSON ERROR:",
+            e
+        )
+
+
+        print(
+            "FAILED RESPONSE:",
+            ai_response
+        )
+
+
+        return """
+        <h2>
+        AI generated invalid quiz format
+        </h2>
+
+        <a href="javascript:history.back()">
+        Try Again
+        </a>
+        """
+
+
+
+    # Store quiz
+
+    session["ai_quiz"] = quiz_data
+
+    session["ai_subject"] = subject
+
+    session["current_question"] = 0
+
+    session["ai_answers"] = {}
+
+
+
+    return render_template(
+
+        "ai_quiz_generator.html",
+
+        subject=subject,
+
+        question=quiz_data[0],
+
+        number=1,
+
+        total=len(quiz_data),
+
+        current=0,
+
+        selected=None,
+
+        correct=None,
+
+        explanation=None
+
+    )
+#================ NEXT AI QUESTION =================
+@app.route('/next_ai_question')
+def next_ai_question():
+
+    quiz = session.get("ai_quiz")
+
+    index = session.get("current_question",0)
+
+    if index < len(quiz)-1:
+        index += 1
+
+    session["current_question"] = index
+
+
+    question = quiz[index]
+
+
+    selected = session.get("ai_answers",{}).get(str(index))
+
+
+    return render_template(
+        "ai_quiz_generator.html",
+        subject=session.get("ai_subject"),
+        quiz=quiz,
+        question=question,
+        number=index+1,
+        total=len(quiz),
+        current=index,
+        selected=selected,
+        correct=None,
+        explanation=None
+    )
+#================ PREVIOUS AI QUESTION =================
+@app.route('/previous_ai_question')
+def previous_ai_question():
+
+    quiz = session.get("ai_quiz")
+
+    index = session.get("current_question",0)
+
+
+    if index > 0:
+        index -= 1
+
+
+    session["current_question"] = index
+    question = quiz[index]
+    selected = session.get("ai_answers",{}).get(str(index))
+
+    return render_template(
+        "ai_quiz_generator.html",
+        subject=session.get("ai_subject"),
+        quiz=quiz,
+        question=question,
+        number=index+1,
+        total=len(quiz),
+        current=index,
+        selected=selected,
+        correct=None,
+        explanation=None
+    )
+#================ SHOW CURRENT AI QUESTION =================
+@app.route('/ai_quiz_page')
+def ai_quiz_page():
+
+    if 'ai_quiz' not in session:
+        return redirect('/quiz')
+
+
+    quiz = session['ai_quiz']
+
+    index = session.get(
+        'current_question',
+        0
+    )
+
+
+    question = quiz[index]
+
+
+    return render_template(
+        "ai_quiz_generator.html",
+        subject=session.get('ai_subject'),
+        quiz=quiz,
+        question=question,
+        number=index+1,
+        total=len(quiz),
+        current=index
+    )
+
+#================ CHECK AI ANSWER =================
+
+@app.route('/check_ai_answer', methods=['POST'])
+def check_ai_answer():
+
+    if 'ai_quiz' not in session:
+        return redirect('/quiz')
+
+
+    answer = request.form.get("answer")
+
+    index = session.get("current_question",0)
+
+    quiz = session['ai_quiz']
+
+    question = quiz[index]
+
+
+    session['ai_answers'][str(index)] = answer
+
+    session.modified = True
+
+
+    correct = question["answer"]
+
+    is_correct = (answer == correct)
+
+
+
+    return render_template(
+        "ai_quiz_generator.html",
+
+        subject=session['ai_subject'],
+
+        quiz=quiz,
+
+        question=question,
+
+        number=index+1,
+
+        total=len(quiz),
+
+        current=index,
+
+
+        checked=True,
+
+        selected_answer=answer,
+
+        correct=correct,
+
+        is_correct=is_correct,
+
+        explanation=question["explanation"]
+    )
+#============== FINISH AI QUIZ =================
+
+@app.route('/finish_ai_quiz')
+def finish_ai_quiz():
+
+    quiz = session.get("ai_quiz")
+
+    answers = session.get(
+        "ai_answers",
+        {}
+    )
+
+
+    score = 0
+
+
+    for i,q in enumerate(quiz):
+
+        if answers.get(str(i)) == q["answer"]:
+            score += 1
+
+
+
+    save_score(
+        session["ai_subject"],
+        score,
+        len(quiz)
+    )
+
+
+    return render_template(
+        "result.html",
+        score=score,
+        total=len(quiz)
+    )
+#=============quiz result show on admin panel==============
+@app.route('/quiz_results')
+def quiz_results():
+
+    if 'user_id' not in session:
+        return redirect('/login')
+
+    if session.get('role') != 'admin':
+        return redirect('/')
+
+    conn = sqlite3.connect("database.db")
+    conn.row_factory = sqlite3.Row
+    cur = conn.cursor()
+
+    cur.execute("""
+        SELECT 
+            quiz_results.id,
+            users.fullname,
+            quiz_results.subject,
+            quiz_results.score,
+            quiz_results.total
+        FROM quiz_results
+        JOIN users
+        ON quiz_results.user_id = users.id
+        ORDER BY quiz_results.id DESC
+    """)
+
+    results = cur.fetchall()
+
+    conn.close()
+
+    return render_template(
+        "quiz_results.html",
+        results=results
+    )
+#=============delete quiz result from admin panel==============
+
+@app.route('/delete_quiz_result/<int:id>')
+def delete_quiz_result(id):
+
+    if 'user_id' not in session:
+        return redirect('/login')
+
+    if session.get('role') != 'admin':
+        return redirect('/')
+
+    conn = sqlite3.connect("database.db")
+    cur = conn.cursor()
+
+    cur.execute(
+        "DELETE FROM quiz_results WHERE id=?",
+        (id,)
+    )
+
+    conn.commit()
+    conn.close()
+
+    return redirect('/quiz_results')
 #----------------------LEADERBOARD-----------
 
 from flask import request,session,render_template

@@ -1,0 +1,509 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+
+body{
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background:#f4f7fb;
+}
+
+
+/* Main Card */
+
+.quiz-box{
+
+    width:75%;
+    max-width:900px;
+    margin:40px auto;
+
+    background:white;
+
+    padding:35px;
+
+    border-radius:22px;
+
+    box-shadow:
+    0 8px 25px rgba(0,0,0,0.08);
+
+}
+
+
+
+/* Title */
+
+.title{
+
+    text-align:center;
+
+    font-size:32px;
+
+    font-weight:700;
+
+    color:#0f8b9d;
+
+    margin-bottom:10px;
+
+}
+
+
+/* Question counter */
+
+h3{
+
+    color:#555;
+
+}
+
+
+
+/* Question card */
+
+.question{
+
+    margin-top:25px;
+
+    padding:25px;
+
+    background:#f8fcff;
+
+    border-radius:18px;
+
+    border-left:6px solid #1b9aaa;
+
+}
+
+
+
+.question h2{
+
+    font-size:22px;
+
+    color:#222;
+
+    line-height:1.5;
+
+}
+
+
+
+/* Options */
+
+
+.option{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+
+    padding:14px 18px;
+
+    margin:12px 0;
+
+    background:white;
+
+
+    border-radius:12px;
+
+
+    border:1px solid #e2e8f0;
+
+
+    cursor:pointer;
+
+
+    font-size:16px;
+
+
+    transition:0.3s;
+
+}
+
+
+
+.option:hover{
+
+    background:#e8fbff;
+
+    border-color:#1b9aaa;
+
+    transform:translateX(5px);
+
+}
+
+
+
+.option input{
+
+    width:18px;
+
+    height:18px;
+
+}
+
+
+
+.option-letter{
+
+    color:#1b9aaa;
+
+    font-weight:700;
+
+}
+
+
+
+/* Buttons */
+
+
+.btn{
+
+    padding:13px 28px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:linear-gradient(
+        135deg,
+        #1b9aaa,
+        #0f6f8a
+    );
+
+
+    color:white;
+
+    font-size:16px;
+
+    font-weight:600;
+
+
+    cursor:pointer;
+
+
+    margin:8px;
+
+
+    transition:0.3s;
+
+}
+
+
+
+.btn:hover{
+
+    transform:translateY(-2px);
+
+    box-shadow:
+    0 5px 15px rgba(0,0,0,0.2);
+
+}
+
+
+
+
+/* Answer Result */
+
+
+.result{
+
+    margin-top:25px;
+
+    padding:20px;
+
+
+    border-radius:16px;
+
+
+    background:#f8f9fa;
+
+
+    border:1px solid #ddd;
+
+}
+
+
+
+.correct{
+
+    color:green;
+
+}
+
+
+.incorrect{
+
+    color:red;
+
+}
+
+
+
+.result p{
+
+    font-size:16px;
+
+    line-height:1.6;
+
+}
+
+
+
+/* Mobile */
+
+@media(max-width:768px){
+
+.quiz-box{
+
+width:90%;
+
+padding:20px;
+
+}
+
+
+.title{
+
+font-size:25px;
+
+}
+
+
+}
+
+</style>
+
+
+<div class="quiz-box">
+
+
+<h1 class="title">
+🤖 AI {{subject}} Quiz
+</h1>
+
+
+<h3 style="text-align:center;">
+Question {{number}} / {{total}}
+</h3>
+
+
+
+<div class="question">
+
+
+<h2>
+
+{{number}}) {{question.question}}
+
+</h2>
+
+
+
+<form method="POST" action="/check_ai_answer">
+
+{% set letters = ['A','B','C','D'] %}
+
+{% for option in question.options %}
+
+<label class="option">
+
+<input 
+type="radio"
+name="answer"
+value="{{option}}"
+
+{% if selected == option %}
+checked
+{% endif %}
+
+required>
+
+<b>{{letters[loop.index0]}}.</b>
+
+{{option}}
+
+</label>
+
+{% endfor %}
+
+
+<button class="btn" type="submit">
+
+Submit Answer ✅
+
+</button>
+
+
+
+</form>
+
+
+
+</div>
+
+
+
+
+
+{% if checked %}
+
+
+<div class="result">
+
+
+{% if is_correct %}
+
+
+<h3 class="correct">
+
+✅ Correct Answer
+
+</h3>
+
+
+<p>
+
+{{correct}}
+
+</p>
+
+
+
+{% else %}
+
+
+
+<h3 class="incorrect">
+
+❌ Incorrect Answer
+
+</h3>
+
+
+<p>
+
+Correct Answer:
+
+<b>
+
+{{correct}}
+
+</b>
+
+</p>
+
+
+{% endif %}
+
+
+
+<p>
+
+<b>
+💡 Explanation:
+</b>
+
+<br>
+
+{{explanation}}
+
+</p>
+
+
+
+</div>
+
+
+{% endif %}
+
+
+
+
+
+
+<div style="text-align:center;margin-top:25px;">
+
+
+
+
+{% if current > 0 %}
+
+
+<a href="/previous_ai_question">
+
+<button class="btn" type="button">
+
+⬅ Previous
+
+</button>
+
+</a>
+
+
+{% endif %}
+
+
+
+
+{% if checked %}
+
+
+
+{% if current < total-1 %}
+
+
+
+<a href="/next_ai_question">
+
+
+<button class="btn" type="button">
+
+Next ➡
+
+</button>
+
+
+</a>
+
+
+
+
+{% else %}
+
+
+
+<a href="/finish_ai_quiz">
+
+
+<button class="btn" type="button">
+
+Finish Quiz 🎯
+
+</button>
+
+
+</a>
+
+
+
+{% endif %}
+
+
+
+{% endif %}
+
+
+
+
+</div>
+
+
+
+</div>
+
+
+{% endblock %}
