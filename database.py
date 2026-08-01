@@ -59,7 +59,6 @@ def init_db():
     )
     """)
 
-    #chat history page
     # CHAT HISTORY TABLE
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS chat_history (

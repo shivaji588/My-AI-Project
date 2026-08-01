@@ -34,12 +34,6 @@ init_db()  # Initialize the database on app startup
 def home():
     return render_template("home.html")
 
-
-@app.route("/index")
-def index():
-    return render_template("index.html")
-
-
 @app.route("/about")
 def about():
     return render_template("about.html")
@@ -695,55 +689,6 @@ def view_paper(id):
 @app.route("/subjects")
 def subjects():
     return render_template("subjects.html")
-
-#---------------- SUBJECT DETAILS ----------------
-@app.route("/subject/<name>")
-def subject_page(name):
-
-    subjects_data = {
-        "python": {
-            "title": "🐍 Python",
-            "desc": "Programming Fundamentals",
-            "notes": ["Variables", "Loops", "Functions", "OOP"]
-        },
-
-        "java": {
-            "title": "☕ Java",
-            "desc": "Object Oriented Programming",
-            "notes": ["Classes", "Objects", "Inheritance", "Polymorphism"]
-        },
-
-        "web": {
-            "title": "🌐 Web Development",
-            "desc": "HTML, CSS, Flask",
-            "notes": ["HTML Basics", "CSS Styling", "Flask Routing"]
-        },
-
-        "dbms": {
-            "title": "🗄️ DBMS",
-            "desc": "Database Management System",
-            "notes": ["SQL", "Joins", "Normalization"]
-        },
-
-        "ai": {
-            "title": "🤖 AI",
-            "desc": "Artificial Intelligence",
-            "notes": ["Search Algorithms", "Machine Learning Basics"]
-        },
-
-        "datascience": {
-            "title": "📊 Data Science",
-            "desc": "Data Analysis & ML",
-            "notes": ["Pandas", "Numpy", "Visualization"]
-        }
-    }
-
-    subject = subjects_data.get(name)
-
-    if subject:
-        return render_template("subject.html",subject=subject,key=name)
-    else:
-        return "Subject not found", 404
 
 #---------------AI Roadmap Function---------------------
 def generate_roadmap(subject, goal, days, level):
@@ -1595,7 +1540,7 @@ def delete_quiz_result(id):
     return redirect('/quiz_results')
 #----------------------LEADERBOARD-----------
 
-from flask import request,session,render_template
+from flask import request, session, render_template
 from datetime import date, timedelta
 
 @app.route("/leaderboard")
@@ -1606,6 +1551,10 @@ def leaderboard():
 
     subject = request.args.get("subject", "All")
     period = request.args.get("period", "all")
+
+    # Pagination
+    page = request.args.get("page", 1, type=int)
+    per_page = 5
 
     query = """
         SELECT users.username,
@@ -1639,16 +1588,25 @@ def leaderboard():
 
     query += " ORDER BY score DESC"
 
+    # Fetch all records
     cur.execute(query, params)
-    data = cur.fetchall()
+    all_data = cur.fetchall()
 
-    # Logged-in username
+    # Total pages
+    total_records = len(all_data)
+    total_pages = (total_records + per_page - 1) // per_page
+
+    # Current page data
+    start = (page - 1) * per_page
+    end = start + per_page
+    data = all_data[start:end]
+
+    # Logged-in user
     current_user = session.get("username")
 
-    # Find current user's rank
+    # Find overall rank
     your_rank = None
-
-    for i, row in enumerate(data, start=1):
+    for i, row in enumerate(all_data, start=1):
         if row["username"] == current_user:
             your_rank = i
             break
@@ -1659,7 +1617,10 @@ def leaderboard():
         selected_subject=subject,
         selected_period=period,
         current_user=current_user,
-        your_rank=your_rank
+        your_rank=your_rank,
+        page=page,
+        per_page=per_page,
+        total_pages=total_pages
     )
 # ---------------- REGISTER ----------------
 

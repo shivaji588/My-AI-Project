@@ -5,7 +5,7 @@
 .lb-container{
     padding:50px;
     min-height:100vh;
-    background: radial-gradient(circle at top,#0f172a,#1e1b4b,#0b1020);
+    background:radial-gradient(circle at top,#0f172a,#1e1b4b,#0b1020);
     color:white;
     border-radius:20px;
     text-align:center;
@@ -20,19 +20,19 @@ table{
     width:90%;
     margin:auto;
     border-collapse:collapse;
-    background:rgba(255,255,255,0.05);
+    background:rgba(255,255,255,.05);
     backdrop-filter:blur(10px);
     border-radius:15px;
     overflow:hidden;
 }
 
-th, td{
+th,td{
     padding:15px;
-    border-bottom:1px solid rgba(255,255,255,0.1);
+    border-bottom:1px solid rgba(255,255,255,.1);
 }
 
 th{
-    background:rgba(99,102,241,0.3);
+    background:rgba(99,102,241,.3);
 }
 
 tr:hover{
@@ -40,54 +40,43 @@ tr:hover{
     transition:.3s;
 }
 
-/* Default Rank Badge */
 .badge{
     padding:6px 12px;
     border-radius:20px;
     background:linear-gradient(90deg,#6366f1,#8b5cf6);
-    font-weight:bold;
     color:white;
+    font-weight:bold;
 }
 
-/* 🥇 Gold */
 .gold{
     background:linear-gradient(90deg,#FFD700,#FFC107);
     color:#111827;
     font-weight:bold;
 }
 
-/* 🥈 Silver */
 .silver{
     background:linear-gradient(90deg,#E5E7EB,#C0C0C0);
     color:#111827;
     font-weight:bold;
 }
 
-/* 🥉 Bronze */
 .bronze{
     background:linear-gradient(90deg,#CD7F32,#8B4513);
     color:white;
     font-weight:bold;
 }
-/*select*/
+
 select{
-
     padding:10px 20px;
-
     border:none;
-
     border-radius:10px;
-
     background:#6366f1;
-
     color:white;
-
     font-size:16px;
-
     cursor:pointer;
-
     margin-bottom:20px;
 }
+
 .rank-card{
     width:300px;
     margin:20px auto;
@@ -99,64 +88,93 @@ select{
     font-weight:bold;
     box-shadow:0 0 20px rgba(99,102,241,.5);
 }
+
+/* Pagination */
+
+.pagination{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:10px;
+    margin-top:30px;
+    flex-wrap:wrap;
+}
+
+.pagination a{
+    padding:10px 16px;
+    border-radius:8px;
+    background:#1e293b;
+    color:white;
+    text-decoration:none;
+    transition:.3s;
+}
+
+.pagination a:hover{
+    background:#6366f1;
+}
+
+.pagination .active{
+    background:#8b5cf6;
+}
 </style>
 
 <div class="lb-container">
 
-    <h1>🏆 Academic Leaderboard</h1>
-    <p>Top Performing Students</p>
+<h1>🏆 Academic Leaderboard</h1>
+<p>Top Performing Students</p>
 
-    {% if your_rank %}
-    <div class="rank-card">
-        👤 {{ current_user }} <br>
-        🏆 Your Rank: <strong>#{{ your_rank }}</strong>
-    </div>
-    {% endif %}
+{% if your_rank %}
+<div class="rank-card">
+    👤 {{ current_user }} <br>
+    🏆 Your Rank :
+    <strong>#{{ your_rank }}</strong>
+</div>
+{% endif %}
 
-    <form method="GET">
+<form method="GET">
 
-    <select name="subject" onchange="this.form.submit()">
+<select name="subject" onchange="this.form.submit()">
 
-        <option value="All">All Subjects</option>
+<option value="All">All Subjects</option>
 
-        <option value="Python"
-        {% if selected_subject=="Python" %}selected{% endif %}>
-        🐍 Python
-        </option>
+<option value="Python"
+{% if selected_subject=="Python" %}selected{% endif %}>
+🐍 Python
+</option>
 
-        <option value="Java"
-        {% if selected_subject=="Java" %}selected{% endif %}>
-        ☕ Java
-        </option>
+<option value="Java"
+{% if selected_subject=="Java" %}selected{% endif %}>
+☕ Java
+</option>
 
-        <option value="DBMS"
-        {% if selected_subject=="DBMS" %}selected{% endif %}>
-        🗄 DBMS
-        </option>
+<option value="DBMS"
+{% if selected_subject=="DBMS" %}selected{% endif %}>
+🗄 DBMS
+</option>
 
-        <option value="AI"
-        {% if selected_subject=="AI" %}selected{% endif %}>
-        🤖 AI
-        </option>
+<option value="AI"
+{% if selected_subject=="AI" %}selected{% endif %}>
+🤖 AI
+</option>
 
-    </select>
+</select>
 
-    <select name="period" onchange="this.form.submit()">
+<select name="period" onchange="this.form.submit()">
 
-    <option value="all"
-    {% if selected_period=="all" %}selected{% endif %}>
-    🌍 All Time
-    </option>
+<option value="all"
+{% if selected_period=="all" %}selected{% endif %}>
+🌍 All Time
+</option>
 
-    <option value="today"
-    {% if selected_period=="today" %}selected{% endif %}>
-    📅 Today
-    </option>
+<option value="today"
+{% if selected_period=="today" %}selected{% endif %}>
+📅 Today
+</option>
 
-    <option value="week"
-    {% if selected_period=="week" %}selected{% endif %}>
-    📆 This Week
-    </option>
+<option value="week"
+{% if selected_period=="week" %}selected{% endif %}>
+📆 This Week
+</option>
 
 </select>
 
@@ -164,58 +182,113 @@ select{
 
 <br>
 
-    <table>
+<table>
 
-        <tr>
-            <th>Rank</th>
-            <th>User</th>
-            <th>Subject</th>
-            <th>Score</th>
-            <th>Total</th>
-            <th>Date</th>
-        </tr>
+<tr>
+    <th>Rank</th>
+    <th>User</th>
+    <th>Subject</th>
+    <th>Score</th>
+    <th>Total</th>
+    <th>Date</th>
+</tr>
+{% for row in data %}
 
-        {% for row in data %}
+{% set rank = (page - 1) * per_page + loop.index %}
 
-        <tr class="
-            {% if loop.index == 1 %}
-                gold
-            {% elif loop.index == 2 %}
-                silver
-            {% elif loop.index == 3 %}
-                bronze
-            {% endif %}
-        ">
+<tr
+{% if rank == 1 %}
+class="gold"
+{% elif rank == 2 %}
+class="silver"
+{% elif rank == 3 %}
+class="bronze"
+{% endif %}
+>
 
-            <td>
+<td>
 
-                {% if loop.index == 1 %}
-                    <span class="badge">🥇</span>
+{% if rank == 1 %}
 
-                {% elif loop.index == 2 %}
-                    <span class="badge">🥈</span>
+<span class="badge">🥇</span>
 
-                {% elif loop.index == 3 %}
-                    <span class="badge">🥉</span>
+{% elif rank == 2 %}
 
-                {% else %}
-                    <span class="badge">{{ loop.index }}</span>
+<span class="badge">🥈</span>
 
-                {% endif %}
+{% elif rank == 3 %}
 
-            </td>
+<span class="badge">🥉</span>
 
-            <td>{{ row["username"] }}</td>
-            <td>{{ row["subject"] }}</td>
-            <td>{{ row["score"] }}</td>
-            <td>{{ row["total"] }}</td>
-            <td>{{ row["created_at"] }}</td>
+{% else %}
 
-        </tr>
+<span class="badge">{{ rank }}</span>
 
-        {% endfor %}
+{% endif %}
 
-    </table>
+</td>
+
+<td>{{ row["username"] }}</td>
+
+<td>{{ row["subject"] }}</td>
+
+<td>{{ row["score"] }}</td>
+
+<td>{{ row["total"] }}</td>
+
+<td>{{ row["created_at"] }}</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+<div class="pagination">
+
+    {% if page > 1 %}
+        <a href="{{ url_for('leaderboard',
+            subject=selected_subject,
+            period=selected_period,
+            page=page-1) }}">
+            ⬅ Previous
+        </a>
+    {% endif %}
+
+    {% for p in range(1, total_pages + 1) %}
+
+        {% if p == page %}
+
+            <a class="active"
+               href="{{ url_for('leaderboard',
+                    subject=selected_subject,
+                    period=selected_period,
+                    page=p) }}">
+                {{ p }}
+            </a>
+
+        {% else %}
+
+            <a href="{{ url_for('leaderboard',
+                    subject=selected_subject,
+                    period=selected_period,
+                    page=p) }}">
+                {{ p }}
+            </a>
+
+        {% endif %}
+
+    {% endfor %}
+
+    {% if page < total_pages %}
+        <a href="{{ url_for('leaderboard',
+            subject=selected_subject,
+            period=selected_period,
+            page=page+1) }}">
+            Next ➡
+        </a>
+    {% endif %}
+
+</div>
 
 </div>
 
