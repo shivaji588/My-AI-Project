@@ -2,90 +2,394 @@
 
 {% block content %}
 
-<div class="container mt-5">
+<style>
 
-    <h2 class="text-center mb-4">
-        🗺️ AI Study Roadmap Generator
-    </h2>
+/* ================= PAGE ================= */
 
-    <form method="POST">
+.roadmap-page{
 
-        <div class="mb-3">
-            <label class="form-label">Subject</label>
+    min-height:100vh;
 
-            <input
-                type="text"
-                name="subject"
-                class="form-control"
-                placeholder="Python / Java / DBMS"
-                required>
-        </div>
+    padding:50px 25px;
 
-        <div class="mb-3">
-            <label class="form-label">Goal</label>
+    background:
+    linear-gradient(135deg,#0f172a,#1e3a8a,#2563eb);
 
-            <input
-                type="text"
-                name="goal"
-                class="form-control"
-                placeholder="Score 90%"
-                required>
-        </div>
+    border-radius:25px;
 
-        <div class="mb-3">
-            <label class="form-label">Days</label>
+}
 
-            <input
-                type="number"
-                name="days"
-                class="form-control"
-                placeholder="15"
-                required>
-        </div>
 
-        <div class="mb-3">
+/* ================= HEADER ================= */
 
-            <label class="form-label">Level</label>
+.roadmap-header{
 
-            <select
-                name="level"
-                class="form-select">
+    text-align:center;
 
-                <option>Beginner</option>
-                <option>Intermediate</option>
-                <option>Advanced</option>
+    color:white;
 
-            </select>
+    margin-bottom:40px;
 
-        </div>
+}
 
-        <button
-            class="btn btn-primary w-100">
 
-            🚀 Generate Roadmap
+.roadmap-header h1{
 
-        </button>
+    font-size:42px;
 
-    </form>
+    font-weight:800;
 
-    {% if roadmap %}
+}
 
-    <div class="card shadow mt-5">
 
-        <div class="card-body">
+.roadmap-header p{
 
-            <h4>📚 Your AI Study Roadmap</h4>
+    color:#dbeafe;
 
-            <hr>
+    font-size:18px;
 
-            <pre style="white-space: pre-wrap;">{{ roadmap }}</pre>
+}
 
-        </div>
 
-    </div>
 
-    {% endif %}
+
+/* ================= FORM CARD ================= */
+
+
+.roadmap-card{
+
+    max-width:700px;
+
+    margin:auto;
+
+    padding:35px;
+
+    border-radius:30px;
+
+    background:
+    rgba(255,255,255,.10);
+
+    backdrop-filter:blur(18px);
+
+    border:1px solid rgba(255,255,255,.15);
+
+    box-shadow:
+    0 20px 50px rgba(0,0,0,.25);
+
+}
+
+
+
+
+.form-label{
+
+    color:white;
+
+    font-weight:600;
+
+}
+
+
+
+.form-control,
+.form-select{
+
+    padding:14px;
+
+    border-radius:15px;
+
+    border:none;
+
+    background:rgba(255,255,255,.9);
+
+}
+
+
+
+.form-control:focus,
+.form-select:focus{
+
+    box-shadow:
+    0 0 15px rgba(96,165,250,.7);
+
+}
+
+
+
+
+
+/* ================= BUTTON ================= */
+
+
+.generate-btn{
+
+    margin-top:15px;
+
+    padding:14px;
+
+    border:none;
+
+    border-radius:30px;
+
+    width:100%;
+
+    font-size:17px;
+
+    font-weight:bold;
+
+    color:white;
+
+    background:
+    linear-gradient(90deg,#2563eb,#06b6d4);
+
+    transition:.3s;
+
+}
+
+
+
+.generate-btn:hover{
+
+    transform:scale(1.03);
+
+    box-shadow:
+    0 10px 30px rgba(37,99,235,.5);
+
+}
+
+
+
+
+/* ================= OUTPUT ================= */
+
+
+.result-card{
+
+    max-width:900px;
+
+    margin:40px auto 0;
+
+    padding:30px;
+
+    border-radius:30px;
+
+    background:white;
+
+    box-shadow:
+    0 20px 40px rgba(0,0,0,.15);
+
+}
+
+
+
+.result-card h3{
+
+    color:#2563eb;
+
+    font-weight:800;
+
+}
+
+
+
+.result-card pre{
+
+    color:#334155;
+
+    font-size:16px;
+
+    line-height:1.8;
+
+}
+
+
+
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+.roadmap-header h1{
+
+font-size:32px;
+
+}
+
+.roadmap-card{
+
+padding:25px;
+
+}
+
+}
+
+
+</style>
+
+
+
+<div class="roadmap-page">
+
+
+
+<div class="roadmap-header">
+
+<h1>
+🗺️ AI Study Roadmap Generator
+</h1>
+
+<p>
+Create a personalized learning plan with Artificial Intelligence
+</p>
 
 </div>
+
+
+
+
+
+<div class="roadmap-card">
+
+
+
+<form method="POST">
+
+
+<div class="mb-3">
+
+<label class="form-label">
+📚 Subject
+</label>
+
+
+<input
+type="text"
+name="subject"
+class="form-control"
+placeholder="Python / Java / DBMS"
+required>
+
+</div>
+
+
+
+
+
+<div class="mb-3">
+
+<label class="form-label">
+🎯 Goal
+</label>
+
+
+<input
+type="text"
+name="goal"
+class="form-control"
+placeholder="Score 90%"
+required>
+
+</div>
+
+
+
+
+
+<div class="mb-3">
+
+<label class="form-label">
+📅 Days
+</label>
+
+
+<input
+type="number"
+name="days"
+class="form-control"
+placeholder="15"
+required>
+
+</div>
+
+
+
+
+
+<div class="mb-3">
+
+
+<label class="form-label">
+📊 Level
+</label>
+
+
+<select
+name="level"
+class="form-select">
+
+
+<option>Beginner</option>
+
+<option>Intermediate</option>
+
+<option>Advanced</option>
+
+
+</select>
+
+
+</div>
+
+
+
+
+
+<button class="generate-btn">
+
+🚀 Generate AI Roadmap
+
+</button>
+
+
+
+</form>
+
+
+
+</div>
+
+
+
+
+
+{% if roadmap %}
+
+
+
+<div class="result-card">
+
+
+<h3>
+📚 Your AI Study Roadmap
+</h3>
+
+
+<hr>
+
+
+<pre style="white-space: pre-wrap;">{{ roadmap }}</pre>
+
+
+</div>
+
+
+
+{% endif %}
+
+
+
+
+</div>
+
 
 {% endblock %}

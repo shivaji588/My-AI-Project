@@ -4,39 +4,49 @@
 
 <style>
 
+/* PAGE */
+
 .profile-page{
-    padding:40px;
-    background:#f1f5f9;
-    min-height:90vh;
+
+    padding:50px 25px;
+
+    min-height:100vh;
+
+    background:
+    linear-gradient(135deg,#eff6ff,#eef2ff,#dbeafe);
+
 }
 
 
-/* MAIN */
+/* MAIN CARD */
 
 .profile-wrapper{
 
     max-width:1000px;
+
     margin:auto;
 
     background:white;
 
-    border-radius:30px;
+    border-radius:35px;
 
     overflow:hidden;
 
-    box-shadow:0 20px 50px rgba(0,0,0,.15);
+    box-shadow:
+    0 25px 60px rgba(15,23,42,.15);
 
 }
+
 
 
 /* COVER */
 
 .cover{
 
-    height:180px;
+    height:220px;
 
     background:
-    linear-gradient(135deg,#2563eb,#9333ea);
+    linear-gradient(135deg,#2563eb,#7c3aed);
 
     position:relative;
 
@@ -50,7 +60,7 @@
 
     position:absolute;
 
-    bottom:-55px;
+    bottom:-65px;
 
     left:50%;
 
@@ -59,17 +69,14 @@
 }
 
 
+
 .avatar{
 
-    width:120px;
+    width:130px;
 
-    height:120px;
+    height:130px;
 
     border-radius:50%;
-
-    background:white;
-
-    color:#2563eb;
 
     display:flex;
 
@@ -77,13 +84,18 @@
 
     align-items:center;
 
-    font-size:50px;
+    background:white;
 
-    font-weight:800;
+    color:#2563eb;
 
-    border:6px solid white;
+    font-size:55px;
 
-    box-shadow:0 10px 25px rgba(0,0,0,.2);
+    font-weight:900;
+
+    border:7px solid white;
+
+    box-shadow:
+    0 15px 35px rgba(37,99,235,.4);
 
 }
 
@@ -91,9 +103,9 @@
 
 .online{
 
-    width:18px;
+    width:20px;
 
-    height:18px;
+    height:20px;
 
     background:#22c55e;
 
@@ -101,9 +113,9 @@
 
     position:absolute;
 
-    right:15px;
+    right:12px;
 
-    bottom:15px;
+    bottom:18px;
 
     border:3px solid white;
 
@@ -115,22 +127,27 @@
 
 .profile-content{
 
-    padding:80px 40px 40px;
+    padding:90px 40px 45px;
 
     text-align:center;
 
 }
 
 
+
 .profile-content h1{
 
-    font-size:34px;
+    font-size:38px;
 
-    color:#1e293b;
+    font-weight:800;
+
+    color:#0f172a;
 
 }
 
 
+
+/* ROLE */
 
 .role{
 
@@ -138,15 +155,15 @@
 
     margin-top:10px;
 
-    padding:8px 25px;
+    padding:10px 28px;
 
-    border-radius:25px;
+    border-radius:30px;
 
     background:#dbeafe;
 
     color:#2563eb;
 
-    font-weight:bold;
+    font-weight:700;
 
 }
 
@@ -156,13 +173,13 @@
 
 .info-section{
 
-    margin-top:40px;
+    margin-top:45px;
 
     display:grid;
 
-    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
 
-    gap:20px;
+    gap:22px;
 
 }
 
@@ -170,13 +187,15 @@
 
 .info-card{
 
-    padding:15px;
+    padding:22px;
 
-    border-radius:20px;
+    border-radius:22px;
 
     background:#f8fafc;
 
     text-align:left;
+
+    border:1px solid #e2e8f0;
 
     transition:.3s;
 
@@ -186,7 +205,10 @@
 
 .info-card:hover{
 
-    transform:translateY(-5px);
+    transform:translateY(-8px);
+
+    box-shadow:
+    0 15px 30px rgba(0,0,0,.08);
 
 }
 
@@ -196,14 +218,19 @@
 
     color:#64748b;
 
+    font-size:15px;
+
 }
+
 
 
 .info-card p{
 
     font-size:18px;
 
-    font-weight:600;
+    font-weight:700;
+
+    color:#1e293b;
 
 }
 
@@ -213,7 +240,7 @@
 
 .stats{
 
-    margin-top:40px;
+    margin-top:45px;
 
     display:grid;
 
@@ -229,19 +256,30 @@
 
     padding:25px;
 
-    border-radius:22px;
+    border-radius:25px;
 
-    background:linear-gradient(
-    135deg,#eff6ff,#eef2ff);
+    background:
+    linear-gradient(135deg,#eff6ff,#eef2ff);
+
+    transition:.3s;
 
 }
 
 
+
+.stat-card:hover{
+
+    transform:translateY(-8px);
+
+}
+
+
+
 .stat-card h2{
 
-    font-size:32px;
-
     color:#2563eb;
+
+    font-size:35px;
 
 }
 
@@ -249,10 +287,9 @@
 
 /* PROGRESS */
 
-
 .progress-box{
 
-    margin-top:35px;
+    margin-top:45px;
 
     text-align:left;
 
@@ -262,7 +299,7 @@
 
 .progress{
 
-    height:15px;
+    height:16px;
 
     background:#e2e8f0;
 
@@ -278,10 +315,8 @@
 
     height:100%;
 
-    background:linear-gradient(
-    90deg,#2563eb,#9333ea);
-
-    border-radius:20px;
+    background:
+    linear-gradient(90deg,#2563eb,#7c3aed);
 
 }
 
@@ -291,32 +326,36 @@
 
 .achievement{
 
-    margin-top:35px;
+    margin-top:40px;
 
-    padding:25px;
+    padding:30px;
 
-    border-radius:20px;
+    border-radius:25px;
 
-    background:#fff7ed;
+    background:
+    linear-gradient(135deg,#fff7ed,#ffedd5);
 
     text-align:left;
 
 }
 
 
+
 .badge{
 
     display:inline-block;
+
+    margin:6px;
+
+    padding:10px 18px;
+
+    border-radius:30px;
 
     background:#f59e0b;
 
     color:white;
 
-    padding:8px 15px;
-
-    border-radius:20px;
-
-    margin:5px;
+    font-weight:600;
 
 }
 
@@ -324,27 +363,58 @@
 
 /* BUTTON */
 
+
 .dashboard-btn{
 
     display:inline-block;
 
-    margin-top:35px;
+    margin-top:40px;
 
-    padding:14px 35px;
+    padding:14px 40px;
 
-    background:#2563eb;
+    border-radius:35px;
+
+    background:
+    linear-gradient(90deg,#2563eb,#06b6d4);
 
     color:white;
-
-    border-radius:30px;
 
     text-decoration:none;
 
     font-weight:bold;
 
+    transition:.3s;
+
 }
 
 
+.dashboard-btn:hover{
+
+    transform:scale(1.05);
+
+    color:white;
+
+}
+
+
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+.profile-content{
+
+padding:80px 20px 30px;
+
+}
+
+.profile-content h1{
+
+font-size:30px;
+
+}
+
+}
 
 </style>
 
@@ -356,10 +426,12 @@
 <div class="profile-wrapper">
 
 
+
 <div class="cover">
 
 
 <div class="avatar-box">
+
 
 <div class="avatar">
 
@@ -367,21 +439,28 @@
 
 </div>
 
+
 <div class="online"></div>
 
+
 </div>
 
 
 </div>
+
 
 
 
 <div class="profile-content">
 
 
+
 <h1>
+
 {{ user[1] }}
+
 </h1>
+
 
 
 <div class="role">
@@ -393,7 +472,9 @@
 
 
 
+
 <div class="info-section">
+
 
 
 <div class="info-card">
@@ -405,6 +486,7 @@
 </div>
 
 
+
 <div class="info-card">
 
 <h4>👤 Username</h4>
@@ -412,6 +494,7 @@
 <p>{{ user[3] }}</p>
 
 </div>
+
 
 
 <div class="info-card">
@@ -422,15 +505,21 @@
 
 </div>
 
+
+
 <div class="info-card">
 
 <h4>🔐 Account Status</h4>
 
-<p style="color:#16a34a;">
+<p style="color:#16a34a">
+
 🟢 Active
+
 </p>
 
 </div>
+
+
 
 <div class="info-card">
 
@@ -439,6 +528,21 @@
 <p>{{ last_active }}</p>
 
 </div>
+
+
+
+<div class="info-card">
+
+<h4>⚙️ Settings</h4>
+
+<p style="color:#2563eb">
+
+Customize Profile
+
+</p>
+
+</div>
+
 
 </div>
 
@@ -452,31 +556,45 @@
 <div class="stat-card">
 
 <h2>🔥 {{ streak }}</h2>
+
 <p>Day Streak</p>
 
 </div>
 
 
+
 <div class="stat-card">
+
 <h2>{{ progress }}%</h2>
+
 <p>Learning Progress</p>
 
 </div>
 
 
+
 <div class="stat-card">
 
 <h2>{{ quiz_count }}</h2>
+
 <p>Quiz Completed</p>
 
-
 </div>
+
+
+
 <div class="stat-card">
+
 <h2>{{ notes_count }}</h2>
+
 <p>Notes</p>
-</div>
 
 </div>
+
+
+
+</div>
+
 
 
 
@@ -484,22 +602,30 @@
 
 <div class="progress-box">
 
+
 <h3>📈 Overall Learning Progress</h3>
 
+
 <div class="progress">
+
 
 <div class="progress-bar"
 style="width:{{ progress }}%">
 </div>
-</div>
+
 
 </div>
+
+
+</div>
+
 
 
 
 
 
 <div class="achievement">
+
 
 <h3>🏆 Achievements</h3>
 
@@ -519,7 +645,9 @@ style="width:{{ progress }}%">
 </span>
 
 
+
 </div>
+
 
 
 
@@ -530,6 +658,7 @@ class="dashboard-btn">
 ⬅ Dashboard
 
 </a>
+
 
 
 

@@ -1,10 +1,11 @@
 {% extends "base.html" %}
 
 {% block content %}
-
 <style>
 
 *{
+    margin:0;
+    padding:0;
     box-sizing:border-box;
 }
 
@@ -12,17 +13,17 @@
 
     padding:40px;
 
-    background:
-    radial-gradient(circle at top left,#dbeafe,#f8fafc 40%),
-    radial-gradient(circle at bottom right,#ede9fe,#ffffff);
-
     min-height:100vh;
+
+    background:
+    radial-gradient(circle at top left,#bfdbfe,#e0e7ff 35%),
+    linear-gradient(135deg,#f8fafc,#dbeafe,#ede9fe);
+
+    border-radius:25px;
 
 }
 
-
-
-/* HERO */
+/* ================= HERO ================= */
 
 .about-hero{
 
@@ -40,15 +41,15 @@
 
     gap:40px;
 
-    background:
-    linear-gradient(135deg,#2563eb,#7c3aed);
+    background:linear-gradient(135deg,#2563eb,#7c3aed);
 
     color:white;
 
     overflow:hidden;
 
-}
+    box-shadow:0 20px 45px rgba(37,99,235,.25);
 
+}
 
 .hero-text{
 
@@ -56,15 +57,15 @@
 
 }
 
-
 .hero-text h1{
 
     font-size:55px;
 
     font-weight:900;
 
-}
+    margin-bottom:20px;
 
+}
 
 .hero-text span{
 
@@ -72,19 +73,15 @@
 
 }
 
-
 .hero-text p{
 
     font-size:20px;
 
-    line-height:1.6;
+    line-height:1.8;
 
-    opacity:.9;
+    color:#e0f2fe;
 
 }
-
-
-
 
 .ai-circle{
 
@@ -100,181 +97,179 @@
 
     display:flex;
 
-    align-items:center;
-
     justify-content:center;
 
-    font-size:100px;
+    align-items:center;
 
-    box-shadow:
-    0 0 60px rgba(255,255,255,.3);
+    font-size:95px;
+
+    box-shadow:0 0 50px rgba(255,255,255,.30);
 
 }
 
-
-
-
-/* SECTION TITLE */
-
+/* ================= TITLES ================= */
 
 .title{
 
     text-align:center;
 
-    margin:60px 0 30px;
+    margin:65px 0 35px;
 
 }
-
 
 .title h2{
 
-    font-size:35px;
+    font-size:38px;
 
     color:#0f172a;
 
-}
+    font-weight:800;
 
+}
 
 .title p{
 
     color:#64748b;
 
+    font-size:17px;
+
+    margin-top:8px;
+
 }
 
+/* ================= COMMON CARDS ================= */
 
+.about-card,
+.card,
+.roadmap{
 
-/* ABOUT CARD */
+    background:rgba(255,255,255,.70);
 
+    backdrop-filter:blur(18px);
+
+    border:1px solid rgba(255,255,255,.55);
+
+    border-radius:28px;
+
+    box-shadow:0 15px 40px rgba(15,23,42,.10);
+
+}
+
+/* ================= ABOUT ================= */
 
 .about-card{
 
-    background:white;
-
     padding:40px;
-
-    border-radius:30px;
-
-    box-shadow:
-    0 20px 40px rgba(0,0,0,.08);
-
-    line-height:1.8;
 
     font-size:18px;
 
+    line-height:1.9;
+
+    color:#334155;
+
 }
 
-
-
-
-/* MISSION */
-
+/* ================= GRID ================= */
 
 .grid{
 
     display:grid;
 
-    grid-template-columns:
-    repeat(auto-fit,minmax(250px,1fr));
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
 
     gap:25px;
 
 }
 
-
-
 .card{
-
-    background:white;
 
     padding:30px;
 
-    border-radius:25px;
-
-    box-shadow:
-    0 15px 30px rgba(0,0,0,.08);
-
-    transition:.4s;
+    transition:.35s;
 
 }
-
 
 .card:hover{
 
-    transform:
-    translateY(-10px);
+    transform:translateY(-8px);
 
-    box-shadow:
-    0 25px 45px rgba(0,0,0,.15);
+    box-shadow:0 20px 40px rgba(37,99,235,.18);
 
 }
-
-
 
 .card-icon{
 
-    font-size:40px;
+    font-size:45px;
+
+    margin-bottom:15px;
 
 }
-
-
 
 .card h3{
 
     color:#2563eb;
 
+    margin-bottom:12px;
+
+    font-size:24px;
+
 }
 
+.card p{
 
+    color:#475569;
 
+    line-height:1.7;
 
+}
 
-/* FEATURE */
-
+/* ================= FEATURE ================= */
 
 .feature{
 
-    background:
-    linear-gradient(135deg,#eff6ff,#eef2ff);
+    background:linear-gradient(135deg,#ffffff,#eff6ff);
 
 }
 
-
-
-
-/* AI SECTION */
-
+/* ================= AI SECTION ================= */
 
 .ai-section{
 
     margin-top:50px;
 
-    padding:45px;
+    padding:50px;
 
     border-radius:30px;
 
-    background:#0f172a;
+    text-align:center;
+
+    background:linear-gradient(135deg,#0f172a,#1e3a8a);
 
     color:white;
 
-    text-align:center;
+    box-shadow:0 20px 40px rgba(15,23,42,.25);
 
 }
-
 
 .ai-section h2{
 
-    color:#60a5fa;
+    color:#93c5fd;
 
-    font-size:35px;
+    font-size:36px;
+
+    margin-bottom:15px;
 
 }
 
+.ai-section p{
 
+    color:#dbeafe;
 
+    line-height:1.8;
 
+}
 
-/* TECH */
-
+/* ================= TECH ================= */
 
 .tech{
 
@@ -288,58 +283,132 @@
 
 }
 
-
-
 .tech span{
 
-    padding:12px 25px;
+    padding:12px 24px;
 
     border-radius:30px;
 
-    background:#2563eb;
+    background:linear-gradient(135deg,#2563eb,#3b82f6);
 
     color:white;
 
     font-weight:600;
 
+    box-shadow:0 8px 20px rgba(37,99,235,.20);
+
 }
 
-
-
-
-/* ROADMAP */
-
+/* ================= ROADMAP ================= */
 
 .roadmap{
 
-    background:white;
-
     padding:35px;
 
-    border-radius:30px;
-
 }
-
 
 .step{
 
-    padding:18px;
+    padding:18px 20px;
 
     margin:15px 0;
 
-    border-left:5px solid #2563eb;
-
     background:#f8fafc;
 
-    border-radius:10px;
+    border-left:5px solid #2563eb;
+
+    border-radius:12px;
+
+    color:#334155;
+
+    transition:.3s;
 
 }
 
+.step:hover{
+
+    transform:translateX(6px);
+
+    background:#eff6ff;
+
+}
+
+/* ================= MOBILE ================= */
+
+@media(max-width:768px){
+
+.about-page{
+
+    padding:18px;
+
+}
+
+.about-hero{
+
+    flex-direction:column;
+
+    text-align:center;
+
+    padding:35px 25px;
+
+    min-height:auto;
+
+}
+
+.hero-text h1{
+
+    font-size:36px;
+
+}
+
+.hero-text p{
+
+    font-size:17px;
+
+}
+
+.ai-circle{
+
+    width:170px;
+
+    height:170px;
+
+    font-size:70px;
+
+}
+
+.title h2{
+
+    font-size:28px;
+
+}
+
+.about-card,
+.card,
+.roadmap,
+.ai-section{
+
+    padding:25px;
+
+}
+
+.tech{
+
+    gap:10px;
+
+}
+
+.tech span{
+
+    font-size:14px;
+
+    padding:10px 18px;
+
+}
+
+}
 
 </style>
-
-
-
 
 
 <div class="about-page">

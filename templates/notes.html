@@ -1,206 +1,626 @@
 {% extends "base.html" %}
+
 {% block content %}
 
 <style>
 
-/* ================= PAGE BACKGROUND ================= */
-.notes-container{
-    padding:60px 20px;
+/* ================= PAGE ================= */
+
+.notes-page{
+
+    min-height:100vh;
+
+    padding:50px 30px;
+
+    background:
+    linear-gradient(135deg,#0f172a,#1e3a8a,#2563eb);
+
+}
+
+/* ================= HERO ================= */
+
+.notes-hero{
+
+    max-width:1200px;
+
+    margin:auto;
+
+    padding:45px;
+
+    border-radius:35px;
+
+    text-align:center;
+
     color:white;
-    background:linear-gradient(135deg,#0f172a,#1e3a8a,#2563eb);
+
+    background:
+    rgba(255,255,255,0.08);
+
+    backdrop-filter:blur(20px);
+
+    border:1px solid rgba(255,255,255,.15);
+
+    box-shadow:
+    0 20px 50px rgba(0,0,0,.25);
+
+}
+
+
+.notes-hero h1{
+
+    font-size:48px;
+
+    font-weight:900;
+
+    margin-bottom:15px;
+
+}
+
+
+.notes-hero h1 span{
+
+    color:#60a5fa;
+
+}
+
+
+.notes-hero p{
+
+    font-size:18px;
+
+    color:#dbeafe;
+
+    max-width:800px;
+
+    margin:auto;
+
+    line-height:1.7;
+
+}
+
+
+
+/* ================= STATS ================= */
+
+
+.notes-stats{
+
+    max-width:1000px;
+
+    margin:35px auto;
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(auto-fit,minmax(200px,1fr));
+
+    gap:20px;
+
+}
+
+
+
+.stat-box{
+
+    padding:25px;
+
+    text-align:center;
+
+    color:white;
+
     border-radius:25px;
+
+    background:
+    rgba(255,255,255,.08);
+
+    backdrop-filter:blur(15px);
+
+    border:1px solid rgba(255,255,255,.15);
+
 }
 
-/* ================= TITLE ================= */
-.notes-container h1{
-    text-align:center;
-    font-size:42px;
-    color:#ffffff;
-    margin-bottom:10px;
-    font-weight:800;
+
+
+.stat-box h2{
+
+    font-size:35px;
+
+    color:#60a5fa;
+
 }
 
-.notes-container p{
-    text-align:center;
-    color:#fee4db;
-    margin-bottom:30px;
+
+
+.stat-box p{
+
+    color:#dbeafe;
+
 }
 
-/* ================= SEARCH BOX ================= */
+
+
+/* ================= SEARCH ================= */
+
+
+.search-area{
+
+    max-width:700px;
+
+    margin:40px auto;
+
+}
+
+
 
 #searchInput{
-    display:block;
-    margin:0 auto 40px auto;
-    width:55%;
-    padding:14px 20px;
-    border-radius:30px;
+
+    width:100%;
+
+    padding:16px 25px;
+
+    border-radius:35px;
+
     border:none;
+
     outline:none;
-    background:rgba(255,255,255,0.10);
+
+    font-size:16px;
+
     color:white;
-    backdrop-filter:blur(12px);
-    transition:0.3s;
+
+    background:
+    rgba(255,255,255,.12);
+
+    backdrop-filter:blur(15px);
+
+    border:1px solid rgba(255,255,255,.2);
+
 }
+
+
 
 #searchInput::placeholder{
+
     color:#cbd5e1;
+
 }
+
+
 
 #searchInput:focus{
-    width:60%;
-    box-shadow:0 0 15px rgba(56,189,248,0.4);
+
+    box-shadow:
+    0 0 25px rgba(96,165,250,.5);
+
 }
 
-/* ================= GRID (same subjects) ================= */
+
+
+/* ================= GRID ================= */
+
+
 .notes-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-    gap:25px;
-    max-width:1100px;
+
+    max-width:1200px;
+
     margin:auto;
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(auto-fit,minmax(260px,1fr));
+
+    gap:30px;
+
 }
 
-/* ================= CARD (same subjects style) ================= */
+
+
+/* ================= CARD ================= */
+
+
 .note-card{
-    margin-top:40px;
-    background:rgba(255,255,255,0.08);
-    backdrop-filter:blur(15px);
-    border-radius:20px;
-    padding:25px;
+
+
+    padding:30px;
+
+    border-radius:25px;
+
     text-align:center;
-    border:1px solid rgba(255,255,255,0.15);
-    transition:0.3s;
+
+    color:white;
+
+
+    background:
+    rgba(255,255,255,.08);
+
+
+    backdrop-filter:blur(18px);
+
+
+    border:
+    1px solid rgba(255,255,255,.15);
+
+
+    transition:.35s;
+
+
 }
+
+
 
 .note-card:hover{
-    transform:translateY(-10px);
-    box-shadow:0 15px 35px rgba(37,99,235,0.35);
+
+    transform:
+    translateY(-10px);
+
+
+    box-shadow:
+    0 20px 45px rgba(37,99,235,.35);
+
 }
 
-/* ================= TEXT ================= */
+
+
+/* ICON */
+
+
+.subject-icon{
+
+    width:70px;
+
+    height:70px;
+
+    margin:auto;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    border-radius:50%;
+
+    font-size:35px;
+
+
+    background:
+    linear-gradient(135deg,#2563eb,#06b6d4);
+
+
+}
+
+
+
+/* TEXT */
 .note-card h3{
-    color:#ffffff;
-    margin-bottom:10px;
+
+    margin-top:20px;
+
+    font-size:24px;
+
+    color:#60a5fa;
+
 }
 
 .note-card p{
+
     color:#dbeafe;
+
+    margin:15px 0;
+
 }
 
-/* ================= BUTTON (same subjects button) ================= */
-.note-card .btn{
+
+
+/* BUTTON */
+
+
+.note-btn{
+
     display:inline-block;
-    margin-top:15px;
-    padding:10px 22px;
-    border-radius:25px;
-    background:linear-gradient(90deg,#2563eb,#06b6d4);
-    color:white;
+
+    padding:12px 28px;
+
+    border-radius:30px;
+
     text-decoration:none;
-    font-weight:bold;
-    transition:0.3s;
+
+    color:white;
+
+    font-weight:700;
+
+
+    background:
+    linear-gradient(90deg,#2563eb,#7c3aed);
+
+
+    transition:.3s;
+
 }
 
-.note-card .btn:hover{
+
+
+.note-btn:hover{
+
     transform:scale(1.05);
-    box-shadow:0 10px 25px rgba(56,189,248,0.3);
+
 }
 
-/* ================= RESPONSIVE ================= */
+
+
+/* MOBILE */
+
+
 @media(max-width:768px){
-    #searchInput{
-        width:90%;
-    }
+
+.notes-page{
+
+padding:25px 15px;
+
 }
+
+
+.notes-hero h1{
+
+font-size:34px;
+
+}
+
+
+}
+
 
 </style>
 
-<!-- ================= PAGE ================= -->
 
-<div class="notes-container">
 
-    <h1>📝Notes</h1>
-    <p>Select subject to view notes & resources</p>
+<div class="notes-page">
 
-    <input type="text"
-           id="searchInput"
-           placeholder="🔍 Search Notes..."
-           onkeyup="searchNotes()">
 
-    <div class="notes-grid">
+<div class="notes-hero">
 
-        <div class="note-card">
-            <h3>🐍 Python</h3>
-            <p>Programming Basics Notes</p>
-            <a href="/notes/python" class="btn">View Notes</a>
-        </div>
 
-        <div class="note-card">
-            <h3>☕ Java</h3>
-            <p>OOP Concepts Notes</p>
-            <a href="/notes/java" class="btn">View Notes</a>
-        </div>
+<h1>
+📝<span>Smart Notes Library</span>
+</h1>
 
-        <div class="note-card">
-            <h3>🌐 Web Development</h3>
-            <p>HTML CSS Flask Notes</p>
-            <a href="/notes/web" class="btn">View Notes</a>
-        </div>
 
-        <div class="note-card">
-            <h3>🗄 DBMS</h3>
-            <p>Database Notes</p>
-            <a href="/notes/dbms" class="btn">View Notes</a>
-        </div>
+<p>
+Access subject-wise notes, study materials and learning resources
+for Computer Engineering students with AI Academic Copilot.
+</p>
 
-        <div class="note-card">
-            <h3>💻 C Language</h3>
-            <p>Programming Fundamentals</p>
-            <a href="/notes/c" class="btn">View Notes</a>
-        </div>
 
-        <div class="note-card">
-            <h3>⚡ C++</h3>
-            <p>Advanced Programming Notes</p>
-            <a href="/notes/cpp" class="btn">View Notes</a>
-        </div>
-
-        <div class="note-card">
-            <h3>📊 Data Structures</h3>
-            <p>Algorithms Notes</p>
-            <a href="/notes/datastructure" class="btn">View Notes</a>
-        </div>
-
-        <div class="note-card">
-            <h3>🖥 Operating System</h3>
-            <p>OS Concepts Notes</p>
-            <a href="/notes/operatingsystem" class="btn">View Notes</a>
-        </div>
-
-        <div class="note-card">
-            <h3>🤖 AI</h3>
-            <p>Artificial Intelligence Notes</p>
-            <a href="/notes/ai" class="btn">View Notes</a>
-        </div>
-
-    </div>
 </div>
 
+<div class="search-area">
+
+
+<input type="text"
+id="searchInput"
+placeholder="🔍 Search subject notes..."
+onkeyup="searchNotes()">
+
+
+
+</div>
+
+
+
+<div class="notes-grid">
+            
+        <div class="note-card">
+
+            <div class="subject-icon">🐍</div>
+
+            <h3>Python Programming</h3>
+
+            <p>Programming basics, concepts and practical notes.</p>
+
+            <a href="/notes/python" class="note-btn">
+                View Notes →
+            </a>
+
+        </div>
+
+
+
+        <div class="note-card">
+
+            <div class="subject-icon">☕</div>
+
+            <h3>Java Programming</h3>
+
+            <p>Object Oriented Programming and Java concepts.</p>
+
+            <a href="/notes/java" class="note-btn">
+                View Notes →
+            </a>
+
+        </div>
+
+
+
+
+        <div class="note-card">
+
+            <div class="subject-icon">🌐</div>
+
+            <h3>Web Development</h3>
+
+            <p>HTML, CSS, Flask and web application notes.</p>
+
+            <a href="/notes/web" class="note-btn">
+                View Notes →
+            </a>
+
+        </div>
+
+
+
+
+        <div class="note-card">
+
+            <div class="subject-icon">🗄</div>
+
+            <h3>DBMS</h3>
+
+            <p>Database concepts, SQL and normalization notes.</p>
+
+            <a href="/notes/dbms" class="note-btn">
+                View Notes →
+            </a>
+
+        </div>
+
+
+
+
+        <div class="note-card">
+
+            <div class="subject-icon">💻</div>
+
+            <h3>C Programming</h3>
+
+            <p>Programming fundamentals and C language notes.</p>
+
+            <a href="/notes/c" class="note-btn">
+                View Notes →
+            </a>
+
+        </div>
+
+
+
+
+        <div class="note-card">
+
+            <div class="subject-icon">⚡</div>
+
+            <h3>C++ Programming</h3>
+
+            <p>OOP concepts and advanced programming notes.</p>
+
+            <a href="/notes/cpp" class="note-btn">
+                View Notes →
+            </a>
+
+        </div>
+
+
+
+
+        <div class="note-card">
+
+            <div class="subject-icon">📊</div>
+
+            <h3>Data Structures</h3>
+
+            <p>Algorithms, arrays, stack and queue notes.</p>
+
+            <a href="/notes/datastructure" class="note-btn">
+                View Notes →
+            </a>
+
+        </div>
+
+
+
+
+        <div class="note-card">
+
+            <div class="subject-icon">🖥</div>
+
+            <h3>Operating System</h3>
+
+            <p>Process management, memory and OS concepts.</p>
+
+            <a href="/notes/operatingsystem" class="note-btn">
+                View Notes →
+            </a>
+
+        </div>
+
+
+
+
+        <div class="note-card">
+
+            <div class="subject-icon">🤖</div>
+
+            <h3>Artificial Intelligence</h3>
+
+            <p>AI concepts, algorithms and machine learning basics.</p>
+
+            <a href="/notes/ai" class="note-btn">
+                View Notes →
+            </a>
+
+        </div>
+
+
+
+    </div>
+
+
+</div>
+
+
+
 <script>
-function searchNotes() {
-    let input = document.getElementById("searchInput");
-    let filter = input.value.toLowerCase();
-    let cards = document.getElementsByClassName("Notes-card");
 
-    for(let i = 0; i < cards.length; i++) {
-        let text = cards[i].innerText.toLowerCase();
 
-        if(text.includes(filter)) {
-            cards[i].style.display = "";
-        } else {
-            cards[i].style.display = "none";
+function searchNotes(){
+
+
+    let input = document
+    .getElementById("searchInput")
+    .value
+    .toLowerCase();
+
+
+
+    let cards = document
+    .getElementsByClassName("note-card");
+
+
+
+    for(let i=0;i<cards.length;i++){
+
+
+        let text = cards[i]
+        .innerText
+        .toLowerCase();
+
+
+
+        if(text.includes(input)){
+
+
+            cards[i].style.display="block";
+
+
         }
+
+        else{
+
+
+            cards[i].style.display="none";
+
+
+        }
+
+
     }
+
+
 }
+
+
+
 </script>
+
+
 
 {% endblock %}

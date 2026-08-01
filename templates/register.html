@@ -2,74 +2,367 @@
 
 {% block content %}
 
-<div class="container py-5">
-    <div class="row justify-content-center">
+<style>
 
-        <div class="col-md-6 col-lg-5">
+.register-page{
 
-            <div class="card shadow-lg border-0 rounded-4">
+    min-height:90vh;
 
-                <div class="card-body p-5">
+    display:flex;
 
-                    <h2 class="text-center text-primary fw-bold mb-4">
-                        Create Account
-                    </h2>
+    justify-content:center;
 
-                    {% with messages = get_flashed_messages(with_categories=true) %}
-                    {% if messages %}
-                    {% for category,message in messages %}
-                    <div class="alert alert-{{category}}">
-                        {{message}}
-                    </div>
-                    {% endfor %}
-                    {% endif %}
-                    {% endwith %}
+    align-items:center;
 
-                    <form method="POST">
+    padding:40px;
 
-                        <div class="mb-3">
-                            <label class="form-label">Full Name</label>
-                            <input type="text" class="form-control" name="fullname" required>
-                        </div>
+    background:
+    radial-gradient(circle at top left,#dbeafe,#f8fafc 40%),
+    linear-gradient(135deg,#eef2ff,#dbeafe);
 
-                        <div class="mb-3">
-                            <label class="form-label">Email</label>
-                            <input type="email" class="form-control" name="email" required>
-                        </div>
+}
 
-                        <div class="mb-3">
-                            <label class="form-label">Username</label>
-                            <input type="text" class="form-control" name="username" required>
-                        </div>
 
-                        <div class="mb-4">
-                            <label class="form-label">Password</label>
-                            <input type="password" class="form-control" name="password" required>
-                        </div>
+/* CARD */
 
-                        <button class="btn btn-primary w-100">
-                            Register
-                        </button>
+.register-card{
 
-                    </form>
+    width:100%;
 
-                    <div class="text-center mt-4">
+    max-width:480px;
 
-                        Already have an account?
+    padding:40px;
 
-                        <a href="{{ url_for('login') }}">
-                            Login
-                        </a>
+    border-radius:30px;
 
-                    </div>
+    background:
+    rgba(255,255,255,0.75);
 
-                </div>
+    backdrop-filter:blur(20px);
 
-            </div>
+    border:1px solid rgba(255,255,255,.6);
 
-        </div>
+    box-shadow:
+    0 25px 60px rgba(37,99,235,.18);
 
-    </div>
+}
+
+
+
+/* HEADER */
+
+.register-icon{
+
+    width:80px;
+
+    height:80px;
+
+    margin:auto;
+
+    border-radius:50%;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-size:40px;
+
+    background:
+    linear-gradient(135deg,#2563eb,#7c3aed);
+
+    color:white;
+
+    box-shadow:
+    0 10px 30px rgba(37,99,235,.35);
+
+}
+
+
+.register-card h2{
+
+    text-align:center;
+
+    margin-top:20px;
+
+    font-size:34px;
+
+    font-weight:800;
+
+    color:#0f172a;
+
+}
+
+
+.subtitle{
+
+    text-align:center;
+
+    color:#64748b;
+
+    margin-bottom:30px;
+
+}
+
+
+
+/* INPUT */
+
+.form-label{
+
+    font-weight:600;
+
+    color:#334155;
+
+}
+
+
+.form-control{
+
+    height:50px;
+
+    border-radius:15px;
+
+    border:1px solid #cbd5e1;
+
+    padding-left:18px;
+
+    transition:.3s;
+
+}
+
+
+.form-control:focus{
+
+    border-color:#2563eb;
+
+    box-shadow:
+    0 0 0 4px rgba(37,99,235,.15);
+
+}
+
+
+
+/* BUTTON */
+
+.register-btn{
+
+    height:52px;
+
+    border:none;
+
+    border-radius:30px;
+
+    background:
+    linear-gradient(90deg,#2563eb,#7c3aed);
+
+    color:white;
+
+    font-size:17px;
+
+    font-weight:700;
+
+    transition:.3s;
+
+}
+
+
+.register-btn:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:
+    0 15px 30px rgba(37,99,235,.3);
+
+}
+
+
+
+/* LOGIN */
+
+.login-text{
+
+    text-align:center;
+
+    margin-top:25px;
+
+    color:#64748b;
+
+}
+
+
+.login-text a{
+
+    color:#2563eb;
+
+    font-weight:700;
+
+    text-decoration:none;
+
+}
+
+
+
+</style>
+
+
+
+<div class="register-page">
+
+
+<div class="register-card">
+
+
+<div class="register-icon">
+
+🎓
+
 </div>
+
+
+
+<h2>
+Create Account
+</h2>
+
+
+<p class="subtitle">
+Join AI Academic Copilot and start smart learning
+</p>
+
+
+
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+
+{% if messages %}
+
+{% for category,message in messages %}
+
+<div class="alert alert-{{category}}">
+{{message}}
+</div>
+
+{% endfor %}
+
+{% endif %}
+
+{% endwith %}
+
+
+
+
+
+<form method="POST">
+
+
+<div class="mb-3">
+
+<label class="form-label">
+👤Full Name
+</label>
+
+<input 
+type="text"
+class="form-control"
+name="fullname"
+placeholder="Enter your full name"
+required>
+
+</div>
+
+
+
+
+<div class="mb-3">
+
+<label class="form-label">
+📧Email
+</label>
+
+<input 
+type="email"
+class="form-control"
+name="email"
+placeholder="Enter email address"
+required>
+
+</div>
+
+
+
+
+
+<div class="mb-3">
+
+<label class="form-label">
+👤Username
+</label>
+
+<input 
+type="text"
+class="form-control"
+name="username"
+placeholder="Choose username"
+required>
+
+</div>
+
+
+
+
+
+<div class="mb-4">
+
+<label class="form-label">
+🔒Password
+</label>
+
+<input 
+type="password"
+class="form-control"
+name="password"
+placeholder="Create password"
+required>
+
+</div>
+
+
+
+
+
+<button class="register-btn w-100">
+
+🚀 Register Account
+
+</button>
+
+
+
+</form>
+
+
+
+
+
+<div class="login-text">
+
+Already have an account?
+
+<a href="{{ url_for('login') }}">
+Login
+</a>
+
+
+</div>
+
+
+
+</div>
+
+
+</div>
+
 
 {% endblock %}

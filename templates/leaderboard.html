@@ -2,231 +2,375 @@
 {% block content %}
 
 <style>
+
 .lb-container{
-    padding:50px;
+    padding:50px 20px;
     min-height:100vh;
-    background:radial-gradient(circle at top,#0f172a,#1e1b4b,#0b1020);
+    background:linear-gradient(135deg,#0f172a,#1e3a8a,#2563eb);
     color:white;
-    border-radius:20px;
+    border-radius:25px;
     text-align:center;
 }
 
 .lb-container h1{
-    font-size:36px;
-    margin-bottom:20px;
+    font-size:40px;
+    font-weight:800;
 }
 
-table{
-    width:90%;
-    margin:auto;
-    border-collapse:collapse;
-    background:rgba(255,255,255,.05);
-    backdrop-filter:blur(10px);
-    border-radius:15px;
-    overflow:hidden;
-}
-
-th,td{
-    padding:15px;
-    border-bottom:1px solid rgba(255,255,255,.1);
-}
-
-th{
-    background:rgba(99,102,241,.3);
-}
-
-tr:hover{
-    transform:scale(1.01);
-    transition:.3s;
-}
-
-.badge{
-    padding:6px 12px;
-    border-radius:20px;
-    background:linear-gradient(90deg,#6366f1,#8b5cf6);
-    color:white;
-    font-weight:bold;
-}
-
-.gold{
-    background:linear-gradient(90deg,#FFD700,#FFC107);
-    color:#111827;
-    font-weight:bold;
-}
-
-.silver{
-    background:linear-gradient(90deg,#E5E7EB,#C0C0C0);
-    color:#111827;
-    font-weight:bold;
-}
-
-.bronze{
-    background:linear-gradient(90deg,#CD7F32,#8B4513);
-    color:white;
-    font-weight:bold;
-}
-
-select{
-    padding:10px 20px;
-    border:none;
-    border-radius:10px;
-    background:#6366f1;
-    color:white;
-    font-size:16px;
-    cursor:pointer;
-    margin-bottom:20px;
-}
 
 .rank-card{
-    width:300px;
-    margin:20px auto;
-    padding:15px;
-    border-radius:15px;
-    background:linear-gradient(90deg,#2563eb,#7c3aed);
-    color:white;
-    font-size:22px;
+    width:320px;
+    margin:25px auto;
+    padding:20px;
+    border-radius:25px;
+    background:linear-gradient(135deg,#2563eb,#7c3aed);
+    font-size:20px;
     font-weight:bold;
-    box-shadow:0 0 20px rgba(99,102,241,.5);
 }
 
-/* Pagination */
 
-.pagination{
+
+.filter-box{
     display:flex;
     justify-content:center;
-    align-items:center;
-    gap:10px;
-    margin-top:30px;
+    gap:15px;
     flex-wrap:wrap;
+    margin:30px;
 }
+
+
+select{
+
+    padding:12px 20px;
+
+    border-radius:15px;
+
+    border:none;
+
+    cursor:pointer;
+
+    font-weight:600;
+
+}
+
+
+
+.table-wrapper{
+
+    width:95%;
+
+    margin:auto;
+
+    overflow-x:auto;
+
+}
+
+
+
+table{
+
+    width:100%;
+
+    min-width:800px;
+
+    border-collapse:collapse;
+
+    background:white;
+
+    color:#0f172a;
+
+    border-radius:20px;
+
+    overflow:hidden;
+
+}
+
+
+
+th{
+
+    padding:16px;
+
+    background:#2563eb;
+
+    color:white;
+
+}
+
+
+
+td{
+
+    padding:15px;
+
+    border-bottom:1px solid #e2e8f0;
+
+    font-weight:600;
+
+}
+
+
+
+tr:hover{
+
+    background:#eff6ff;
+
+}
+
+
+
+.badge{
+
+    display:inline-flex;
+
+    width:35px;
+
+    height:35px;
+
+    align-items:center;
+
+    justify-content:center;
+
+    border-radius:50%;
+
+    background:#6366f1;
+
+    color:white;
+
+}
+/* TOP 3 ROW COLORS */
+tr.gold td{
+    background:#facc15 !important;
+    color:#111827 !important;
+    font-weight:bold;
+}
+
+tr.silver td{
+    background:#cbd5e1 !important;
+    color:#111827 !important;
+    font-weight:bold;
+}
+tr.bronze td{
+    background:#cd7f32 !important;
+    color:white !important;
+    font-weight:bold;
+}
+.pagination{
+
+    margin-top:30px;
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:10px;
+
+    flex-wrap:wrap;
+
+}
+
+
 
 .pagination a{
-    padding:10px 16px;
-    border-radius:8px;
+
+    padding:10px 15px;
+
+    border-radius:10px;
+
     background:#1e293b;
+
     color:white;
+
     text-decoration:none;
-    transition:.3s;
+
 }
 
-.pagination a:hover{
-    background:#6366f1;
-}
+
 
 .pagination .active{
-    background:#8b5cf6;
+
+    background:#2563eb;
+
 }
+
+
+
+@media(max-width:768px){
+
+.lb-container{
+
+padding:30px 10px;
+
+}
+
+
+.table-wrapper{
+
+width:100%;
+
+}
+
+}
+
 </style>
+
+
 
 <div class="lb-container">
 
+
 <h1>🏆 Academic Leaderboard</h1>
+
 <p>Top Performing Students</p>
 
+
+
 {% if your_rank %}
+
 <div class="rank-card">
-    👤 {{ current_user }} <br>
-    🏆 Your Rank :
-    <strong>#{{ your_rank }}</strong>
+
+👤 {{ current_user }}
+
+<br>
+
+🏆 Your Rank : #{{ your_rank }}
+
 </div>
+
 {% endif %}
+
+
+
 
 <form method="GET">
 
+<div class="filter-box">
+
+
 <select name="subject" onchange="this.form.submit()">
 
-<option value="All">All Subjects</option>
+
+<option value="All">
+
+All Subjects
+
+</option>
+
 
 <option value="Python"
 {% if selected_subject=="Python" %}selected{% endif %}>
 🐍 Python
 </option>
 
+
 <option value="Java"
 {% if selected_subject=="Java" %}selected{% endif %}>
 ☕ Java
 </option>
+
 
 <option value="DBMS"
 {% if selected_subject=="DBMS" %}selected{% endif %}>
 🗄 DBMS
 </option>
 
+
 <option value="AI"
 {% if selected_subject=="AI" %}selected{% endif %}>
 🤖 AI
 </option>
 
+
 </select>
 
+
+
 <select name="period" onchange="this.form.submit()">
+
+
 
 <option value="all"
 {% if selected_period=="all" %}selected{% endif %}>
 🌍 All Time
 </option>
 
+
 <option value="today"
 {% if selected_period=="today" %}selected{% endif %}>
 📅 Today
 </option>
+
 
 <option value="week"
 {% if selected_period=="week" %}selected{% endif %}>
 📆 This Week
 </option>
 
+
 </select>
+
+
+</div>
 
 </form>
 
-<br>
+
+
+
+<div class="table-wrapper">
+
 
 <table>
 
+
 <tr>
-    <th>Rank</th>
-    <th>User</th>
-    <th>Subject</th>
-    <th>Score</th>
-    <th>Total</th>
-    <th>Date</th>
+
+<th>Rank</th>
+<th>User</th>
+<th>Subject</th>
+<th>Score</th>
+<th>Total</th>
+<th>Date</th>
+
 </tr>
+
+
+
 {% for row in data %}
 
-{% set rank = (page - 1) * per_page + loop.index %}
+
+{% set rank=(page-1)*per_page+loop.index %}
+
+
 
 <tr
-{% if rank == 1 %}
+{% if rank==1 %}
 class="gold"
-{% elif rank == 2 %}
+{% elif rank==2 %}
 class="silver"
-{% elif rank == 3 %}
+{% elif rank==3 %}
 class="bronze"
 {% endif %}
 >
 
+
 <td>
 
-{% if rank == 1 %}
 
-<span class="badge">🥇</span>
-
-{% elif rank == 2 %}
-
-<span class="badge">🥈</span>
-
-{% elif rank == 3 %}
-
-<span class="badge">🥉</span>
-
+{% if rank==1 %}
+🥇
+{% elif rank==2 %}
+🥈
+{% elif rank==3 %}
+🥉
 {% else %}
-
-<span class="badge">{{ rank }}</span>
-
+<span class="badge">{{rank}}</span>
 {% endif %}
 
+
 </td>
+
+
 
 <td>{{ row["username"] }}</td>
 
@@ -238,58 +382,85 @@ class="bronze"
 
 <td>{{ row["created_at"] }}</td>
 
+
+
 </tr>
+
+
 
 {% endfor %}
 
+
+
 </table>
+
+
+</div>
+
+
+
+
+
 <div class="pagination">
 
-    {% if page > 1 %}
-        <a href="{{ url_for('leaderboard',
-            subject=selected_subject,
-            period=selected_period,
-            page=page-1) }}">
-            ⬅ Previous
-        </a>
-    {% endif %}
 
-    {% for p in range(1, total_pages + 1) %}
+{% if page > 1 %}
 
-        {% if p == page %}
+<a href="{{ url_for('leaderboard',
+subject=selected_subject,
+period=selected_period,
+page=page-1) }}">
 
-            <a class="active"
-               href="{{ url_for('leaderboard',
-                    subject=selected_subject,
-                    period=selected_period,
-                    page=p) }}">
-                {{ p }}
-            </a>
+⬅ Previous
 
-        {% else %}
+</a>
 
-            <a href="{{ url_for('leaderboard',
-                    subject=selected_subject,
-                    period=selected_period,
-                    page=p) }}">
-                {{ p }}
-            </a>
+{% endif %}
 
-        {% endif %}
 
-    {% endfor %}
 
-    {% if page < total_pages %}
-        <a href="{{ url_for('leaderboard',
-            subject=selected_subject,
-            period=selected_period,
-            page=page+1) }}">
-            Next ➡
-        </a>
-    {% endif %}
+
+{% for p in range(1,total_pages+1) %}
+
+
+<a class="{% if p==page %}active{% endif %}"
+
+href="{{ url_for('leaderboard',
+subject=selected_subject,
+period=selected_period,
+page=p) }}">
+
+{{p}}
+
+</a>
+
+
+{% endfor %}
+
+
+
+
+
+{% if page < total_pages %}
+
+<a href="{{ url_for('leaderboard',
+subject=selected_subject,
+period=selected_period,
+page=page+1) }}">
+
+Next ➡
+
+</a>
+
+{% endif %}
+
+
 
 </div>
 
+
+
 </div>
+
 
 {% endblock %}
