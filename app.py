@@ -60,7 +60,7 @@ def manage_users():
     cur = conn.cursor()
 
     cur.execute("""
-        SELECT id, fullname, email, username, role
+        SELECT id, fullname, email, username, role, profile_image
         FROM users
     """)
 
@@ -73,7 +73,6 @@ def manage_users():
         "manage_users.html",
         users=users
     )
-
 #=============role change route=================
 @app.route("/change_role/<int:id>")
 def change_role(id):
@@ -120,6 +119,7 @@ def delete_user(id):
     return redirect("/manage_users")
 
 #=================user details route========================
+
 @app.route("/user_details/<int:id>")
 def user_details(id):
 
@@ -132,7 +132,7 @@ def user_details(id):
 
 
     cur.execute("""
-    SELECT id, fullname, email, username, role
+    SELECT id, fullname, email, username, role, profile_image
     FROM users
     WHERE id=?
     """,(id,))
@@ -1861,6 +1861,7 @@ def dashboard():
         timeline=timeline
     )
 # ---------------- PROFILE ----------------
+
 @app.route("/profile")
 def profile():
 
@@ -1874,13 +1875,12 @@ def profile():
 
     # User Details
     cur.execute("""
-    SELECT id, fullname, email, username, role
+    SELECT id, fullname, email, username, role, profile_image, notifications, dark_theme
     FROM users
     WHERE id=?
     """,(session["user_id"],))
 
     user = cur.fetchone()
-
 
 
     # Quiz Completed Count
@@ -1892,9 +1892,11 @@ def profile():
 
     quiz_count = cur.fetchone()[0]
 
+
     notes_count = 0
 
-        # Total Login Days
+
+    # Total Login Days
     cur.execute("""
     SELECT COUNT(DISTINCT login_date)
     FROM user_activity
@@ -1904,11 +1906,11 @@ def profile():
     login_days = cur.fetchone()[0]
 
 
-    # Learning Progress Calculation
+    # Learning Progress
 
     total_activity = quiz_count + login_days
 
-    target = 50   # maximum expected activity
+    target = 50
 
     progress = int(
         (total_activity / target) * 100
@@ -1918,16 +1920,14 @@ def profile():
     if progress > 100:
         progress = 100
 
-    # Login Streak
-    cur.execute("""
-    SELECT COUNT(DISTINCT login_date)
-    FROM user_activity
-    WHERE user_id=?
-    """,(session["user_id"],))
 
-    streak = cur.fetchone()[0]
+    # Login Streak
+
+    streak = login_days
+
 
     # Last Active Date
+
     cur.execute("""
     SELECT login_date
     FROM user_activity
@@ -1936,14 +1936,18 @@ def profile():
     LIMIT 1
     """,(session["user_id"],))
 
+
     last_active = cur.fetchone()
+
 
     if last_active:
         last_active = last_active[0]
     else:
         last_active = "No Activity"
 
+
     conn.close()
+
 
     return render_template(
         "profile.html",
@@ -1954,6 +1958,153 @@ def profile():
         progress=progress,
         last_active=last_active
     )
+
+
+
+# ---------------- UPDATE PROFILE ----------------
+
+
+from werkzeug.security import check_password_hash, generate_password_hash
+
+
+@app.route("/update_profile", methods=["POST"])
+def update_profile():
+
+    if "user_id" not in session:
+        return redirect("/login")
+
+
+    fullname = request.form["fullname"]
+    username = request.form["username"]
+    email = request.form["email"]
+
+
+    notifications = 1 if request.form.get("notifications") else 0
+    dark_theme = 1 if request.form.get("dark_theme") else 0
+
+
+    current_password = request.form.get("current_password")
+    new_password = request.form.get("new_password")
+    confirm_password = request.form.get("confirm_password")
+
+
+    conn = sqlite3.connect(DB_PATH)
+    cur = conn.cursor()
+
+
+
+    # PASSWORD CHANGE
+
+    if current_password and new_password and confirm_password:
+
+
+        cur.execute(
+            "SELECT password FROM users WHERE id=?",
+            (session["user_id"],)
+        )
+
+
+        db_password = cur.fetchone()[0]
+
+
+        if not check_password_hash(db_password, current_password):
+
+            flash("Current password is incorrect.", "danger")
+            conn.close()
+            return redirect("/profile")
+
+
+        if new_password != confirm_password:
+
+            flash("New passwords do not match.", "danger")
+            conn.close()
+            return redirect("/profile")
+
+
+        hashed_password = generate_password_hash(new_password)
+
+
+        cur.execute("""
+            UPDATE users
+            SET password=?
+            WHERE id=?
+        """,
+        (
+            hashed_password,
+            session["user_id"]
+        ))
+
+
+
+    # PROFILE IMAGE UPLOAD
+
+    image = request.files.get("profile_image")
+
+
+    if image and image.filename != "":
+
+
+        filename = image.filename
+
+
+        upload_folder = os.path.join(
+            "static",
+            "uploads",
+            "profile"
+        )
+
+
+        os.makedirs(upload_folder, exist_ok=True)
+
+
+        image.save(
+            os.path.join(
+                upload_folder,
+                filename
+            )
+        )
+
+
+        cur.execute("""
+            UPDATE users
+            SET profile_image=?
+            WHERE id=?
+        """,
+        (
+            filename,
+            session["user_id"]
+        ))
+
+
+
+    # UPDATE PROFILE DETAILS
+
+    cur.execute("""
+        UPDATE users
+        SET fullname=?,
+            username=?,
+            email=?,
+            notifications=?,
+            dark_theme=?
+        WHERE id=?
+    """,
+    (
+        fullname,
+        username,
+        email,
+        notifications,
+        dark_theme,
+        session["user_id"]
+    ))
+
+    conn.commit()
+    conn.close() 
+
+    session["username"] = username
+
+    flash("Profile updated successfully!", "success")
+
+    return redirect("/profile")
 # ---------------- LOGOUT ----------------
 @app.route("/logout")
 def logout():

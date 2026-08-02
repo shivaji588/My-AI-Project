@@ -177,7 +177,76 @@ font-weight:bold;
     background:#2563eb;
     transform:translateY(-2px);
 }
+/* TABLE UI FIX */
 
+.user-card{
+    overflow-x:auto;
+}
+
+
+table{
+    width:100%;
+    table-layout:auto;
+}
+
+
+th, td{
+    vertical-align:middle;
+}
+
+
+/* PHOTO */
+
+th:first-child,
+td:first-child{
+    width:90px;
+}
+
+
+/* ACTION COLUMN FIX */
+
+th:last-child,
+td:last-child{
+    width:320px;
+    white-space:nowrap;
+}
+
+
+.btn{
+    display:inline-block;
+    padding:8px 12px;
+    margin:3px;
+    font-size:14px;
+}
+
+
+td{
+    height:75px;
+}
+/* ROLE COLUMN FIX */
+
+th:nth-child(5),
+td:nth-child(5){
+
+    width:150px;
+    text-align:center;
+}
+
+
+.admin-badge,
+.student-badge{
+
+    display:inline-block;
+    white-space:nowrap;
+    font-size:14px;
+    padding:8px 16px;
+
+}
+th:last-child,
+td:last-child{
+    width:320px;
+    white-space:nowrap;
+}
 </style>
 <a href="{{ url_for('admin') }}" class="back-btn">
     ⬅️ Back to Admin Panel
@@ -228,6 +297,7 @@ width:250px;
 
 
 <tr>
+<th>🖼 Photo</th>
 
 <th>👤 Name</th>
 
@@ -251,7 +321,39 @@ width:250px;
 
 <tr class="{% if user[4]=='admin' %}admin-row{% endif %}">
 
+<td>
 
+{% if user[5] %}
+
+<img 
+src="{{ url_for('static', filename='uploads/profile/' + user[5]) }}"
+width="50"
+height="50"
+style="border-radius:50%;object-fit:cover;">
+
+{% else %}
+
+<div style="
+width:50px;
+height:50px;
+border-radius:50%;
+background:linear-gradient(135deg,#2563eb,#7c3aed);
+color:white;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:22px;
+font-weight:bold;
+margin:auto;
+">
+
+{{ user[1][0]|upper }}
+
+</div>
+
+{% endif %}
+
+</td>
 
 <td>
 
@@ -322,8 +424,7 @@ width:250px;
 
 
 
-
-<td>
+<td style="white-space:nowrap;">
 
 
 

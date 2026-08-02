@@ -226,11 +226,24 @@ to{
 
 <div class="avatar">
 
-{{ user[1][0] }}
+{% if user[5] %}
+
+<img 
+src="{{ url_for('static', filename='uploads/profile/' + user[5]) }}"
+width="120"
+height="120"
+style="
+border-radius:50%;
+object-fit:cover;
+">
+
+{% else %}
+
+{{ user[1][0]|upper }}
+
+{% endif %}
 
 </div>
-
-
 
 <h1>
 {{ user[1] }}

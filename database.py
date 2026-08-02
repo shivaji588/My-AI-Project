@@ -15,15 +15,17 @@ def init_db():
     # USERS TABLE
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS users (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        fullname TEXT,
-        email TEXT,
-        username TEXT UNIQUE,
-        password TEXT,
-        role TEXT DEFAULT 'student'
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    fullname TEXT,
+    email TEXT,
+    username TEXT UNIQUE,
+    password TEXT,
+    role TEXT DEFAULT 'student',
+    profile_image TEXT DEFAULT 'default.png',
+    notifications INTEGER DEFAULT 1,
+    dark_theme INTEGER DEFAULT 0
     )
     """)
-
 
     # PAPERS TABLE
     cursor.execute("""
@@ -75,6 +77,34 @@ def init_db():
     FOREIGN KEY(user_id) REFERENCES users(id)
     )
     """)
+
+    # ================= USERS TABLE MIGRATION =================
+    try:
+        cursor.execute("""
+            ALTER TABLE users
+            ADD COLUMN profile_image TEXT DEFAULT 'default.jpg'
+        """)
+    except sqlite3.OperationalError:
+        pass
+
+
+    try:
+        cursor.execute("""
+            ALTER TABLE users
+            ADD COLUMN notifications INTEGER DEFAULT 1
+        """)
+    except sqlite3.OperationalError:
+        pass
+
+
+    try:
+        cursor.execute("""
+            ALTER TABLE users
+            ADD COLUMN dark_theme INTEGER DEFAULT 0
+        """)
+    except sqlite3.OperationalError:
+        pass
+
 
     # ================= CHAT HISTORY MIGRATION =================
 

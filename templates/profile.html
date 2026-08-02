@@ -69,37 +69,40 @@
 }
 
 
-
 .avatar{
 
     width:130px;
-
     height:130px;
 
     border-radius:50%;
 
     display:flex;
-
     justify-content:center;
-
     align-items:center;
 
-    background:white;
+    background:
+    linear-gradient(135deg,#2563eb,#7c3aed);
 
-    color:#2563eb;
+    color:white;
 
     font-size:55px;
-
     font-weight:900;
 
     border:7px solid white;
 
     box-shadow:
-    0 15px 35px rgba(37,99,235,.4);
+    0 15px 35px rgba(37,99,235,.45);
+
+    text-transform:uppercase;
 
 }
+.avatar:hover{
 
+    transform:scale(1.08) rotate(5deg);
 
+    transition:.3s;
+
+}
 
 .online{
 
@@ -415,7 +418,167 @@ font-size:30px;
 }
 
 }
+.dark-profile{
 
+    background:#020617 !important;
+
+}
+
+
+.dark-profile .profile-wrapper{
+
+    background:#111827;
+
+    color:white;
+
+}
+
+
+.dark-profile .profile-content h1{
+
+    color:white;
+
+}
+
+
+.dark-profile .info-card{
+
+    background:#1e293b;
+
+    border-color:#334155;
+
+}
+
+
+.dark-profile .info-card h4{
+
+    color:#94a3b8;
+
+}
+
+
+.dark-profile .info-card p{
+
+    color:white;
+
+}
+
+
+.dark-profile .stat-card{
+
+    background:#1e293b;
+
+}
+
+
+.dark-profile .achievement{
+
+    background:#292524;
+
+}
+
+
+.dark-profile .progress-box h3{
+
+    color:white;
+
+}
+/* DARK MODE MODAL */
+
+.dark-profile .modal-content{
+
+    background:#111827;
+    color:white;
+
+}
+
+
+.dark-profile .modal-body label,
+.dark-profile .modal-body h5{
+
+    color:white;
+
+}
+
+
+.dark-profile .modal-body .form-control,
+.dark-profile .modal-body .form-select{
+
+    background:#1e293b;
+    color:white;
+    border:1px solid #475569;
+
+}
+
+
+.dark-profile .modal-body .form-control::placeholder{
+
+    color:#94a3b8;
+
+}
+
+
+.dark-profile .modal-body .form-check-label{
+
+    color:white;
+
+}
+
+
+.dark-profile .modal-body hr{
+
+    border-color:#475569;
+
+}
+/* SETTINGS HIGHLIGHT */
+
+.settings-card{
+
+    background:
+    linear-gradient(135deg,#eff6ff,#dbeafe);
+
+    border:2px solid #2563eb;
+
+    position:relative;
+
+    overflow:hidden;
+
+}
+
+
+.settings-card::before{
+
+    content:"";
+
+    position:absolute;
+
+    top:0;
+    left:0;
+
+    width:100%;
+    height:5px;
+
+    background:
+    linear-gradient(90deg,#2563eb,#7c3aed);
+
+}
+
+
+.settings-card:hover{
+
+    transform:translateY(-10px) scale(1.02);
+
+    box-shadow:
+    0 20px 40px rgba(37,99,235,.25);
+
+}
+.dark-profile .settings-card{
+
+    background:#1e293b;
+
+    border-color:#60a5fa;
+
+}
 </style>
 
 
@@ -435,7 +598,15 @@ font-size:30px;
 
 <div class="avatar">
 
+{% if user[5] %}
+<img 
+src="{{ url_for('static', filename='uploads/profile/' + user[5]) }}"
+width="130"
+height="130"
+style="border-radius:50%;object-fit:cover;">
+{% else %}
 {{ user[1][0] }}
+{% endif %}
 
 </div>
 
@@ -530,22 +701,217 @@ font-size:30px;
 </div>
 
 
+<div class="info-card settings-card"
+     data-bs-toggle="modal"
+     data-bs-target="#settingsModal"
+     style="cursor:pointer;">
 
-<div class="info-card">
+    <h3>⚙️ Settings</h3>
 
-<h4>⚙️ Settings</h4>
+    <p style="color:#2563eb;font-weight:bold;">
+        Customize Profile →
+    </p>
 
-<p style="color:#2563eb">
+</div>
 
-Customize Profile
+</div>
+<!-- ================= SETTINGS MODAL ================= -->
 
-</p>
+<div class="modal fade"
+     id="settingsModal"
+     tabindex="-1">
+
+<div class="modal-dialog modal-dialog-centered modal-lg">
+
+<div class="modal-content"
+style="border-radius:25px;border:none;overflow:hidden;">
+
+<div class="modal-header"
+style="background:linear-gradient(135deg,#2563eb,#7c3aed);
+color:white;">
+
+<h4 class="modal-title">
+⚙️ Account Settings
+</h4>
+
+<button
+type="button"
+class="btn-close btn-close-white"
+data-bs-dismiss="modal">
+</button>
 
 </div>
 
 
+<div class="modal-body p-4">
+
+<form method="POST" 
+action="/update_profile"
+enctype="multipart/form-data">
+
+<!-- PROFILE -->
+
+<h5 class="mb-3">
+👤 Edit Profile
+</h5>
+
+<div class="row">
+
+<div class="col-md-6 mb-3">
+
+<label>Full Name</label>
+
+<input
+type="text"
+class="form-control"
+name="fullname"
+value="{{ user[1] }}"
+required>
+
 </div>
 
+<div class="col-md-6 mb-3">
+
+<label>Username</label>
+
+<input
+type="text"
+class="form-control"
+name="username"
+value="{{ user[3] }}"
+required>
+
+</div>
+
+<div class="col-12 mb-4">
+
+<label>Email</label>
+
+<input
+type="email"
+class="form-control"
+name="email"
+value="{{ user[2] }}"
+required>
+
+</div>
+
+</div>
+
+<hr>
+
+<!-- PASSWORD -->
+
+<h5 class="mb-3">
+🔒 Change Password
+</h5>
+
+<input
+type="password"
+class="form-control mb-3"
+name="current_password"
+placeholder="Current Password">
+
+<input
+type="password"
+class="form-control mb-3"
+name="new_password"
+placeholder="New Password">
+
+<input
+type="password"
+class="form-control mb-4"
+name="confirm_password"
+placeholder="Confirm Password">
+
+<!-- SETTINGS -->
+
+<h5 class="mb-3">
+⚙️ Preferences
+</h5>
+
+<div class="form-check form-switch mb-3">
+
+<input
+class="form-check-input"
+type="checkbox"
+id="notify"
+name="notifications"
+
+{% if user[5] == 1 %}
+checked
+{% endif %}
+
+>
+
+<label
+class="form-check-label"
+for="notify">
+
+🔔 Notifications
+
+</label>
+
+</div>
+
+<div class="form-check form-switch mb-3">
+
+<input
+class="form-check-input"
+type="checkbox"
+id="theme"
+name="dark_theme"
+
+{% if user[7] == 1 %}
+checked
+{% endif %}
+>
+
+<label
+class="form-check-label"
+for="theme">
+
+🌙 Dark Theme
+
+</label>
+
+</div>
+
+<hr>
+<div class="mb-4">
+
+<label>
+🖼️ Profile Picture
+</label>
+
+<input 
+type="file"
+name="profile_image"
+class="form-control">
+
+</div>
+
+<div class="text-end">
+
+<button
+type="submit"
+class="btn btn-primary px-4">
+
+💾 Save Changes
+
+</button>
+
+</div>
+
+</form>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
 
 
 
@@ -670,5 +1036,45 @@ class="dashboard-btn">
 
 </div>
 
+<script>
 
+const themeSwitch = document.getElementById("theme");
+
+const profilePage = document.querySelector(".profile-page");
+
+
+// saved theme load
+
+if(localStorage.getItem("profileDark") === "true"){
+
+    profilePage.classList.add("dark-profile");
+
+    themeSwitch.checked = true;
+
+}
+
+
+// switch change
+
+themeSwitch.addEventListener("change", function(){
+
+    if(this.checked){
+
+        profilePage.classList.add("dark-profile");
+
+        localStorage.setItem("profileDark","true");
+
+    }
+    else{
+
+        profilePage.classList.remove("dark-profile");
+
+        localStorage.setItem("profileDark","false");
+
+    }
+
+});
+
+
+</script>
 {% endblock %}
