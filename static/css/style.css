@@ -1,48 +1,210 @@
-/* Navbar */
+/* ================= PREMIUM NAVBAR ================= */
+
 nav{
-    background:linear-gradient(90deg,#0f172a,#2563eb);
+
+    background:
+    linear-gradient(
+    90deg,
+    #0f172a,
+    #2563eb
+    );
+
     padding:18px 35px;
+
     display:flex;
+
     align-items:center;
+
     justify-content:space-between;
-    box-shadow:0 4px 12px rgba(0,0,0,0.2);
+
+    box-shadow:
+    0 8px 25px rgba(0,0,0,.35);
+
+    position:sticky;
+
+    top:0;
+
+    z-index:1000;
+
+    backdrop-filter:blur(15px);
+
 }
 
 
+
+/* Brand */
+
 nav h2{
+
     color:#ffffff;
+
     margin:0;
-    font-size:28px;
-    font-weight:700;
-    letter-spacing:0.5px;
+
+    font-size:30px;
+
+    font-weight:800;
+
+    letter-spacing:.8px;
+
+    text-shadow:
+    0 5px 20px rgba(0,0,0,.3);
+
+}
+
+
+
+
+/* Links */
+
+nav a{
+
+    color:#f8fafc;
+
+    margin:0 14px;
+
+    text-decoration:none;
+
+    font-size:17px;
+
+    font-weight:600;
+
+    padding:10px 15px;
+
+    border-radius:12px;
+
+    transition:.35s;
+
+    position:relative;
+
+}
+
+
+
+/* Underline Animation */
+
+nav a::after{
+
+    content:"";
+
+    position:absolute;
+
+    width:0;
+
+    height:3px;
+
+    background:#facc15;
+
+    bottom:4px;
+
+    left:50%;
+
+    transform:translateX(-50%);
+
+    border-radius:20px;
+
+    transition:.3s;
+
+}
+
+
+
+nav a:hover::after{
+
+    width:70%;
+
+}
+
+
+
+nav a:hover{
+
+    color:#facc15;
+
+    background:
+    rgba(255,255,255,.08);
+
+    transform:
+    translateY(-3px);
+
+}
+
+
+
+/* Active Glass Effect */
+
+nav a.active{
+
+    background:
+    rgba(255,255,255,.12);
+
+    border:
+    1px solid rgba(255,255,255,.25);
+
+}
+
+
+
+/* Button Style Links */
+
+.nav-btn{
+
+    background:
+    linear-gradient(
+    90deg,
+    #2563eb,
+    #0f172a
+    );
+
+    border:
+    1px solid rgba(255,255,255,.3);
+
+    color:white !important;
+
+}
+
+
+
+.nav-btn:hover{
+
+    background:
+    linear-gradient(
+    90deg,
+    #2563eb,
+    #0f172a
+    );
+
+    box-shadow:
+    0 10px 30px rgba(37,99,235,.5);
+
+}
+
+
+
+/* Mobile */
+
+@media(max-width:768px){
+
+nav{
+
+    padding:15px;
+
+    flex-direction:column;
+
+    gap:15px;
+
 }
 
 
 nav a{
-    color:#f8fafc;
-    margin:0 14px;
-    text-decoration:none;
-    font-size:17px;
-    font-weight:500;
-    transition:0.3s;
-}
 
-
-nav a:hover{
-    color:#facc15;
-}
-
-/* AMAZON STYLE HOVER */
-
-.navbar a:hover{
-
-    border:1px solid white;
-
-    background:rgba(255,255,255,0.08);
-    transform:translateY(-2px);
+    margin:5px;
 
 }
 
+}
+body{
+    background:#0f172a;
+}
 
 /* Subjects Page */
 

@@ -13,22 +13,52 @@
 }
 
 .hero{
-    text-align:center;
-    margin-bottom:60px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:60px;
+    margin-bottom:80px;
+    flex-wrap:wrap;
+}
+
+.hero-left{
+    flex:1;
+    min-width:320px;
+}
+
+.hero-right{
+    flex:1;
+    display:flex;
+    justify-content:center;
+}
+
+.hero-badge{
+    display:inline-block;
+    padding:10px 18px;
+    border-radius:50px;
+    background:rgba(255,255,255,.12);
+    border:1px solid rgba(255,255,255,.20);
+    margin-bottom:25px;
+    font-weight:600;
+    color:#bfdbfe;
 }
 
 .hero h1{
-    font-size:55px;
+    font-size:58px;
     font-weight:800;
+    line-height:1.2;
     margin-bottom:20px;
 }
 
+.hero h1 span{
+    color:#38bdf8;
+}
+
 .hero p{
-    font-size:20px;
+    font-size:19px;
     color:#dbeafe;
-    max-width:800px;
-    margin:auto;
     line-height:1.8;
+    max-width:620px;
 }
 
 .hero-buttons{
@@ -36,12 +66,77 @@
 }
 
 .hero-buttons .btn{
-    margin:10px;
-    padding:12px 30px;
+    margin-right:15px;
+    margin-top:10px;
+    padding:14px 30px;
     border-radius:50px;
-    font-weight:bold;
+    font-weight:700;
 }
 
+.hero-image{
+    width:380px;
+    height:380px;
+    background:rgba(255,255,255,.08);
+    backdrop-filter:blur(20px);
+    border:1px solid rgba(255,255,255,.18);
+    border-radius:30px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    animation:floatHero 4s ease-in-out infinite;
+    box-shadow:0 20px 50px rgba(0,0,0,.35);
+}
+
+.hero-image img{
+    width:75%;
+}
+
+@keyframes floatHero{
+
+0%{
+transform:translateY(0px);
+}
+
+50%{
+transform:translateY(-15px);
+}
+
+100%{
+transform:translateY(0px);
+}
+
+}
+
+@media(max-width:992px){
+
+.hero{
+    text-align:center;
+}
+
+.hero-left,
+.hero-right{
+    flex:100%;
+}
+
+.hero p{
+    margin:auto;
+}
+
+.hero-buttons .btn{
+    margin:8px;
+}
+
+.hero h1{
+    font-size:42px;
+}
+
+.hero-image{
+    width:280px;
+    height:280px;
+    margin-top:20px;
+}
+
+}
 .welcome-box{
 
 background:rgba(255,255,255,.10);
@@ -97,11 +192,9 @@ box-shadow:0 12px 30px rgba(0,0,0,.25);
 }
 
 .ai-card:hover{
-
-transform:translateY(-12px);
-
-box-shadow:0 20px 40px rgba(37,99,235,.45);
-
+    transform:translateY(-12px);
+    border-color:#60a5fa;
+    box-shadow:0 20px 40px rgba(37,99,235,.45);
 }
 
 .ai-card .icon{
@@ -161,7 +254,10 @@ transform:scale(1.05);
 @media(max-width:768px){
 
 .hero h1{
-font-size:38px;
+    font-size:55px;
+    font-weight:800;
+    margin-bottom:20px;
+    text-shadow:0 4px 20px rgba(0,0,0,.35);
 }
 
 .hero p{
@@ -176,10 +272,10 @@ width:100%;
 /* ================= COMMON TITLE ================= */
 
 .section-title{
-text-align:center;
-color:black;
-font-weight:bold;
-margin-bottom:40px;
+    text-align:center;
+    color:#ffffff;
+    font-weight:700;
+    margin-bottom:40px;
 }
 
 /* ================= FEATURES ================= */
@@ -194,29 +290,31 @@ margin:auto;
 }
 
 .feature-card{
-background:rgba(255,255,255,0.08);
-backdrop-filter:blur(12px);
-padding:20px;
-border-radius:15px;
-text-align:center;;
-transition:0.3s;
-border:1px solid black;
+    background:rgba(255,255,255,0.08);
+    backdrop-filter:blur(12px);
+    padding:20px;
+    border-radius:15px;
+    text-align:center;
+    transition:.3s;
+    border:1px solid rgba(255,255,255,.15);
+    color:#ffffff;          /* Add */
 }
 
 .feature-card:hover{
-transform:scale(1.05);
+    transform:scale(1.05);
+    box-shadow:0 15px 40px rgba(56,189,248,.3);
 }
 
 /* ================= CTA ================= */
 
 .cta-section{
-margin-top:80px;
-text-align:center;
-padding:60px 30px;
-background:rgba(255,255,255,0.08);
-border-radius:25px;
-color:#0f172a;
-border:1px solid black;
+    margin-top:80px;
+    text-align:center;
+    padding:60px 30px;
+    background:rgba(255,255,255,.08);
+    border-radius:25px;
+    color:#ffffff;
+    border:1px solid rgba(255,255,255,.15);
 }
 
 .cta-btn{
@@ -224,7 +322,7 @@ display:inline-block;
 margin-top:20px;
 padding:12px 28px;
 background:linear-gradient(90deg,#2563eb,#06b6d4);
-color:rgb(27, 2, 2);
+color:white;
 border-radius:30px;
 text-decoration:none;
 transition:0.3s;
@@ -254,30 +352,51 @@ Your AI Learning Assistant is ready to help you study smarter.
 
 <div class="hero">
 
-<h1>🤖 AI Academic Copilot</h1>
+<div class="hero-left">
+
+<span class="hero-badge">
+🚀 AI Powered Learning Platform
+</span>
+
+<h1>
+
+<span>AI Academic Copilot</span>
+</h1>
 
 <p>
 
-Generate AI Notes, solve doubts with AI, practice quizzes,
-and access previous year question papers —
-all from one intelligent learning platform.
+Your intelligent learning companion for Diploma & Engineering students.
+Generate AI Notes, solve doubts instantly, practice quizzes and access
+previous year papers — all in one platform.
 
 </p>
 
 <div class="hero-buttons">
 
-<a href="/notes" class="btn btn-light">
-📚 Get Started
+<a href="/chatbot" class="btn btn-primary btn-lg">
+🤖 Try AI Chatbot
 </a>
 
-<a href="/chatbot" class="btn btn-outline-light">
-💬 Ask AI
+<a href="/notes" class="btn btn-outline-light btn-lg">
+📚 Explore Notes
 </a>
 
 </div>
 
 </div>
 
+<div class="hero-right">
+
+<div class="hero-image">
+
+<img src="https://cdn-icons-png.flaticon.com/512/4712/4712109.png"
+alt="AI">
+
+</div>
+
+</div>
+
+</div>
 <div class="cards">
 
 <div class="ai-card">
@@ -467,7 +586,11 @@ Start Quiz
     box-shadow:0 10px 30px rgba(37,99,235,0.5);
     transform:scale(1.05);
 }
-
+.ai-btn,
+.cta-btn{
+    font-size:15px;
+    letter-spacing:.5px;
+}
 /* ===== Smooth Scroll ===== */
 
 html{
