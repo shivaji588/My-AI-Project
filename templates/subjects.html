@@ -1,207 +1,738 @@
 {% extends "base.html" %}
 {% block content %}
-
 <style>
+
+/* ================= GLOBAL ================= */
 
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:'Segoe UI',sans-serif;
+    font-family:'Inter','Segoe UI',sans-serif;
 }
+
 
 body{
-    background:#0f172a;
+
+    background:#020617;
+
 }
 
+
+/* ================= PAGE ================= */
+
+
 .subject-page{
+
+
     min-height:100vh;
+
+
     padding:50px;
-    background:linear-gradient(135deg,#0f172a,#1e3a8a,#2563eb);
+
+
+    background:
+
+
+    radial-gradient(
+    circle at top left,
+    #2563eb,
+    transparent 35%
+    ),
+
+
+    radial-gradient(
+    circle at bottom right,
+    #7c3aed,
+    transparent 35%
+    ),
+
+
+    linear-gradient(
+    135deg,
+    #020617,
+    #0f172a,
+    #1e3a8a
+    );
+
+
+    border-radius:30px;
+
+
 }
+
+
+
+
+
 
 /* ================= HERO ================= */
 
+
 .hero{
+
+
     text-align:center;
-    margin-bottom:45px;
+
+
+    margin-bottom:55px;
+
+
+    animation:fadeIn .8s ease;
+
+
 }
+
+
+
+@keyframes fadeIn{
+
+
+from{
+
+opacity:0;
+
+transform:translateY(30px);
+
+}
+
+to{
+
+opacity:1;
+
+transform:translateY(0);
+
+}
+
+
+}
+
+
+
 
 .hero h1{
-    color:white;
-    font-size:48px;
-    font-weight:800;
-    margin-bottom:12px;
+
+
+    font-size:55px;
+
+
+    font-weight:900;
+
+
+
+    background:
+
+
+    linear-gradient(
+    90deg,
+    #38bdf8,
+    #818cf8,
+    #c084fc,
+    #22d3ee
+    );
+
+
+    -webkit-background-clip:text;
+
+    -webkit-text-fill-color:transparent;
+
+
+    letter-spacing:1px;
+
+
+
 }
+
+
 
 .hero p{
+
+
     color:#dbeafe;
+
+
     max-width:850px;
-    margin:auto;
+
+
+    margin:15px auto;
+
+
     line-height:1.8;
-    font-size:18px;
+
+
+    font-size:19px;
+
+
 }
 
-/* ================= INFO ================= */
+
+
+
+
+
+/* ================= INFO CARDS ================= */
+
 
 .info-box{
+
+
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-    gap:20px;
-    margin:40px auto;
+
+
+    grid-template-columns:
+    repeat(auto-fit,minmax(240px,1fr));
+
+
+    gap:25px;
+
+
     max-width:1200px;
+
+
+    margin:40px auto;
+
+
 }
+
+
+
 
 .info-card{
-    background:rgba(255,255,255,.08);
-    backdrop-filter:blur(18px);
-    border-radius:20px;
-    padding:30px;
+
+
+    background:
+
+
+    rgba(255,255,255,.12);
+
+
+    backdrop-filter:blur(20px);
+
+
+    border-radius:30px;
+
+
+    padding:35px;
+
+
     text-align:center;
+
+
     color:white;
-    border:1px solid rgba(255,255,255,.15);
-    transition:.35s;
+
+
+
+    border:
+
+
+    1px solid rgba(255,255,255,.2);
+
+
+
+    box-shadow:
+
+
+    0 20px 45px rgba(0,0,0,.25);
+
+
+
+    transition:.4s;
+
+
 }
+
+
+
+
 
 .info-card:hover{
-    transform:translateY(-8px);
-    box-shadow:0 20px 35px rgba(37,99,235,.35);
+
+
+    transform:
+
+
+    translateY(-12px)
+    scale(1.03);
+
+
+
+    box-shadow:
+
+
+    0 30px 60px rgba(37,99,235,.4);
+
+
+
 }
+
+
+
+
 
 .info-card h2{
-    font-size:34px;
-    margin-bottom:10px;
+
+
+    font-size:42px;
+
+
     color:#60a5fa;
+
+
+    margin-bottom:10px;
+
+
 }
 
+
+
 .info-card p{
+
+
     color:#dbeafe;
+
+
 }
+
+
+
+
+
+
 
 /* ================= SEMESTER ================= */
 
+
+
 .semester-list{
+
+
     max-width:1200px;
+
+
     margin:auto;
+
+
 }
+
+
+
+
 
 .semester{
-    margin-bottom:22px;
-    border-radius:18px;
+
+
+    margin-bottom:25px;
+
+
+    border-radius:25px;
+
+
     overflow:hidden;
-    background:rgba(255,255,255,.08);
-    border:1px solid rgba(255,255,255,.15);
-    backdrop-filter:blur(15px);
-    transition:.3s;
+
+
+    background:
+
+
+    rgba(255,255,255,.10);
+
+
+
+    border:
+
+
+    1px solid rgba(255,255,255,.18);
+
+
+
+    backdrop-filter:blur(20px);
+
+
+
+    transition:.4s;
+
+
 }
+
+
+
+
 
 .semester:hover{
-    box-shadow:0 15px 35px rgba(37,99,235,.35);
+
+
+    transform:translateY(-5px);
+
+
+    box-shadow:
+
+
+    0 25px 50px rgba(37,99,235,.35);
+
+
 }
+
+
+
+
+
 
 .semester-header{
+
+
     display:flex;
+
+
     justify-content:space-between;
+
+
     align-items:center;
-    padding:22px 30px;
+
+
+    padding:25px 35px;
+
+
     cursor:pointer;
-    background:linear-gradient(90deg,#2563eb,#4f46e5);
+
+
+    background:
+
+
+    linear-gradient(
+    135deg,
+    #2563eb,
+    #7c3aed
+    );
+
+
+
     color:white;
+
+
 }
+
+
+
 
 .semester-header h2{
-    font-size:28px;
+
+
+    font-size:30px;
+
+
+    font-weight:800;
+
+
 }
+
+
+
+
 
 .arrow{
-    font-size:30px;
+
+
+    font-size:35px;
+
+
     transition:.4s;
+
+
 }
 
+
+
+
+
+
+
 .semester-content{
+
+
     display:none;
-    padding:30px;
+
+
+    padding:35px;
+
+
 }
+
+
+
+
+
+
 
 /* ================= SUBJECT GRID ================= */
 
+
 .subject-grid{
+
+
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(350px,1fr));
+
+
+    grid-template-columns:
+    repeat(auto-fit,minmax(330px,1fr));
+
+
     gap:25px;
+
+
 }
+
+
+
+
 
 .subject-box{
-    background:rgba(255,255,255,.05);
-    border-radius:18px;
-    padding:25px;
+
+
+    padding:30px;
+
+
+    border-radius:25px;
+
+
+    background:
+
+
+    rgba(255,255,255,.08);
+
+
+
+    border:
+
+
+    1px solid rgba(255,255,255,.15);
+
+
+
+    transition:.35s;
+
+
 }
+
+
+
+
+
+.subject-box:hover{
+
+
+    transform:translateY(-8px);
+
+
+    background:
+
+
+    rgba(255,255,255,.15);
+
+
+}
+
+
+
+
+
 
 .subject-box h3{
-    color:#60a5fa;
-    margin-bottom:18px;
+
+
+    color:#38bdf8;
+
+
+    font-size:24px;
+
+
+    margin-bottom:20px;
+
+
 }
+
+
+
+
 
 .subject-box ul{
+
+
     list-style:none;
+
+
 }
+
+
 
 .subject-box li{
-    padding:10px 0;
-    color:#e5e7eb;
-    border-bottom:1px solid rgba(255,255,255,.08);
+
+
+    padding:12px 0;
+
+
+    color:#e2e8f0;
+
+
+    border-bottom:
+
+
+    1px solid rgba(255,255,255,.1);
+
+
 }
 
-.subject-box li:last-child{
-    border:none;
+
+
+.subject-box li::before{
+
+
+    content:"📘 ";
+
+
 }
+
+
+
+
+
+.subject-box li:last-child{
+
+
+border:none;
+
+}
+
+
+
+
+
+
 
 /* ================= BUTTON ================= */
 
+
+
 .explore-btn{
+
+
     display:inline-block;
-    margin-top:25px;
-    padding:12px 28px;
-    border-radius:30px;
-    background:linear-gradient(90deg,#2563eb,#06b6d4);
+
+
+    margin-top:30px;
+
+
+    padding:14px 35px;
+
+
+    border-radius:35px;
+
+
+
+    background:
+
+
+    linear-gradient(
+    90deg,
+    #2563eb,
+    #06b6d4
+    );
+
+
+
     color:white;
+
+
     text-decoration:none;
-    font-weight:bold;
-    transition:.3s;
+
+
+    font-weight:800;
+
+
+    box-shadow:
+
+
+    0 15px 30px rgba(37,99,235,.35);
+
+
+
+    transition:.35s;
+
+
 }
+
+
+
+
 
 .explore-btn:hover{
-    transform:scale(1.05);
+
+
+    transform:
+
+
+    translateY(-5px)
+    scale(1.05);
+
+
+
+    box-shadow:
+
+
+    0 25px 50px rgba(6,182,212,.45);
+
+
 }
 
-/* ================= RESPONSIVE ================= */
+
+
+
+
+
+/* ================= MOBILE ================= */
+
 
 @media(max-width:768px){
 
+
 .subject-page{
-    padding:20px;
+
+padding:20px;
+
 }
+
 
 .hero h1{
-    font-size:34px;
+
+font-size:36px;
+
 }
+
 
 .hero p{
-    font-size:16px;
+
+font-size:16px;
+
 }
+
 
 .subject-grid{
-    grid-template-columns:1fr;
+
+grid-template-columns:1fr;
+
 }
+
 
 .semester-header h2{
-    font-size:22px;
-}
+
+font-size:22px;
 
 }
+
+
+}
+
+
 
 </style>
-
 <div class="subject-page">
 
 <div class="hero">

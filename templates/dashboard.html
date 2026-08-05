@@ -1,378 +1,2556 @@
 {% extends "base.html" %}
+
 {% block content %}
-
 <style>
-body{
-    background:#f4f7fc;
-    font-family:'Segoe UI',sans-serif;
-}
-/* ================= MAIN LAYOUT ================= */
 
-.dashboard-container{
-    display:flex;
-    gap:25px;
-    min-height:85vh;
-    margin:25px;
-}
+/* ================= GLOBAL ================= */
 
-/* ================= SIDEBAR ================= */
 
-.sidebar{
-    width:260px;
-    background:linear-gradient(135deg,#2563eb,#3b82f6);    
-    color:white;
-    padding:25px;
-    border-radius:20px;
-    box-shadow:0 15px 35px rgba(0,0,0,.15);
-}
+.dashboard-page{
 
-.sidebar h2{
-    color:white;
-    text-align:center;
-    margin-bottom:30px;
+min-height:100vh;
+
+padding:40px;
+
+
+background:
+
+linear-gradient(
+135deg,
+#0f172a,
+#1e3a8a,
+#2563eb
+);
+
+
+color:white;
+
+
 }
 
-.sidebar a{
-    display:block;
-    padding:14px;
-    margin:10px 0;
-    color:white;
-    text-decoration:none;
-    border-radius:12px;
-    transition:.3s;
+.dashboard-page h1,
+.dashboard-page h2,
+.dashboard-page h3{
+
+color:white;
+
 }
 
-.sidebar a:hover{
-    background:rgba(255,255,255,.15);
-    transform:translateX(8px);
+
+.dashboard-page p{
+
+color:#dbeafe;
+
+}
+/* ================= PREMIUM TOP HEADER ================= */
+
+
+.top-header{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+margin-bottom:40px;
+
+padding:10px 5px;
+
 }
 
-/* ================= MAIN CONTENT ================= */
 
-.main-content{
-    flex:1;
+
+/* AI TITLE */
+
+.top-header h1{
+
+font-size:46px;
+
+font-weight:900;
+
+letter-spacing:1px;
+
+
+background:
+
+linear-gradient(
+90deg,
+#ffffff,
+#93c5fd,
+#c084fc
+);
+
+
+-webkit-background-clip:text;
+
+-webkit-text-fill-color:transparent;
+
+
+
+text-shadow:
+
+0 10px 35px rgba(147,197,253,.35);
+
+
+
+position:relative;
+
+
+
 }
 
-/* ================= HEADER ================= */
 
-.dashboard-header{
-    background:white;
-    padding:25px;
-    border-radius:20px;
-    box-shadow:0 10px 25px rgba(0,0,0,.08);
-    margin-bottom:25px;
-}
-.dashboard-header h1{
-    font-size:36px;
-    font-weight:800;
+
+/* Small AI Glow Dot */
+
+.top-header h1::after{
+
+content:"";
+
+display:inline-block;
+
+
+width:12px;
+
+height:12px;
+
+
+margin-left:12px;
+
+
+background:#22c55e;
+
+
+border-radius:50%;
+
+
+box-shadow:
+
+0 0 20px #22c55e;
+
+
+animation:
+
+pulseDot 2s infinite;
+
+
 }
 
-.dashboard-header p{
-    color:black;
+
+
+@keyframes pulseDot{
+
+
+50%{
+
+transform:scale(1.4);
+
+opacity:.5;
+
 }
 
-/* ================= STATS ================= */
+
+}
+
+
+
+/* Subtitle */
+
+.top-header p{
+
+font-size:17px;
+
+font-weight:600;
+
+color:#dbeafe;
+
+letter-spacing:.5px;
+
+margin-top:8px;
+
+}
+/* ================= PREMIUM PROFILE CARD ================= */
+
+
+.profile-card{
+
+
+display:flex;
+
+
+align-items:center;
+
+
+gap:18px;
+
+
+
+background:
+
+
+linear-gradient(
+135deg,
+rgba(255,255,255,.95),
+rgba(241,245,255,.85)
+);
+
+
+
+padding:20px 35px;
+
+
+border-radius:30px;
+
+
+
+border:
+
+1px solid rgba(255,255,255,.6);
+
+
+
+box-shadow:
+
+
+0 20px 45px rgba(0,0,0,.18);
+
+
+
+transition:.5s;
+
+
+
+position:relative;
+
+
+overflow:hidden;
+
+
+}
+
+
+
+/* Glow Effect */
+
+
+.profile-card::before{
+
+
+content:"";
+
+
+position:absolute;
+
+
+width:120px;
+
+
+height:120px;
+
+
+right:-40px;
+
+
+top:-40px;
+
+
+
+background:
+
+
+linear-gradient(
+135deg,
+#60a5fa,
+#a855f7
+);
+
+
+
+border-radius:50%;
+
+
+
+opacity:.15;
+
+
+
+}
+
+
+
+
+.profile-card:hover{
+
+
+transform:
+
+
+translateY(-10px)
+scale(1.03);
+
+
+
+box-shadow:
+
+
+0 30px 60px rgba(37,99,235,.35);
+
+
+
+}
+
+
+
+
+
+/* ================= AVATAR ================= */
+
+
+.avatar{
+
+
+animation:
+
+
+pulseAvatar 3s infinite;
+
+
+
+background:
+
+
+linear-gradient(
+135deg,
+#2563eb,
+#9333ea
+);
+
+
+
+width:75px;
+
+
+height:75px;
+
+
+
+display:flex;
+
+
+align-items:center;
+
+
+justify-content:center;
+
+border-radius:50%;
+
+font-size:38px;
+
+
+
+box-shadow:
+
+
+0 15px 35px rgba(37,99,235,.45);
+
+border:
+
+
+4px solid rgba(255,255,255,.7);
+
+
+
+}
+
+@keyframes pulseAvatar{
+
+
+50%{
+
+
+transform:
+
+
+scale(1.08);
+
+
+
+box-shadow:
+
+
+0 20px 45px rgba(168,85,247,.5);
+
+
+
+}
+
+
+}
+
+/* ================= PROFILE TEXT ================= */
+
+
+.profile-card h3{
+
+
+color:#0f172a;
+
+
+margin:0;
+
+
+font-size:22px;
+
+
+font-weight:900;
+
+
+
+}
+
+
+.profile-card p{
+
+
+color:#475569;
+
+
+margin:6px 0 0;
+
+
+font-size:14px;
+
+
+font-weight:600;
+
+
+
+}
+/* ================= HERO ================= */
+
+
+
+.hero-box{
+
+
+display:flex;
+
+
+justify-content:space-between;
+
+
+align-items:center;
+
+
+padding:45px;
+
+
+border-radius:35px;
+
+
+margin-bottom:35px;
+
+
+
+background:
+
+
+linear-gradient(
+135deg,
+#2563eb,
+#7c3aed,
+#06b6d4
+);
+
+
+
+color:white;
+
+
+
+box-shadow:
+
+
+0 25px 60px rgba(37,99,235,.35);
+
+
+position:relative;
+
+
+overflow:hidden;
+
+
+}
+
+
+
+
+.hero-box::before{
+
+
+content:"";
+
+
+position:absolute;
+
+
+width:300px;
+
+
+height:300px;
+
+
+background:white;
+
+
+opacity:.1;
+
+
+border-radius:50%;
+
+
+top:-120px;
+
+
+right:-100px;
+
+
+
+animation:float 6s infinite;
+
+
+}
+
+
+
+
+
+@keyframes float{
+
+
+50%{
+
+transform:translateY(30px);
+
+}
+
+}
+
+
+
+
+.hero-box h1,
+.hero-box p{
+
+color:white;
+
+}
+
+
+
+
+.hero-box h1{
+
+font-size:40px;
+
+}
+
+
+
+
+.hero-buttons a{
+
+
+display:inline-block;
+
+
+margin-top:25px;
+
+margin-right:15px;
+
+
+padding:14px 25px;
+
+
+border-radius:30px;
+
+
+background:white;
+
+
+color:#2563eb;
+
+
+text-decoration:none;
+
+
+font-weight:700;
+
+
+transition:.3s;
+
+
+}
+
+
+
+
+
+.hero-buttons a:hover{
+
+
+transform:
+
+translateY(-5px)
+scale(1.05);
+
+
+box-shadow:
+
+0 15px 30px rgba(255,255,255,.3);
+
+
+}
+
+
+
+
+
+
+
+/* ================= LEVEL ================= */
+
+
+
+.level-box{
+
+
+width:300px;
+
+
+background:
+
+rgba(255,255,255,.18);
+
+
+
+padding:25px;
+
+
+border-radius:25px;
+
+
+color:white;
+
+
+animation:pulseBox 3s infinite;
+
+
+}
+
+
+
+@keyframes pulseBox{
+
+
+50%{
+
+transform:translateY(-8px);
+
+}
+
+
+}
+
+
+
+
+
+.level-box h1,
+.level-box h3,
+.level-box p{
+
+color:white;
+
+}
+
+
+
+/* ================= XP PROGRESS BAR ================= */
+
+
+.xp{
+
+width:100%;
+
+height:35px;
+
+background:
+
+rgba(255,255,255,0.25);
+
+
+border-radius:50px;
+
+
+overflow:hidden;
+
+
+margin:20px 0;
+
+
+border:
+
+1px solid rgba(255,255,255,.35);
+
+
+backdrop-filter:blur(10px);
+
+
+box-shadow:
+
+inset 0 4px 10px rgba(0,0,0,.15);
+
+
+}
+
+
+
+.xp div{
+
+
+height:100%;
+
+
+min-width:90px;
+
+
+display:flex;
+
+
+align-items:center;
+
+
+justify-content:center;
+
+
+
+background:
+
+
+linear-gradient(
+90deg,
+#22c55e,
+#16a34a,
+#4ade80
+);
+
+
+
+border-radius:50px;
+
+
+color:white;
+
+
+font-size:14px;
+
+
+font-weight:800;
+
+
+
+box-shadow:
+
+0 5px 20px rgba(34,197,94,.5);
+
+
+transition:.5s;
+
+
+}/* ================= PREMIUM STATS ================= */
+
 
 .stats-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-    gap:20px;
-    margin-bottom:40px;
+
+display:grid;
+
+grid-template-columns:repeat(4,1fr);
+
+gap:25px;
+
+margin-bottom:35px;
+
 }
+
+
 
 .stat-card{
-    background:rgba(16, 15, 15, 0.08);
-    backdrop-filter:blur(15px);
-    padding:25px;
-    border-radius:20px;
-    text-align:center;
-    border:1px solid blue;
-    transition:0.3s;
+
+padding:35px 25px;
+
+border-radius:30px;
+
+text-align:center;
+
+
+background:
+
+linear-gradient(
+145deg,
+rgba(255,255,255,.18),
+rgba(255,255,255,.08)
+);
+
+
+
+backdrop-filter:blur(20px);
+
+
+
+border:
+
+1px solid rgba(255,255,255,.25);
+
+
+
+box-shadow:
+
+0 25px 50px rgba(0,0,0,.25);
+
+
+
+transition:.5s;
+
+
+position:relative;
+
+
+overflow:hidden;
+
+
 }
+
+
+
+/* Top Glow Line */
+
+
+.stat-card::before{
+
+content:"";
+
+position:absolute;
+
+top:0;
+
+left:0;
+
+width:100%;
+
+height:5px;
+
+
+background:
+
+linear-gradient(
+90deg,
+#38bdf8,
+#a855f7
+);
+
+
+}
+
+
+
+
+
+.stat-card::after{
+
+
+content:"";
+
+
+position:absolute;
+
+
+width:150px;
+
+
+height:150px;
+
+
+background:white;
+
+
+opacity:.08;
+
+
+border-radius:50%;
+
+
+right:-50px;
+
+
+bottom:-50px;
+
+
+transition:.5s;
+
+
+}
+
+
+
+
 
 .stat-card:hover{
-    transform:translateY(-10px);
-    box-shadow:0 15px 35px rgba(59,130,246,0.3);
+
+
+transform:
+
+translateY(-15px)
+scale(1.04);
+
+
+
+box-shadow:
+
+
+0 35px 70px rgba(0,0,0,.4);
+
+
+
 }
+
+
+
+
+
+.stat-card:hover::after{
+
+
+transform:scale(1.5);
+
+
+}
+
+
+
+
+
 
 .stat-card h1{
-    color:blue;
+
+
+font-size:50px;
+
+
+margin:15px 0;
+
+
+font-weight:900;
+
+
+color:white;
+
+
+text-shadow:
+
+
+0 8px 20px rgba(0,0,0,.35);
+
+
+
 }
 
-/* ================= QUICK ACTIONS ================= */
 
-.actions{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-    gap:20px;
+
+
+
+.stat-card p{
+
+
+font-size:16px;
+
+
+font-weight:700;
+
+
+color:#dbeafe;
+
+
 }
 
-.action-card{
-    background:rgba(44, 35, 35, 0.08);
-    padding:20px;
-    border-radius:15px;
-    text-align:center;
-    transition:0.3s;
-    border:1px solid blanchedalmond;
+
+
+
+
+/* ================= ICON BADGE ================= */
+
+
+.stat-icon{
+
+
+width:75px;
+
+
+height:75px;
+
+
+margin:auto;
+
+
+margin-bottom:20px;
+
+
+border-radius:25px;
+
+
+display:flex;
+
+
+align-items:center;
+
+
+justify-content:center;
+
+
+font-size:38px;
+
+
+
+box-shadow:
+
+
+0 15px 35px rgba(0,0,0,.25);
+
+
+
+transition:.4s;
+
+
 }
 
-.action-card:hover{
-    transform:scale(1.05);
-    background:rgba(59,130,246,0.2);
+
+
+
+.stat-icon:hover{
+
+
+transform:
+
+
+translateY(-8px)
+rotate(8deg)
+scale(1.15);
+
+
+
 }
 
-.action-card a{
-    color:blcklack;
-    text-decoration:none;
-    font-weight:bold;
-}
-.timeline-box{
-    margin-top:30px;
-    padding:20px;
-    border-radius:15px;
-    background:rgba(255,255,255,0.08);
-    backdrop-filter:blur(10px);
-}
 
-.timeline-box ul{
-    list-style:none;
-    padding:0;
-}
 
-.timeline-box li{
-    padding:10px;
-    margin:8px 0;
-    border-left:4px solid #2563eb;
-    background:rgba(255,255,255,0.05);
-    border-radius:8px;
+
+
+/* ICON COLORS */
+
+
+.stat-icon.users{
+
+
+background:
+
+linear-gradient(
+135deg,
+#2563eb,
+#60a5fa
+);
+
+
 }
 
-/* ================= WELCOME ================= */
 
-.welcome-box{
-    background:linear-gradient(135deg,#2563eb,#3b82f6);
-    color:white;
-    padding:30px;
-    border-radius:20px;
-    margin-bottom:30px;
-    box-shadow:0 12px 25px rgba(37,99,235,.25);
+
+
+
+.stat-icon.active{
+
+
+background:
+
+linear-gradient(
+135deg,
+#16a34a,
+#4ade80
+);
+
+
+}
+
+
+
+
+
+.stat-icon.weekly{
+
+
+background:
+
+linear-gradient(
+135deg,
+#f59e0b,
+#facc15
+);
+
+
+}
+
+
+
+
+
+.stat-icon.login{
+
+
+background:
+
+linear-gradient(
+135deg,
+#9333ea,
+#a855f7
+);
+
+
+}
+/* ================= PREMIUM AI MENTOR INSIGHT ================= */
+
+
+.ai-card{
+
+
+position:relative;
+
+
+padding:35px;
+
+
+border-radius:35px;
+
+
+margin-bottom:35px;
+
+
+
+background:
+
+
+linear-gradient(
+135deg,
+rgba(124,58,237,.35),
+rgba(37,99,235,.25)
+);
+
+
+
+backdrop-filter:blur(20px);
+
+
+
+border:
+
+1px solid rgba(255,255,255,.25);
+
+
+
+box-shadow:
+
+
+0 25px 60px rgba(0,0,0,.35);
+
+
+
+overflow:hidden;
+
+
+
+transition:.5s;
+
+
+}
+
+
+
+.ai-card:hover{
+
+
+transform:
+
+translateY(-10px);
+
+
+box-shadow:
+
+
+0 35px 80px rgba(124,58,237,.45);
+
+
+}
+
+
+
+/* AI Glow Circle */
+
+
+.ai-card::before{
+
+
+content:"";
+
+
+position:absolute;
+
+
+width:250px;
+
+
+height:250px;
+
+
+right:-80px;
+
+
+top:-80px;
+
+
+
+background:
+
+
+linear-gradient(
+135deg,
+#c084fc,
+#60a5fa
+);
+
+
+
+border-radius:50%;
+
+
+opacity:.25;
+
+
+
+animation:
+
+aiGlow 5s infinite;
+
+
+}
+
+
+
+@keyframes aiGlow{
+
+
+50%{
+
+
+transform:scale(1.25);
+
+
+}
+
+}
+
+
+
+
+
+/* Robot Icon */
+
+
+.ai-card::after{
+
+
+content:"🤖";
+
+
+position:absolute;
+
+
+right:35px;
+
+
+bottom:25px;
+
+
+font-size:90px;
+
+
+opacity:.18;
+
+
+
+animation:
+
+robotFloat 3s infinite;
+
+
+}
+
+
+
+@keyframes robotFloat{
+
+
+50%{
+
+
+transform:translateY(-15px);
+
+
+}
+
+
+}
+
+
+
+.ai-card h2{
+
+
+position:relative;
+
+
+z-index:2;
+
+
+
+color:white;
+
+
+font-size:30px;
+
+
+font-weight:900;
+
+
+margin-bottom:15px;
+
+
+}
+
+
+
+
+.ai-card p{
+
+
+position:relative;
+
+
+z-index:2;
+
+
+color:#dbeafe;
+
+
+font-size:17px;
+
+
+line-height:1.8;
+
+
+max-width:75%;
+
+
+}
+/* ================= CHART SECTION ================= */
+
+
+.charts{
+
+
+display:grid;
+
+
+grid-template-columns:1fr 1fr;
+
+
+gap:30px;
+
+
+}
+
+.chart-card{
+
+background:
+rgba(255,255,255,.12);
+
+backdrop-filter:blur(20px);
+
+color:white;
+
+background:
+linear-gradient(
+135deg,
+#ffffff,
+#f8fafc
+);
+
+}
+
+
+.chart-card:hover{
+
+
+transform:translateY(-10px);
+
+
+box-shadow:
+
+
+0 30px 60px rgba(37,99,235,.18);
+
+
+}
+
+
+
+.chart-card h2{
+
+
+margin-bottom:20px;
+
+
+color:#2563eb;
+
+
+}
+
+
+
+
+
+canvas{
+
+
+max-height:300px;
+
+
+}
+
+/* ================= PREMIUM QUICK ACTION ================= */
+
+
+.section-title{
+
+margin:40px 0 25px;
+
+font-weight:900;
+
+font-size:30px;
+
+}
+
+
+
+
+.quick-grid{
+
+
+display:grid;
+
+grid-template-columns:repeat(4,1fr);
+
+gap:30px;
+
+
+}
+
+
+
+
+.quick-grid a{
+
+
+position:relative;
+
+
+padding:40px 25px;
+
+
+border-radius:35px;
+
+
+text-align:center;
+
+
+text-decoration:none;
+
+
+color:white;
+
+
+overflow:hidden;
+
+
+background:
+
+
+rgba(255,255,255,.12);
+
+
+
+backdrop-filter:blur(20px);
+
+
+
+border:
+
+1px solid rgba(255,255,255,.25);
+
+
+
+box-shadow:
+
+
+0 20px 50px rgba(0,0,0,.25);
+
+
+
+transition:.5s;
+
+
+}
+
+
+
+
+.quick-grid a::before{
+
+
+content:"";
+
+
+position:absolute;
+
+
+width:200px;
+
+
+height:200px;
+
+
+background:
+
+
+linear-gradient(
+135deg,
+#60a5fa,
+#c084fc
+);
+
+
+border-radius:50%;
+
+
+top:-100px;
+
+
+right:-80px;
+
+
+opacity:.25;
+
+
+transition:.5s;
+
+
+}
+
+
+
+
+.quick-grid a:hover{
+
+
+transform:
+
+
+translateY(-15px)
+scale(1.05);
+
+
+
+box-shadow:
+
+
+0 35px 70px rgba(37,99,235,.45);
+
+
+
+}
+
+
+
+
+.quick-grid a:hover::before{
+
+
+transform:scale(1.5);
+
+
+}
+
+
+
+
+.quick-grid div{
+
+
+font-size:55px !important;
+
+
+margin-bottom:20px;
+
+
+filter:drop-shadow(
+0 10px 15px rgba(0,0,0,.3)
+);
+
+
+transition:.4s;
+
+
+}
+
+
+
+
+.quick-grid a:hover div{
+
+
+transform:
+
+rotate(10deg)
+scale(1.2);
+
+
+}
+
+
+
+
+.quick-grid h3{
+
+
+color:white;
+
+
+font-size:24px;
+
+
+font-weight:800;
+
+
+margin-bottom:10px;
+
+
+}
+
+
+
+
+.quick-grid p{
+
+
+color:#dbeafe;
+
+
+font-size:15px;
+
+
+font-weight:600;
+
+
+}
+
+
+
+
+
+
+/* Individual Card Glow */
+
+
+.quick-grid a:nth-child(1){
+
+border-top:5px solid #60a5fa;
+
+}
+
+
+
+.quick-grid a:nth-child(2){
+
+border-top:5px solid #c084fc;
+
+}
+
+
+
+.quick-grid a:nth-child(3){
+
+border-top:5px solid #4ade80;
+
+}
+
+
+
+.quick-grid a:nth-child(4){
+
+border-top:5px solid #fb7185;
+
+}
+
+
+/* ================= RESPONSIVE ================= */
+
+
+@media(max-width:1000px){
+
+
+
+.hero-box{
+
+
+flex-direction:column;
+
+
+gap:30px;
+
+
+}
+
+
+
+
+.stats-grid,
+
+.quick-grid,
+
+.charts{
+
+
+grid-template-columns:1fr 1fr;
+
+
+}
+
+
+
+}
+
+
+
+
+
+@media(max-width:600px){
+
+
+.dashboard-page{
+
+min-height:100vh;
+
+padding:40px;
+
+background:
+linear-gradient(
+135deg,
+#0f172a,
+#1e3a8a,
+#2563eb
+);
+
+color:white;
+
+animation:pageEnter .8s ease;
+
+}
+
+
+.top-header{
+
+
+flex-direction:column;
+
+
+gap:20px;
+
+
+}
+
+
+
+
+.stats-grid,
+
+.quick-grid,
+
+.charts{
+
+
+grid-template-columns:1fr;
+
+
+}
+
+
+
+}
+/* ================= AI LEARNING SCORE ================= */
+
+
+.ai-score-card{
+
+
+padding:35px;
+
+
+border-radius:30px;
+
+
+margin-bottom:35px;
+
+
+background:
+
+linear-gradient(
+135deg,
+#7c3aed,
+#2563eb
+);
+
+
+color:white;
+
+
+text-align:center;
+
+
+box-shadow:
+
+0 25px 60px rgba(0,0,0,.25);
+
+
+transition:.4s;
+
+
+}
+
+
+
+.ai-score-card:hover{
+
+
+transform:translateY(-10px);
+
+
+box-shadow:
+
+0 35px 70px rgba(37,99,235,.35);
+
+
+}
+
+
+
+.ai-score-card h2{
+
+
+color:white;
+
+font-size:28px;
+
+font-weight:800;
+
+
+}
+
+
+
+.ai-score-card h1{
+
+
+font-size:70px;
+
+margin:15px 0;
+
+
+}
+
+
+
+.ai-score-card p{
+
+
+color:#dbeafe;
+
+font-size:18px;
+
+
+}
+
+
+
+.score-items{
+
+
+display:flex;
+
+justify-content:center;
+
+gap:15px;
+
+flex-wrap:wrap;
+
+margin-top:25px;
+
+
+}
+
+
+
+.score-items span{
+
+
+background:
+
+rgba(255,255,255,.2);
+
+
+padding:12px 20px;
+
+
+border-radius:25px;
+
+
+font-weight:600;
+
+
+backdrop-filter:blur(10px);
+
+
 }
 
 </style>
 
-<div class="dashboard-container">
-
-    <!-- ================= SIDEBAR ================= -->
-    <div class="sidebar">
-
-        <h2>📊 Dashboard</h2>
-
-        <a href="/">🏠 Home</a>
-        <a href="/notes">📚 Notes</a>
-        <a href="/papers">📄 Papers</a>
-        <a href="/quiz">🧠 Quiz</a>
-        <a href="/chatbot">🤖 AI Chat</a>
-        <a href="/subjects">📖 Subjects</a>
-        <a href="/leaderboard">🏆 Leaderboard</a>
-
-    </div>
-
-    <!-- ================= MAIN ================= -->
-    <div class="main-content">
-
-        <div class="dashboard-header">
-
-            <h1>👋 Welcome, {{ session.get('username','User') }}</h1>
-            <p>Your AI Learning Dashboard</p>
-
-        </div>
-
-        <!-- ================= WELCOME BOX ================= -->
-        <div class="welcome-box">
-            🚀 Keep learning consistently and improve your skills daily!
-        </div>
-
-        <!-- ================= STATS ================= -->
-        <div class="stats-grid">
-
-        <div class="stat-card">
-            <h1>{{ total_users }}</h1>
-            <p>👥 Total Users</p>
-        </div>
-
-        <div class="stat-card">
-            <h1>{{ dau }}</h1>
-            <p>📊 Active Today</p>
-        </div>
-
-        <div class="stat-card">
-            <h1>{{ wau }}</h1>
-            <p>📅 Weekly Active</p>
-        </div>
-
-        <div class="stat-card">
-            <h1>{{ total_logins }}</h1>
-            <p>🔥 Total Logins</p>
-        </div>
-
-        </div>
-
-        
-        <!-- ================= TODAY ACTIVITY GRAPH ================= -->
-
-        <div class="chart-box">
-
-            <h2>📅 Today's Activity</h2>
-
-            <div class="chart-container">
-
-                <canvas id="todayChart"></canvas>
-
-            </div>
-
-        </div>
+<div class="dashboard-page">
 
 
-        <!-- ================= WEEKLY ACTIVITY GRAPH ================= -->
+<!-- ================= TOP HEADER ================= -->
 
-        <div class="chart-box">
 
-            <h2>📈 Weekly Activity Graph</h2>
+<div class="top-header">
 
-            <div class="chart-container">
 
-                <canvas id="weeklyChart"></canvas>
+<div>
 
-            </div>
+<h1>
+🤖 AI Academic Copilot
+</h1>
 
-        </div>
-        <!-- ================= QUICK ACTIONS ================= -->
-        <h2 style="margin:30px 0 20px;">⚡ Quick Actions</h2>
 
-        <div class="actions">
+<p>
+Your personalized AI learning assistant
+</p>
 
-            <div class="action-card">
-                <a href="/notes">📚 Create Notes</a>
-            </div>
-
-            <div class="action-card">
-                <a href="/chatbot">🤖 Ask AI</a>
-            </div>
-
-            <div class="action-card">
-                <a href="/quiz">🧠 Start Quiz</a>
-            </div>
-
-            <div class="action-card">
-                <a href="/papers">📄 View Papers</a>
-            </div>
-
-        </div>
-
-    </div>
 
 </div>
+
+
+
+<div class="profile-card">
+
+
+<div class="avatar">
+👤
+</div>
+
+
+
+<div>
+
+<h3>
+{{ session.get('username','Student') }}
+</h3>
+
+
+<p>
+Computer Engineering Student
+</p>
+
+
+</div>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+<!-- ================= HERO ================= -->
+
+
+<div class="hero-box">
+
+
+
+<div>
+
+
+<h1>
+Welcome back, {{ session.get('username','Student') }} 👋
+</h1>
+
+
+
+<p>
+Continue your learning journey and improve your skills 🚀
+</p>
+
+
+
+<div class="hero-buttons">
+
+
+<a href="/chatbot">
+🤖 Ask AI
+</a>
+
+
+
+<a href="/notes">
+📚 Generate Notes
+</a>
+
+
+
+</div>
+
+
+</div>
+
+
+<div class="level-box">
+
+
+<h3>
+⭐ Learning Level
+</h3>
+
+
+<h1>
+{{ level }}
+</h1>
+
+
+
+<div class="xp">
+
+<div style="width:{{ xp/10 }}%">
+{{ xp }}/1000 XP
+</div>
+
+
+</div>
+
+
+
+<p>
+🔥 {{ streak }} Days Learning Streak
+</p>
+
+
+</div>
+
+</div>
+
+<!-- ================= STATS ================= -->
+
+
+
+<div class="stats-grid">
+
+
+
+<div class="stat-card">
+
+
+<div class="stat-icon users">
+👥
+</div>
+
+
+<h1>
+{{ total_users }}
+</h1>
+
+
+<p>
+Total Users
+</p>
+
+
+</div>
+
+
+
+
+
+<div class="stat-card">
+
+
+<div class="stat-icon active">
+📊
+</div>
+
+
+<h1>
+{{ dau }}
+</h1>
+
+
+<p>
+Active Today
+</p>
+
+
+</div>
+
+
+
+
+
+
+<div class="stat-card">
+
+
+<div class="stat-icon weekly">
+📅
+</div>
+
+
+<h1>
+{{ wau }}
+</h1>
+
+
+<p>
+Weekly Active
+</p>
+
+
+</div>
+
+
+
+
+
+
+<div class="stat-card">
+
+
+<div class="stat-icon login">
+🔥
+</div>
+
+
+<h1>
+{{ total_logins }}
+</h1>
+
+
+<p>
+Total Logins
+</p>
+
+
+</div>
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- ================= AI INSIGHT ================= -->
+
+
+<div class="ai-card">
+
+
+<h2>
+🤖 AI Mentor Insight
+</h2>
+
+
+
+<p>
+
+Your learning activity is improving.
+Keep practicing quizzes and AI conversations
+to increase your performance.
+
+</p>
+
+</div>
+<!-- ================= AI LEARNING SCORE ================= -->
+
+<div class="ai-score-card">
+
+
+<h2>
+🧠 AI Learning Score
+</h2>
+
+<h1>
+{{ ai_score }}%
+</h1>
+<p>
+Based on your learning activity
+</p>
+
+
+<div class="score-items">
+
+<span>
+✔ AI Chat
+</span>
+
+<span>
+✔ Quiz Performance
+</span>
+
+<span>
+✔ Notes Generated
+</span>
+
+<span>
+✔ Study Activity
+</span>
+
+
+</div>
+
+
+</div>
+
+<!-- ================= CHARTS ================= -->
+
+
+
+<div class="charts">
+
+
+
+<div class="chart-card">
+
+
+<h2>
+📅 Today's Activity
+</h2>
+
+
+<canvas id="todayChart"></canvas>
+
+
+
+</div>
+
+
+
+
+
+
+<div class="chart-card">
+
+
+<h2>
+📈 Weekly Activity
+</h2>
+
+
+<canvas id="weeklyChart"></canvas>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- ================= QUICK ACTION ================= -->
+
+
+
+<h2 class="section-title">
+⚡ Quick Actions
+</h2>
+
+
+
+
+
+
+<div class="quick-grid">
+
+
+
+
+
+<a href="/notes">
+
+
+<div style="font-size:45px">
+📚
+</div>
+
+
+<h3>
+Notes
+</h3>
+
+
+<p>
+Generate AI Notes
+</p>
+
+
+</a>
+
+
+
+
+
+
+<a href="/chatbot">
+
+
+<div style="font-size:45px">
+🤖
+</div>
+
+
+<h3>
+AI Chat
+</h3>
+
+
+<p>
+Ask Academic Questions
+</p>
+
+
+</a>
+
+
+
+
+
+
+<a href="/quiz">
+
+
+<div style="font-size:45px">
+🧠
+</div>
+
+
+<h3>
+Quiz
+</h3>
+
+
+<p>
+Improve Score
+</p>
+
+
+</a>
+
+
+
+
+
+
+<a href="/papers">
+
+
+<div style="font-size:45px">
+📄
+</div>
+
+
+<h3>
+Papers
+</h3>
+
+
+<p>
+Explore Previous Papers
+</p>
+
+
+</a>
+
+
+
+
+</div>
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+<!-- ================= CHART JS ================= -->
+
+
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 
 
 <script>
 
-// ================= TODAY BAR GRAPH =================
 
-const todayCtx = document.getElementById('todayChart');
+new Chart(
+
+document.getElementById('todayChart'),
+
+{
 
 
-new Chart(todayCtx, {
+type:'bar',
 
-    type:'bar',
 
-    data:{
+data:{
 
-        labels: {{ today_labels | tojson }},
 
-        datasets:[{
+labels: {{ today_labels | tojson }},
 
-            label:'Today Activity',
 
-            data: {{ today_values | tojson }},
+datasets:[{
 
-            borderWidth:2
 
-        }]
+label:"Today's Activity",
 
-    },
 
-    options:{
+data: {{ today_values | tojson }},
 
-        responsive:true,
 
-        maintainAspectRatio:false,
+borderWidth:2
 
-        scales:{
 
-            y:{
+}]
 
-                beginAtZero:true
 
-            }
+}
 
-        }
-
-    }
 
 });
 
 
 
-// ================= WEEKLY LINE GRAPH =================
 
 
-const weeklyCtx = document.getElementById('weeklyChart');
 
 
-new Chart(weeklyCtx, {
+new Chart(
 
-    type:'line',
+document.getElementById('weeklyChart'),
 
-    data:{
+{
 
-        labels: {{ labels | tojson }},
 
-        datasets:[{
+type:'line',
 
-            label:'Active Users',
 
-            data: {{ values | tojson }},
+data:{
 
-            borderWidth:3,
 
-            tension:0.4,
+labels: {{ labels | tojson }},
 
-            fill:true
 
-        }]
+datasets:[{
 
-    },
 
-    options:{
+label:"Active Users",
 
-        responsive:true,
 
-        maintainAspectRatio:false,
+data: {{ values | tojson }},
 
-        scales:{
 
-            y:{
+tension:.4,
 
-                beginAtZero:true
 
-            }
+fill:true,
 
-        }
 
-    }
+borderWidth:3
+
+
+}]
+
+
+}
+
 
 });
+
+
 
 </script>
-{%endblock%}
+
+
+
+{% endblock %}

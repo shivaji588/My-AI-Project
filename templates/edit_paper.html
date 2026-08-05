@@ -1,111 +1,355 @@
 {% extends "base.html" %}
 
 {% block content %}
-
-
 <style>
+
+/* ================= PAGE ================= */
 
 .edit-page{
 
-padding:50px;
+    min-height:100vh;
 
-background:linear-gradient(135deg,#1b3165,#2563eb);
+    padding:60px 30px;
 
-min-height:90vh;
+    display:flex;
 
-border-radius:20px;
+    justify-content:center;
+
+    align-items:center;
+
+    background:
+    radial-gradient(circle at top left,#2563eb22,transparent 35%),
+    radial-gradient(circle at bottom right,#9333ea22,transparent 35%),
+    linear-gradient(135deg,#020617,#0f172a,#1e3a8a);
 
 }
 
-
+/* ================= CARD ================= */
 
 .edit-card{
 
-max-width:600px;
+    width:100%;
+    max-width:650px;
 
-margin:auto;
+    position:relative;
+    overflow:hidden;
 
-background:white;
+    padding:45px;
 
-padding:40px;
+    border-radius:35px;
 
-border-radius:25px;
+    background:rgba(255,255,255,.08);
 
-box-shadow:0 15px 30px rgba(0,0,0,.2);
+    backdrop-filter:blur(28px);
+
+    border:1px solid rgba(255,255,255,.12);
+
+    box-shadow:
+    0 30px 80px rgba(0,0,0,.35);
+
+    animation:cardShow .8s ease;
 
 }
 
+.edit-card::before{
 
+    content:"";
 
+    position:absolute;
+
+    width:240px;
+    height:240px;
+
+    top:-90px;
+    right:-90px;
+
+    border-radius:50%;
+
+    background:
+    linear-gradient(135deg,#2563eb,#9333ea);
+
+    opacity:.18;
+
+}
+
+@keyframes cardShow{
+
+from{
+
+opacity:0;
+transform:translateY(40px);
+
+}
+
+to{
+
+opacity:1;
+transform:translateY(0);
+
+}
+
+}
+
+/* ================= TITLE ================= */
+
+.edit-card h1,
 h1{
 
-text-align:center;
+    text-align:center;
 
-color:#1e293b;
+    margin-bottom:30px;
+
+    font-size:38px;
+
+    font-weight:900;
+
+    background:
+    linear-gradient(90deg,#ffffff,#60a5fa,#c084fc);
+
+    -webkit-background-clip:text;
+    background-clip:text;
+
+    color:transparent;
 
 }
 
-
+/* ================= LABEL ================= */
 
 label{
 
-font-weight:bold;
+    display:block;
 
-color:#334155;
+    margin-bottom:8px;
+
+    color:#f8fafc;
+
+    font-size:15px;
+
+    font-weight:700;
 
 }
 
-
+/* ================= INPUT ================= */
 
 input{
 
-width:100%;
+    width:100%;
 
-padding:14px;
+    height:56px;
 
-margin:10px 0 20px;
+    margin-bottom:22px;
 
-border-radius:15px;
+    padding:0 18px;
 
-border:1px solid #cbd5e1;
+    border-radius:18px;
+
+    border:1px solid rgba(255,255,255,.15);
+
+    background:rgba(255,255,255,.08);
+
+    color:white;
+
+    outline:none;
+
+    transition:.35s;
 
 }
 
+input::placeholder{
 
+    color:#94a3b8;
+
+}
+
+input:focus{
+
+    background:rgba(255,255,255,.12);
+
+    border-color:#60a5fa;
+
+    box-shadow:
+    0 0 18px rgba(96,165,250,.35);
+
+    transform:translateY(-2px);
+
+}
+/* ================= CURRENT FILE ================= */
+
+.current-file{
+
+    margin:20px 0 25px;
+
+    padding:15px 18px;
+
+    border-radius:18px;
+
+    background:rgba(255,255,255,.08);
+
+    border:1px solid rgba(255,255,255,.12);
+
+    color:#e2e8f0;
+
+    font-size:15px;
+
+    font-weight:600;
+
+}
+
+.current-file b{
+
+    color:#60a5fa;
+
+    font-weight:800;
+
+    word-break:break-all;
+
+}/* ================= FILE INPUT ================= */
+
+input[type="file"]{
+
+    width:100%;
+
+    padding:12px;
+
+    margin-bottom:22px;
+
+    border:2px dashed rgba(96,165,250,.45);
+
+    border-radius:18px;
+
+    background:rgba(255,255,255,.08);
+
+    color:#e2e8f0;
+
+    cursor:pointer;
+
+    transition:.35s;
+
+}
+
+input[type="file"]:hover{
+
+    border-color:#60a5fa;
+
+    background:rgba(255,255,255,.12);
+
+    box-shadow:
+    0 10px 25px rgba(37,99,235,.25);
+
+}
+
+input[type="file"]::file-selector-button{
+
+    padding:10px 18px;
+
+    margin-right:15px;
+
+    border:none;
+
+    border-radius:12px;
+
+    cursor:pointer;
+
+    font-weight:700;
+
+    color:white;
+
+    background:
+    linear-gradient(135deg,#2563eb,#7c3aed);
+
+    transition:.3s;
+
+}
+
+input[type="file"]::file-selector-button:hover{
+
+    background:
+    linear-gradient(135deg,#1d4ed8,#6d28d9);
+
+}
+/* ================= BUTTON ================= */
 
 .update-btn{
 
-width:100%;
+    width:100%;
 
-padding:15px;
+    height:58px;
 
-border:none;
+    border:none;
 
-border-radius:30px;
+    border-radius:35px;
 
-background:linear-gradient(90deg,#2563eb,#7c3aed);
+    cursor:pointer;
 
-color:white;
+    font-size:17px;
 
-font-weight:bold;
+    font-weight:800;
 
-cursor:pointer;
+    color:white;
+
+    background:
+    linear-gradient(135deg,#2563eb,#7c3aed,#06b6d4);
+
+    background-size:250%;
+
+    transition:.4s;
+
+    box-shadow:
+    0 18px 35px rgba(37,99,235,.35);
 
 }
-
-
 
 .update-btn:hover{
 
-transform:translateY(-3px);
+    background-position:right;
+
+    transform:
+    translateY(-5px)
+    scale(1.02);
+
+    box-shadow:
+    0 25px 50px rgba(124,58,237,.45);
 
 }
 
+/* ================= RESPONSIVE ================= */
 
+@media(max-width:768px){
+
+.edit-page{
+
+padding:20px;
+
+}
+
+.edit-card{
+
+padding:30px 22px;
+
+}
+
+.edit-card h1,
+h1{
+
+font-size:30px;
+
+}
+
+input{
+
+height:52px;
+
+}
+
+.update-btn{
+
+height:54px;
+
+}
+
+}
 
 </style>
-
-
 
 <div class="edit-page">
 
@@ -176,13 +420,10 @@ accept=".pdf">
 
 
 
-
-<p>
-Current File:
-<b>{{paper[3]}}</b>
+<p class="current-file">
+    📄 Current File:
+    <b>{{ paper[3] }}</b>
 </p>
-
-
 
 
 <button class="update-btn">
@@ -190,7 +431,6 @@ Current File:
 💾 Update Paper
 
 </button>
-
 
 
 </form>

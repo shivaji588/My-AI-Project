@@ -482,52 +482,281 @@ font-size:30px;
 
     color:white;
 
+}/* ================= PREMIUM SETTINGS MODAL ================= */
+
+
+.modal-content{
+
+    background:
+    rgba(255,255,255,.95);
+
+    backdrop-filter:blur(25px);
+
+    border:none!important;
+
+    border-radius:35px!important;
+
+    overflow:hidden;
+
+    box-shadow:
+    0 30px 80px rgba(0,0,0,.35);
+
+    animation:modalPop .4s ease;
+
 }
-/* DARK MODE MODAL */
+
+
+
+@keyframes modalPop{
+
+from{
+
+opacity:0;
+
+transform:scale(.8) translateY(40px);
+
+}
+
+to{
+
+opacity:1;
+
+transform:scale(1) translateY(0);
+
+}
+
+}
+
+
+
+
+/* HEADER */
+
+
+.modal-header{
+
+    padding:25px 30px;
+
+    background:
+    linear-gradient(
+    135deg,
+    #2563eb,
+    #7c3aed
+    );
+
+    color:white;
+
+    border:none;
+
+}
+
+
+
+.modal-title{
+
+    font-size:25px;
+
+    font-weight:800;
+
+}
+
+
+
+
+/* BODY */
+
+
+.modal-body{
+
+    padding:35px;
+
+}
+
+
+
+.modal-body h5{
+
+    font-size:20px;
+
+    font-weight:800;
+
+    color:#1e293b;
+
+}
+
+
+
+
+.modal-body hr{
+
+    margin:25px 0;
+
+    border-color:#e2e8f0;
+
+}
+
+
+
+
+
+/* INPUT */
+
+
+.form-control{
+
+    border-radius:18px!important;
+
+    padding:14px 18px!important;
+
+    border:1px solid #cbd5e1!important;
+
+    background:#f8fafc;
+
+    transition:.3s;
+
+}
+
+
+
+.form-control:focus{
+
+    border-color:#2563eb!important;
+
+    box-shadow:
+    0 0 0 4px rgba(37,99,235,.15)!important;
+
+    background:white;
+
+}
+
+
+
+
+/* LABEL */
+
+
+.modal-body label{
+
+    font-weight:700;
+
+    color:#475569;
+
+    margin-bottom:8px;
+
+}
+
+
+
+
+/* SWITCH */
+
+
+.form-check-input{
+
+    width:50px!important;
+
+    height:25px!important;
+
+    cursor:pointer;
+
+}
+
+
+
+.form-check-input:checked{
+
+    background-color:#2563eb;
+
+    border-color:#2563eb;
+
+}
+
+
+
+
+/* SAVE BUTTON */
+
+
+.btn-primary{
+
+    padding:12px 35px!important;
+
+    border-radius:30px!important;
+
+    border:none!important;
+
+    background:
+    linear-gradient(
+    90deg,
+    #2563eb,
+    #9333ea
+    )!important;
+
+    font-weight:700;
+
+    transition:.3s;
+
+}
+
+
+
+.btn-primary:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:
+    0 15px 30px rgba(37,99,235,.35);
+
+}
+
+
+
+/* CLOSE BUTTON */
+
+
+.btn-close{
+
+    filter:brightness(0) invert(1);
+
+}
+
+
+
+/* DARK MODE */
+
 
 .dark-profile .modal-content{
 
     background:#111827;
+
+}
+
+
+
+.dark-profile .modal-body h5,
+.dark-profile .modal-body label{
+
     color:white;
 
 }
 
 
-.dark-profile .modal-body label,
-.dark-profile .modal-body h5{
 
-    color:white;
-
-}
-
-
-.dark-profile .modal-body .form-control,
-.dark-profile .modal-body .form-select{
+.dark-profile .form-control{
 
     background:#1e293b;
+
     color:white;
-    border:1px solid #475569;
+
+    border-color:#475569!important;
 
 }
 
 
-.dark-profile .modal-body .form-control::placeholder{
+
+.dark-profile .form-control::placeholder{
 
     color:#94a3b8;
-
-}
-
-
-.dark-profile .modal-body .form-check-label{
-
-    color:white;
-
-}
-
-
-.dark-profile .modal-body hr{
-
-    border-color:#475569;
 
 }
 /* SETTINGS HIGHLIGHT */
@@ -577,6 +806,283 @@ font-size:30px;
     background:#1e293b;
 
     border-color:#60a5fa;
+
+}
+.settings-option{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+padding:18px;
+
+margin-bottom:15px;
+
+border-radius:20px;
+
+background:#f8fafc;
+
+border:1px solid #e2e8f0;
+
+}
+
+
+.dark-profile .settings-option{
+
+background:#1e293b;
+
+border-color:#334155;
+
+}
+
+
+.settings-option strong{
+
+font-size:17px;
+
+color:#1e293b;
+
+}
+
+
+.dark-profile .settings-option strong{
+
+color:white;
+
+}
+/* ================= EXTRA PREMIUM MODAL EFFECTS ================= */
+
+
+.modal-dialog{
+
+    transform:translateY(0);
+
+}
+
+
+
+/* Modal background blur */
+
+.modal-backdrop.show{
+
+    opacity:.75;
+
+    backdrop-filter:blur(8px);
+
+}
+
+
+
+/* Section title icon style */
+
+.modal-body h5{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    margin-bottom:20px;
+
+    font-size:21px;
+
+}
+
+
+
+/* Inputs hover */
+
+.form-control:hover{
+
+    border-color:#818cf8!important;
+
+    transform:translateY(-2px);
+
+}
+
+
+
+/* Settings cards premium */
+
+
+.settings-option{
+
+    position:relative;
+
+    overflow:hidden;
+
+    transition:.35s;
+
+}
+
+
+
+.settings-option::before{
+
+    content:"";
+
+    position:absolute;
+
+    left:0;
+
+    top:0;
+
+    width:5px;
+
+    height:100%;
+
+    background:
+    linear-gradient(
+    180deg,
+    #2563eb,
+    #9333ea
+    );
+
+}
+
+
+
+.settings-option:hover{
+
+    transform:translateX(8px);
+
+    box-shadow:
+    0 15px 35px rgba(37,99,235,.15);
+
+}
+
+
+
+/* File upload */
+
+
+input[type="file"]{
+
+    cursor:pointer;
+
+    background:white;
+
+}
+
+
+
+input[type="file"]::file-selector-button{
+
+    border:none;
+
+    padding:10px 18px;
+
+    border-radius:20px;
+
+    background:
+    linear-gradient(
+    90deg,
+    #2563eb,
+    #7c3aed
+    );
+
+    color:white;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+}
+
+
+
+/* Save button shine */
+
+
+.btn-primary{
+
+    position:relative;
+
+    overflow:hidden;
+
+}
+
+
+
+.btn-primary::before{
+
+    content:"";
+
+    position:absolute;
+
+    top:0;
+
+    left:-100%;
+
+    width:100%;
+
+    height:100%;
+
+    background:
+    linear-gradient(
+    120deg,
+    transparent,
+    rgba(255,255,255,.4),
+    transparent
+    );
+
+    transition:.5s;
+
+}
+
+
+
+.btn-primary:hover::before{
+
+    left:100%;
+
+}
+
+
+
+/* Modal scrollbar */
+
+
+.modal-body::-webkit-scrollbar{
+
+    width:8px;
+
+}
+
+
+.modal-body::-webkit-scrollbar-thumb{
+
+    background:
+    linear-gradient(
+    #2563eb,
+    #9333ea
+    );
+
+    border-radius:20px;
+
+}
+
+
+
+/* Dark mode settings */
+
+
+.dark-profile .settings-option p{
+
+    color:#94a3b8!important;
+
+}
+
+
+
+.dark-profile input[type="file"]{
+
+    background:#1e293b;
+
+    color:white;
 
 }
 </style>
@@ -715,51 +1221,65 @@ style="border-radius:50%;object-fit:cover;">
 </div>
 
 </div>
-<!-- ================= SETTINGS MODAL ================= -->
+<!-- ================= PREMIUM SETTINGS MODAL ================= -->
 
-<div class="modal fade"
-     id="settingsModal"
-     tabindex="-1">
+<div class="modal fade" id="settingsModal" tabindex="-1">
 
 <div class="modal-dialog modal-dialog-centered modal-lg">
 
-<div class="modal-content"
-style="border-radius:25px;border:none;overflow:hidden;">
+<div class="modal-content">
 
-<div class="modal-header"
-style="background:linear-gradient(135deg,#2563eb,#7c3aed);
-color:white;">
+
+<div class="modal-header">
+
+<div>
 
 <h4 class="modal-title">
 ⚙️ Account Settings
 </h4>
 
-<button
+<p style="margin:5px 0 0;color:#dbeafe;">
+Manage your profile and preferences
+</p>
+
+</div>
+
+
+<button 
 type="button"
 class="btn-close btn-close-white"
 data-bs-dismiss="modal">
 </button>
 
+
 </div>
 
 
-<div class="modal-body p-4">
 
-<form method="POST" 
+<div class="modal-body">
+
+
+<form method="POST"
 action="/update_profile"
 enctype="multipart/form-data">
 
-<!-- PROFILE -->
 
-<h5 class="mb-3">
-👤 Edit Profile
+
+<!-- PROFILE SECTION -->
+
+<h5>
+👤 Profile Information
 </h5>
+
 
 <div class="row">
 
+
 <div class="col-md-6 mb-3">
 
-<label>Full Name</label>
+<label>
+Full Name
+</label>
 
 <input
 type="text"
@@ -770,9 +1290,13 @@ required>
 
 </div>
 
+
+
 <div class="col-md-6 mb-3">
 
-<label>Username</label>
+<label>
+Username
+</label>
 
 <input
 type="text"
@@ -783,9 +1307,13 @@ required>
 
 </div>
 
-<div class="col-12 mb-4">
 
-<label>Email</label>
+
+<div class="col-12 mb-3">
+
+<label>
+Email Address
+</label>
 
 <input
 type="email"
@@ -796,124 +1324,213 @@ required>
 
 </div>
 
+
 </div>
+
+
 
 <hr>
 
+
+
 <!-- PASSWORD -->
 
-<h5 class="mb-3">
-🔒 Change Password
+<h5>
+🔐 Security
 </h5>
+
+
+<div class="row">
+
+
+<div class="col-md-4 mb-3">
 
 <input
 type="password"
-class="form-control mb-3"
+class="form-control"
 name="current_password"
 placeholder="Current Password">
 
+</div>
+
+
+
+<div class="col-md-4 mb-3">
+
 <input
 type="password"
-class="form-control mb-3"
+class="form-control"
 name="new_password"
 placeholder="New Password">
 
+</div>
+
+
+
+<div class="col-md-4 mb-3">
+
 <input
 type="password"
-class="form-control mb-4"
+class="form-control"
 name="confirm_password"
 placeholder="Confirm Password">
 
-<!-- SETTINGS -->
+</div>
 
-<h5 class="mb-3">
+
+</div>
+
+
+
+
+<hr>
+
+
+
+
+<!-- PREFERENCES -->
+
+
+<h5>
 ⚙️ Preferences
 </h5>
 
-<div class="form-check form-switch mb-3">
+
+
+<div class="settings-option">
+
+
+<div>
+
+<strong>
+🔔 Notifications
+</strong>
+
+<p style="margin:0;color:#64748b;">
+Receive learning updates
+</p>
+
+</div>
+
+
+
+<div class="form-check form-switch">
 
 <input
 class="form-check-input"
 type="checkbox"
-id="notify"
 name="notifications"
+id="notify"
 
-{% if user[5] == 1 %}
+{% if user[6] == 1 %}
 checked
 {% endif %}
 
 >
 
-<label
-class="form-check-label"
-for="notify">
+</div>
 
-🔔 Notifications
-
-</label>
 
 </div>
 
-<div class="form-check form-switch mb-3">
+
+
+
+
+<div class="settings-option">
+
+
+<div>
+
+<strong>
+🌙 Dark Theme
+</strong>
+
+
+<p style="margin:0;color:#64748b;">
+Enable dark appearance
+</p>
+
+
+</div>
+
+
+
+<div class="form-check form-switch">
+
 
 <input
 class="form-check-input"
 type="checkbox"
-id="theme"
 name="dark_theme"
+id="theme"
 
 {% if user[7] == 1 %}
 checked
 {% endif %}
+
 >
 
-<label
-class="form-check-label"
-for="theme">
-
-🌙 Dark Theme
-
-</label>
 
 </div>
+
+
+</div>
+
+
+
 
 <hr>
-<div class="mb-4">
 
-<label>
+
+
+<!-- IMAGE -->
+
+
+<h5>
 🖼️ Profile Picture
-</label>
+</h5>
 
-<input 
+
+
+<input
 type="file"
-name="profile_image"
-class="form-control">
+class="form-control"
+name="profile_image">
 
-</div>
 
-<div class="text-end">
+
+
+
+<div class="text-end mt-4">
+
 
 <button
 type="submit"
-class="btn btn-primary px-4">
+class="btn btn-primary">
+
 
 💾 Save Changes
 
+
 </button>
 
+
 </div>
+
+
 
 </form>
 
+
+</div>
+
+
 </div>
 
 </div>
 
 </div>
-
-</div>
-
-
 
 
 <div class="stats">

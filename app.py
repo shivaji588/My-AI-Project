@@ -1814,7 +1814,82 @@ def dashboard():
         today_values.append(row[1])
 
 
+    # ================= AI LEARNING SCORE =================
 
+    user_id = session.get('user_id')
+
+
+    # AI Chat Score
+    cur.execute("""
+        SELECT COUNT(*)
+        FROM chat_history
+        WHERE user_id=?
+    """,(user_id,))
+
+    chat_count = cur.fetchone()[0]
+
+
+    chat_score = min(chat_count * 3, 30)
+
+
+
+    # Quiz Score
+    cur.execute("""
+        SELECT AVG(score*100/total)
+        FROM quiz_results
+        WHERE user_id=?
+    """,(user_id,))
+
+
+    quiz_result = cur.fetchone()[0]
+
+
+    if quiz_result:
+        quiz_score = min(int(quiz_result * 0.3),30)
+    else:
+        quiz_score = 0
+
+
+
+    # Study Activity Score
+
+    cur.execute("""
+        SELECT COUNT(*)
+        FROM user_activity
+        WHERE user_id=?
+    """,(user_id,))
+
+
+    activity_count = cur.fetchone()[0]
+
+
+    activity_score = min(activity_count,20)
+
+
+
+    # Notes Score
+
+    cur.execute("""
+        SELECT COUNT(*)
+        FROM user_activity
+        WHERE user_id=?
+        AND action='Notes Generated'
+    """,(user_id,))
+
+
+    notes_count = cur.fetchone()[0]
+
+
+    notes_score = min(notes_count*2,20)
+
+
+
+    ai_score = (
+        chat_score +
+        quiz_score +
+        activity_score +
+        notes_score
+    )
     # ================= RECENT ACTIVITY =================
 
 
@@ -1828,7 +1903,24 @@ def dashboard():
 
     timeline = cur.fetchall()
 
+    user_id = session.get('user_id')
 
+
+    progress = conn.execute(
+        """
+        SELECT xp, streak, level
+        FROM user_progress
+        WHERE user_id=?
+        """,
+        (user_id,)
+    ).fetchone()
+
+    if progress is None:
+        progress = {
+        "level":1,
+        "xp":0,
+        "streak":0
+    }
 
     conn.close()
 
@@ -1857,8 +1949,12 @@ def dashboard():
 
         today_values=today_values,
 
+        timeline=timeline,
 
-        timeline=timeline
+        level=progress['level'],
+        xp=progress['xp'],
+        streak=progress['streak'],
+        ai_score=ai_score
     )
 # ---------------- PROFILE ----------------
 

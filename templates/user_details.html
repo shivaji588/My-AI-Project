@@ -1,221 +1,383 @@
 {% extends "base.html" %}
 
 {% block content %}
-
 <style>
 
+/* ================= PAGE ================= */
+
 .profile-page{
-    min-height:80vh;
-    padding:40px;
-    background:#f4f7fc;
+
+    min-height:100vh;
+
+    padding:50px;
+
+    background:
+    radial-gradient(circle at top left,#2563eb22,transparent 35%),
+    radial-gradient(circle at bottom right,#9333ea22,transparent 35%),
+    linear-gradient(135deg,#020617,#0f172a,#1e3a8a);
+
 }
 
-
-/* PROFILE CARD */
+/* ================= CARD ================= */
 
 .profile-card{
 
-    max-width:700px;
+    max-width:760px;
+
     margin:auto;
-    background:white;
-    padding:40px;
-    border-radius:25px;
+
+    padding:45px;
+
+    position:relative;
+
+    overflow:hidden;
+
+    border-radius:35px;
+
+    background:rgba(255,255,255,.08);
+
+    backdrop-filter:blur(25px);
+
+    border:1px solid rgba(255,255,255,.15);
 
     box-shadow:
-    0 15px 35px rgba(0,0,0,0.12);
+    0 30px 80px rgba(0,0,0,.35);
 
-    animation:slide 0.5s ease;
+    animation:profileShow .8s ease;
 
 }
 
+.profile-card::before{
 
-@keyframes slide{
+    content:"";
+
+    position:absolute;
+
+    width:240px;
+
+    height:240px;
+
+    right:-80px;
+
+    top:-80px;
+
+    border-radius:50%;
+
+    background:
+    linear-gradient(135deg,#2563eb,#9333ea);
+
+    opacity:.18;
+
+}
+
+@keyframes profileShow{
 
 from{
-    opacity:0;
-    transform:translateY(30px);
+
+opacity:0;
+transform:translateY(35px);
+
 }
 
 to{
-    opacity:1;
-    transform:translateY(0);
-}
+
+opacity:1;
+transform:translateY(0);
 
 }
 
+}
 
-
-/* AVATAR */
+/* ================= AVATAR ================= */
 
 .avatar{
 
-    width:120px;
-    height:120px;
+    width:140px;
+
+    height:140px;
 
     margin:auto;
 
     border-radius:50%;
 
-    background:linear-gradient(
-        135deg,
-        #2563eb,
-        #7c3aed
-    );
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:55px;
+
+    font-weight:900;
 
     color:white;
 
-    display:flex;
-    align-items:center;
-    justify-content:center;
+    background:
+    linear-gradient(135deg,#2563eb,#7c3aed,#06b6d4);
 
-    font-size:45px;
-    font-weight:bold;
+    background-size:250%;
+
+    animation:
+    avatarFloat 3s infinite,
+    avatarGradient 6s linear infinite;
+
+    box-shadow:
+    0 20px 45px rgba(37,99,235,.35);
 
 }
 
+@keyframes avatarFloat{
 
+50%{
 
-/* NAME */
+transform:translateY(-8px);
+
+}
+
+}
+
+@keyframes avatarGradient{
+
+0%{background-position:left;}
+
+100%{background-position:right;}
+
+}
+
+/* ================= NAME ================= */
 
 .profile-card h1{
 
-    text-align:center;
-    margin-top:20px;
+    margin-top:25px;
 
-    color:#1e293b;
+    text-align:center;
+
+    font-size:36px;
+
+    font-weight:900;
+
+    background:
+    linear-gradient(90deg,#ffffff,#60a5fa,#c084fc);
+
+    -webkit-background-clip:text;
+    background-clip:text;
+
+    color:transparent;
 
 }
 
+/* ================= ROLE ================= */
 
 .role-badge{
 
     text-align:center;
-    margin:10px;
+
+    margin-top:18px;
 
 }
-
 
 .role-badge span{
 
-    background:#10b981;
+    display:inline-block;
+
+    padding:10px 25px;
+
+    border-radius:30px;
+
+    background:
+    linear-gradient(135deg,#22c55e,#16a34a);
+
     color:white;
 
-    padding:8px 20px;
+    font-weight:700;
 
-    border-radius:20px;
-
-    font-weight:bold;
+    box-shadow:
+    0 10px 25px rgba(34,197,94,.35);
 
 }
 
-
-
-/* DETAILS */
+/* ================= DETAILS ================= */
 
 .details{
 
-    margin-top:30px;
+    margin-top:35px;
 
 }
-
-
 
 .detail-box{
 
     display:flex;
+
     justify-content:space-between;
 
-    background:#f8fafc;
+    align-items:center;
 
-    padding:15px 20px;
+    margin-bottom:18px;
 
-    margin:12px 0;
+    padding:18px 22px;
 
-    border-radius:15px;
+    border-radius:20px;
 
-    border-left:5px solid #2563eb;
+    background:rgba(255,255,255,.08);
+
+    border:1px solid rgba(255,255,255,.08);
+
+    transition:.35s;
 
 }
 
+.detail-box:hover{
 
+    transform:translateX(8px);
+
+    background:rgba(255,255,255,.12);
+
+    box-shadow:
+    0 15px 30px rgba(37,99,235,.25);
+
+}
 
 .label{
 
-    font-weight:bold;
-    color:#475569;
+    color:#94a3b8;
+
+    font-weight:700;
+
+    font-size:15px;
 
 }
-
 
 .value{
 
-    color:#0f172a;
+    color:white;
+
+    font-weight:700;
+
+    font-size:16px;
 
 }
 
-
-
-/* BUTTONS */
+/* ================= BUTTONS ================= */
 
 .actions{
 
-    text-align:center;
+    margin-top:35px;
 
-    margin-top:30px;
+    display:flex;
+
+    justify-content:center;
+
+    flex-wrap:wrap;
+
+    gap:15px;
 
 }
-
 
 .btn{
 
-    display:inline-block;
+    padding:14px 30px;
 
-    padding:12px 25px;
-
-    border-radius:25px;
-
-    text-decoration:none;
-
-    margin:5px;
+    border-radius:35px;
 
     color:white;
 
-    font-weight:bold;
+    text-decoration:none;
+
+    font-weight:700;
+
+    transition:.35s;
 
 }
-
 
 .back{
 
-    background:#64748b;
+    background:
+    linear-gradient(135deg,#475569,#64748b);
 
 }
-
-
-.delete{
-
-    background:#ef4444;
-
-}
-
 
 .edit{
 
-    background:#2563eb;
+    background:
+    linear-gradient(135deg,#2563eb,#7c3aed);
 
 }
 
+.delete{
+
+    background:
+    linear-gradient(135deg,#ef4444,#dc2626);
+
+}
 
 .btn:hover{
 
-    transform:scale(1.05);
+    transform:
+    translateY(-5px)
+    scale(1.04);
+
+    box-shadow:
+    0 20px 40px rgba(0,0,0,.25);
 
 }
 
+/* ================= MOBILE ================= */
 
+@media(max-width:768px){
+
+.profile-page{
+
+padding:20px;
+
+}
+
+.profile-card{
+
+padding:28px 22px;
+
+}
+
+.profile-card h1{
+
+font-size:28px;
+
+}
+
+.avatar{
+
+width:110px;
+height:110px;
+font-size:42px;
+
+}
+
+.detail-box{
+
+flex-direction:column;
+
+align-items:flex-start;
+
+gap:8px;
+
+}
+
+.actions{
+
+flex-direction:column;
+
+}
+
+.btn{
+
+width:100%;
+
+text-align:center;
+
+}
+
+}
 
 </style>
-
 
 
 <div class="profile-page">

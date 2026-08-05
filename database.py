@@ -78,6 +78,16 @@ def init_db():
     )
     """)
 
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS user_progress(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER,
+        xp INTEGER DEFAULT 0,
+        streak INTEGER DEFAULT 0,
+        level INTEGER DEFAULT 1
+    )
+    """)      
+
     # ================= USERS TABLE MIGRATION =================
     try:
         cursor.execute("""

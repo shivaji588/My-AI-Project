@@ -1,12 +1,13 @@
 {% extends "base.html" %}
 
 {% block content %}
-
 <style>
+
+/* ================= PAGE ================= */
 
 .register-page{
 
-    min-height:90vh;
+    min-height:100vh;
 
     display:flex;
 
@@ -14,48 +15,164 @@
 
     align-items:center;
 
-    padding:40px;
+    padding:50px;
+
+    overflow:hidden;
+
+    position:relative;
 
     background:
-    radial-gradient(circle at top left,#dbeafe,#f8fafc 40%),
-    linear-gradient(135deg,#eef2ff,#dbeafe);
+
+    radial-gradient(circle at top left,#2563eb,transparent 35%),
+
+    radial-gradient(circle at bottom right,#7c3aed,transparent 35%),
+
+    linear-gradient(
+    135deg,
+    #020617,
+    #0f172a,
+    #1e3a8a
+    );
 
 }
 
 
-/* CARD */
+/* Floating Background */
+
+.register-page::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:320px;
+
+    height:320px;
+
+    top:-120px;
+
+    left:-100px;
+
+    border-radius:50%;
+
+    background:linear-gradient(135deg,#60a5fa,#7c3aed);
+
+    opacity:.18;
+
+    animation:floatOne 7s infinite ease-in-out;
+
+}
+
+.register-page::after{
+
+    content:"";
+
+    position:absolute;
+
+    width:260px;
+
+    height:260px;
+
+    right:-80px;
+
+    bottom:-80px;
+
+    border-radius:50%;
+
+    background:linear-gradient(135deg,#06b6d4,#2563eb);
+
+    opacity:.15;
+
+    animation:floatTwo 8s infinite ease-in-out;
+
+}
+
+@keyframes floatOne{
+
+50%{
+
+transform:translateY(30px);
+
+}
+
+}
+
+@keyframes floatTwo{
+
+50%{
+
+transform:translateX(-25px);
+
+}
+
+}
+
+
+
+
+
+/* ================= CARD ================= */
 
 .register-card{
 
+    position:relative;
+
+    z-index:10;
+
     width:100%;
 
-    max-width:480px;
+    max-width:500px;
 
-    padding:40px;
+    padding:45px;
 
-    border-radius:30px;
+    border-radius:35px;
 
-    background:
-    rgba(255,255,255,0.75);
+    background:rgba(255,255,255,.10);
 
-    backdrop-filter:blur(20px);
+    backdrop-filter:blur(25px);
 
-    border:1px solid rgba(255,255,255,.6);
+    border:1px solid rgba(255,255,255,.18);
 
     box-shadow:
-    0 25px 60px rgba(37,99,235,.18);
+
+    0 30px 70px rgba(0,0,0,.35);
+
+    animation:cardShow .8s ease;
+
+}
+
+
+@keyframes cardShow{
+
+from{
+
+opacity:0;
+
+transform:translateY(35px);
+
+}
+
+to{
+
+opacity:1;
+
+transform:translateY(0);
+
+}
 
 }
 
 
 
-/* HEADER */
+
+
+/* ================= ICON ================= */
 
 .register-icon{
 
-    width:80px;
+    width:95px;
 
-    height:80px;
+    height:95px;
 
     margin:auto;
 
@@ -67,147 +184,265 @@
 
     align-items:center;
 
-    font-size:40px;
-
-    background:
-    linear-gradient(135deg,#2563eb,#7c3aed);
+    font-size:45px;
 
     color:white;
 
+    background:
+
+    linear-gradient(
+    135deg,
+    #2563eb,
+    #9333ea,
+    #06b6d4
+    );
+
     box-shadow:
-    0 10px 30px rgba(37,99,235,.35);
+
+    0 20px 45px rgba(37,99,235,.45);
 
 }
 
+
+
+
+
+/* ================= TITLE ================= */
 
 .register-card h2{
 
+    margin-top:22px;
+
     text-align:center;
 
-    margin-top:20px;
+    font-size:38px;
 
-    font-size:34px;
+    font-weight:900;
 
-    font-weight:800;
+    background:
 
-    color:#0f172a;
+    linear-gradient(
+    90deg,
+    #38bdf8,
+    #818cf8,
+    #c084fc
+    );
+
+    -webkit-background-clip:text;
+
+    -webkit-text-fill-color:transparent;
 
 }
-
 
 .subtitle{
 
     text-align:center;
 
-    color:#64748b;
+    margin:12px 0 35px;
 
-    margin-bottom:30px;
+    color:#cbd5e1;
+
+    font-size:16px;
 
 }
 
 
 
-/* INPUT */
+
+
+/* ================= LABEL ================= */
 
 .form-label{
 
-    font-weight:600;
+    color:white;
 
-    color:#334155;
+    font-weight:700;
+
+    margin-bottom:8px;
 
 }
 
 
+
+
+
+/* ================= INPUT ================= */
+
 .form-control{
 
-    height:50px;
+    height:55px;
 
-    border-radius:15px;
+    border-radius:18px;
 
-    border:1px solid #cbd5e1;
+    border:1px solid rgba(255,255,255,.2);
+
+    background:rgba(255,255,255,.08);
+
+    backdrop-filter:blur(12px);
+
+    color:white;
 
     padding-left:18px;
 
-    transition:.3s;
+    transition:.35s;
+
+}
+
+
+.form-control::placeholder{
+
+    color:#cbd5e1;
 
 }
 
 
 .form-control:focus{
 
-    border-color:#2563eb;
+    background:rgba(255,255,255,.15);
+
+    border-color:#60a5fa;
+
+    color:white;
+
+    transform:translateY(-2px);
 
     box-shadow:
-    0 0 0 4px rgba(37,99,235,.15);
+
+    0 0 20px rgba(96,165,250,.35);
 
 }
 
 
 
-/* BUTTON */
+
+
+/* ================= BUTTON ================= */
 
 .register-btn{
 
-    height:52px;
+    width:100%;
+
+    height:56px;
+
+    margin-top:15px;
 
     border:none;
 
-    border-radius:30px;
+    border-radius:35px;
 
     background:
-    linear-gradient(90deg,#2563eb,#7c3aed);
+
+    linear-gradient(
+    90deg,
+    #2563eb,
+    #7c3aed,
+    #06b6d4
+    );
 
     color:white;
 
-    font-size:17px;
+    font-size:18px;
 
-    font-weight:700;
+    font-weight:800;
+
+    cursor:pointer;
+
+    transition:.35s;
+
+    box-shadow:
+
+    0 15px 35px rgba(37,99,235,.35);
+
+}
+
+.register-btn:hover{
+
+    transform:
+
+    translateY(-5px)
+    scale(1.02);
+
+    box-shadow:
+
+    0 25px 55px rgba(124,58,237,.45);
+
+}
+
+
+
+
+
+/* ================= LOGIN ================= */
+
+.login-text{
+
+    margin-top:30px;
+
+    text-align:center;
+
+    color:#dbeafe;
+
+    font-size:15px;
+
+}
+
+.login-text a{
+
+    color:#60a5fa;
+
+    text-decoration:none;
+
+    font-weight:800;
 
     transition:.3s;
 
 }
 
+.login-text a:hover{
 
-.register-btn:hover{
-
-    transform:translateY(-3px);
-
-    box-shadow:
-    0 15px 30px rgba(37,99,235,.3);
+    color:#ffffff;
 
 }
 
 
 
-/* LOGIN */
-
-.login-text{
-
-    text-align:center;
-
-    margin-top:25px;
-
-    color:#64748b;
-
-}
 
 
-.login-text a{
+/* ================= MOBILE ================= */
 
-    color:#2563eb;
+@media(max-width:600px){
 
-    font-weight:700;
+.register-page{
 
-    text-decoration:none;
+padding:20px;
 
 }
 
+.register-card{
 
+padding:30px;
+
+}
+
+.register-card h2{
+
+font-size:30px;
+
+}
+
+.register-icon{
+
+width:75px;
+
+height:75px;
+
+font-size:36px;
+
+}
+
+}
 
 </style>
-
-
-
 <div class="register-page">
 
 

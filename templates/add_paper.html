@@ -1,49 +1,90 @@
 {% extends "base.html" %}
 
 {% block content %}
-
 <style>
+
+/* ================= PAGE ================= */
+
 
 .add-page{
 
     min-height:90vh;
 
-    padding:50px;
+    padding:60px 40px;
+
 
     background:
-    linear-gradient(135deg,#1b3165,#2563eb);
-
-    border-radius:20px;
-
-}
 
 
-
-/* CONTAINER */
-
-.add-container{
-
-    max-width:600px;
-
-    margin:auto;
-
-}
+    radial-gradient(
+    circle at top left,
+    #2563eb,
+    transparent 35%
+    ),
 
 
+    radial-gradient(
+    circle at bottom right,
+    #7c3aed,
+    transparent 35%
+    ),
 
-/* CARD */
 
-.add-card{
+    linear-gradient(
+    135deg,
+    #020617,
+    #1e3a8a
+    );
 
-    background:rgba(255,255,255,0.12);
-
-    backdrop-filter:blur(15px);
-
-    padding:40px;
 
     border-radius:30px;
 
-    box-shadow:0 20px 40px rgba(0,0,0,.25);
+
+}
+
+
+
+/* ================= CONTAINER ================= */
+
+
+.add-container{
+
+
+    max-width:650px;
+
+
+    margin:auto;
+
+
+    animation:
+
+    pageShow .8s ease;
+
+
+}
+
+
+
+@keyframes pageShow{
+
+
+from{
+
+opacity:0;
+
+transform:translateY(40px);
+
+}
+
+
+to{
+
+opacity:1;
+
+transform:translateY(0);
+
+}
+
 
 }
 
@@ -51,13 +92,123 @@
 
 
 
-/* HEADER */
+/* ================= CARD ================= */
+
+
+.add-card{
+
+
+    background:
+
+
+    rgba(255,255,255,.10);
+
+
+
+    backdrop-filter:blur(25px);
+
+
+
+    padding:45px;
+
+
+
+    border-radius:35px;
+
+
+
+    border:
+
+
+    1px solid rgba(255,255,255,.25);
+
+
+
+    box-shadow:
+
+
+    0 30px 70px rgba(0,0,0,.35);
+
+
+
+    position:relative;
+
+
+
+    overflow:hidden;
+
+
+
+}
+
+
+
+
+.add-card::before{
+
+
+    content:"";
+
+
+    position:absolute;
+
+
+    width:250px;
+
+
+    height:250px;
+
+
+
+    right:-100px;
+
+
+    top:-100px;
+
+
+
+    background:
+
+
+    linear-gradient(
+    135deg,
+    #38bdf8,
+    #a855f7
+    );
+
+
+
+    border-radius:50%;
+
+
+
+    opacity:.18;
+
+
+}
+
+
+
+
+
+/* ================= HEADER ================= */
+
 
 .add-header{
 
+
     text-align:center;
 
-    margin-bottom:30px;
+
+    margin-bottom:40px;
+
+
+
+    position:relative;
+
+
+    z-index:2;
+
 
 }
 
@@ -65,17 +216,52 @@
 
 .add-header h1{
 
-    font-size:35px;
 
-    color:white;
+    font-size:42px;
+
+
+    font-weight:900;
+
+
+
+    background:
+
+
+    linear-gradient(
+    90deg,
+    #ffffff,
+    #60a5fa,
+    #c084fc
+    );
+
+
+
+    background-clip:text;
+
+
+    -webkit-background-clip:text;
+
+
+    -webkit-text-fill-color:transparent;
+
+
+
+    margin-bottom:12px;
+
 
 }
+
 
 
 
 .add-header p{
 
+
     color:#dbeafe;
+
+
+    font-size:17px;
+
 
 }
 
@@ -84,106 +270,310 @@
 
 
 
-/* FORM */
+
+/* ================= FORM ================= */
+
 
 .form-group{
 
-    margin-bottom:20px;
+
+    margin-bottom:25px;
+
+
+    position:relative;
+
+
+    z-index:2;
+
 
 }
+
+
 
 
 
 .form-group label{
 
+
     display:block;
 
-    margin-bottom:8px;
 
-    font-weight:600;
+    margin-bottom:10px;
+
+
 
     color:white;
+
+
+    font-size:16px;
+
+
+    font-weight:700;
+
 
 }
 
 
+
+
+
+
+
+/* ================= GLASS INPUT ================= */
 
 
 .form-group input{
 
+
     width:100%;
 
-    padding:15px;
 
-    border-radius:15px;
 
-    border:none;
+    padding:16px 20px;
+
+
+
+    border-radius:18px;
+
+
+
+    border:
+
+
+    1px solid rgba(255,255,255,.35);
+
+
 
     outline:none;
 
+
+
     font-size:16px;
 
-    background:white;
 
-    color:#1e293b;
+
+    background:
+
+
+    rgba(255,255,255,.15);
+
+
+
+    backdrop-filter:blur(12px);
+
+
+
+    color:white;
+
+
+
+    transition:.35s;
+
 
 }
+
+
+
+
+.form-group input::placeholder{
+
+
+    color:#cbd5e1;
+
+
+}
+
 
 
 
 .form-group input:focus{
 
-    box-shadow:0 0 12px rgba(255,255,255,.4);
+
+    transform:
+
+
+    translateY(-4px);
+
+
+
+    background:
+
+
+    rgba(255,255,255,.22);
+
+
+
+    border-color:#38bdf8;
+
+
+
+    box-shadow:
+
+
+    0 0 25px rgba(56,189,248,.5);
+
+
 
 }
 
 
 
 
-/* FILE INPUT */
+
+
+
+/* ================= FILE INPUT ================= */
+
 
 .file-input{
 
-    padding:12px !important;
+
+    padding:14px !important;
+
+
+    background:
+
+
+    rgba(255,255,255,.15) !important;
+
+
+
+    color:white !important;
+
 
 }
 
 
 
 
-/* BUTTON */
+
+.file-input::file-selector-button{
+
+
+    border:none;
+
+
+    padding:10px 20px;
+
+
+    margin-right:15px;
+
+
+
+    border-radius:25px;
+
+
+
+    background:
+
+
+    linear-gradient(
+    135deg,
+    #2563eb,
+    #7c3aed
+    );
+
+
+
+    color:white;
+
+
+
+    font-weight:700;
+
+
+
+    cursor:pointer;
+
+
+
+    transition:.3s;
+
+
+
+}
+
+
+
+
+
+.file-input::file-selector-button:hover{
+
+
+    transform:scale(1.05);
+
+
+}
+
+
+
+
+
+
+
+/* ================= BUTTON ================= */
+
 
 .add-btn{
 
 
     width:100%;
 
-    padding:15px;
+
+
+    padding:17px;
+
+
 
     border:none;
 
-    border-radius:30px;
+
+
+    border-radius:35px;
+
 
 
     background:
-    linear-gradient(90deg,#10b981,#06b6d4);
+
+
+    linear-gradient(
+    90deg,
+    #2563eb,
+    #7c3aed,
+    #06b6d4
+    );
+
 
 
     color:white;
 
 
-    font-size:17px;
+
+    font-size:18px;
 
 
-    font-weight:bold;
+
+    font-weight:800;
+
 
 
     cursor:pointer;
 
 
-    transition:.3s;
+
+    transition:.4s;
+
+
+
+    box-shadow:
+
+
+    0 15px 35px rgba(37,99,235,.35);
+
+
 
 }
+
 
 
 
@@ -191,9 +581,20 @@
 .add-btn:hover{
 
 
-    transform:translateY(-3px);
+    transform:
 
-    box-shadow:0 15px 25px rgba(16,185,129,.4);
+
+    translateY(-6px)
+    scale(1.03);
+
+
+
+    box-shadow:
+
+
+    0 25px 55px rgba(124,58,237,.55);
+
+
 
 }
 
@@ -201,7 +602,9 @@
 
 
 
-/* BACK */
+
+
+/* ================= BACK BUTTON ================= */
 
 
 .back-btn{
@@ -209,30 +612,99 @@
 
     display:block;
 
+
+
     text-align:center;
 
-    margin-top:20px;
+
+
+    margin-top:25px;
+
+
+
+    color:#bfdbfe;
+
 
 
     text-decoration:none;
 
 
-    color:#dbeafe;
+
+    font-weight:700;
 
 
-    font-weight:bold;
+
+    transition:.3s;
+
+
 
 }
 
 
 
 
+
+.back-btn:hover{
+
+
+    color:white;
+
+
+
+    transform:
+
+
+    translateX(-6px);
+
+
+}
+
+
+
+
+
+
+
+/* ================= MOBILE ================= */
+
+
+@media(max-width:768px){
+
+
+.add-page{
+
+
+padding:30px 15px;
+
+
+}
+
+
+
+.add-card{
+
+
+padding:30px 20px;
+
+
+}
+
+
+
+.add-header h1{
+
+
+font-size:32px;
+
+
+}
+
+
+}
+
+
+
 </style>
-
-
-
-
-
 <div class="add-page">
 
 
