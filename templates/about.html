@@ -636,81 +636,199 @@ rgba(124,58,237,.25)
 
 }
 
+/* ================= DEVELOPER CARD ================= */
+
+.developer-card{
+
+    margin-top:50px;
+
+    padding:60px;
+
+    border-radius:35px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:50px;
 
 
-/* ================= AI SECTION ================= */
+    background:
+    linear-gradient(
+    135deg,
+    rgba(37,99,235,.35),
+    rgba(124,58,237,.35)
+    );
 
 
-.ai-section{
+    backdrop-filter:blur(25px);
+
+    border:1px solid rgba(255,255,255,.2);
 
 
-margin-top:60px;
+    box-shadow:
+    0 30px 80px rgba(0,0,0,.35);
 
-
-padding:60px;
-
-
-border-radius:35px;
-
-
-
-text-align:center;
-
-
-
-background:
-
-
-linear-gradient(
-135deg,
-#020617,
-#1e3a8a
-);
+}
 
 
 
-box-shadow:
+/* BIG LOGO LEFT */
+
+.developer-avatar{
+
+    width:320px;
+
+    height:320px;
+
+    flex-shrink:0;
 
 
-0 30px 70px rgba(0,0,0,.35);
+    border-radius:50%;
 
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+
+    font-size:150px;
+
+
+
+    background:
+
+    linear-gradient(
+    135deg,
+    #2563eb,
+    #7c3aed,
+    #06b6d4
+    );
+
+
+    box-shadow:
+
+    0 0 90px rgba(96,165,250,.7);
+
+
+
+    animation:
+
+    floatDeveloper 4s infinite;
+
+}
+
+
+
+@keyframes floatDeveloper{
+
+
+50%{
+
+    transform:translateY(-20px);
+
+}
 
 }
 
 
 
 
-.ai-section h2{
+/* RIGHT INFORMATION */
+
+.developer-card h2{
+
+    font-size:38px;
+
+    font-weight:900;
+
+    color:white;
+
+}
 
 
-font-size:38px;
 
+.developer-card h3{
 
-color:#93c5fd;
+    margin-top:15px;
 
+    font-size:32px;
+
+    color:#facc15;
 
 }
 
 
 
-.ai-section p{
+.developer-card p{
 
+    margin-top:18px;
 
-margin-top:15px;
+    font-size:18px;
 
+    line-height:1.8;
 
-color:#dbeafe;
-
-
-font-size:18px;
-
-
-line-height:1.8;
-
+    color:#dbeafe;
 
 }
 
 
+
+/* CONTACT */
+
+.contact-info{
+
+    margin-top:25px;
+
+}
+
+
+.contact-info p{
+
+    font-size:16px;
+
+}
+
+
+.contact-info span{
+
+    color:#facc15;
+
+    font-weight:700;
+
+}
+
+
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+
+.developer-card{
+
+    flex-direction:column;
+
+    text-align:center;
+
+}
+
+
+.developer-avatar{
+
+    width:200px;
+
+    height:200px;
+
+    font-size:90px;
+
+}
+
+}
 
 /* ================= TECHNOLOGY ================= */
 
@@ -1128,29 +1246,68 @@ Personal academic assistant anytime.
 
 </div>
 
+<!-- DEVELOPER INFORMATION -->
+
+<div class="developer-card">
 
 
-
-
-
-
-<!-- AI -->
-
-
-<div class="ai-section">
+<div class="developer-info">
 
 
 <h2>
-🧠 Artificial Intelligence Integration
+👩‍💻 Developer Information
 </h2>
+
+
+<h3>
+Yogita Dalvi
+</h3>
 
 
 <p>
 
-AI helps students by providing personalized guidance,
-quick answers and intelligent learning support.
+🎓 Student Developer<br>
+
+💻 Diploma Computer Engineering<br>
+
+🚀 Creator of <b>AI Academic Copilot</b> Project
 
 </p>
+
+
+<p class="developer-desc">
+
+I developed this AI-powered learning platform
+to help diploma students with smart notes,
+previous year papers, AI assistance and
+interactive learning features.
+
+</p>
+
+
+
+<div class="contact-info">
+
+
+<p>
+📧 Email:
+<span>yogita@example.com</span>
+</p>
+
+
+<p>
+📍 Location:
+<span>Maharashtra, India</span>
+</p>
+
+
+<p>
+Mobile:
+<span>983499xxxx</span>
+</p>
+
+
+</div>
 
 
 </div>
@@ -1158,8 +1315,15 @@ quick answers and intelligent learning support.
 
 
 
+<div class="developer-avatar">
+
+👩‍💻
+
+</div>
 
 
+
+</div>
 <!-- TECH -->
 
 
