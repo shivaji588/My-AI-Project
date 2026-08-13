@@ -1,0 +1,779 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+
+.code-puzzle-page{
+    min-height:100vh;
+    padding:50px 25px;
+    color:white;
+    text-align:center;
+    border-radius:30px;
+    overflow:hidden;
+    position:relative;
+
+    background:
+    radial-gradient(circle at top left,#2563eb55,transparent 35%),
+    radial-gradient(circle at bottom right,#a855f755,transparent 35%),
+    linear-gradient(135deg,#020617,#0f172a,#312e81);
+}
+
+.code-puzzle-header{
+    margin-bottom:30px;
+}
+
+.code-puzzle-header h1{
+    font-size:42px;
+    font-weight:900;
+}
+
+.code-puzzle-header p{
+    color:#cbd5e1;
+    font-size:17px;
+}
+
+.progress-box{
+    max-width:850px;
+    margin:0 auto 20px;
+}
+
+.progress-text{
+    display:flex;
+    justify-content:space-between;
+    color:#cbd5e1;
+    font-weight:700;
+    margin-bottom:8px;
+}
+
+.progress-bar{
+    height:9px;
+    background:rgba(255,255,255,.12);
+    border-radius:20px;
+    overflow:hidden;
+}
+
+.progress-fill{
+    height:100%;
+    width:20%;
+    background:linear-gradient(90deg,#38bdf8,#8b5cf6);
+    border-radius:20px;
+    transition:.4s;
+}
+
+.puzzle-box{
+    max-width:850px;
+    margin:auto;
+    padding:35px;
+    border-radius:25px;
+
+    background:rgba(255,255,255,.08);
+    backdrop-filter:blur(18px);
+
+    border:1px solid rgba(255,255,255,.15);
+
+    box-shadow:0 25px 50px rgba(0,0,0,.35);
+}
+
+.question{
+    font-size:22px;
+    font-weight:700;
+    margin-bottom:25px;
+}
+
+.code-list{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    margin-bottom:25px;
+}
+
+.code-block{
+    padding:16px 20px;
+    border-radius:12px;
+
+    background:#1e293b;
+    border:1px solid #475569;
+
+    cursor:grab;
+
+    font-family:monospace;
+    font-size:16px;
+
+    transition:.25s;
+}
+
+.code-block:hover{
+    transform:translateX(5px);
+    border-color:#38bdf8;
+    background:#263449;
+}
+
+.code-block.dragging{
+    opacity:.5;
+}
+
+.button-row{
+    display:flex;
+    justify-content:center;
+    gap:12px;
+    flex-wrap:wrap;
+}
+
+.check-btn,
+.next-btn{
+    border:none;
+    padding:13px 30px;
+    border-radius:30px;
+
+    color:white;
+    font-weight:800;
+
+    cursor:pointer;
+    transition:.3s;
+}
+
+.check-btn{
+    background:linear-gradient(135deg,#2563eb,#7c3aed);
+}
+
+.next-btn{
+    background:linear-gradient(135deg,#16a34a,#059669);
+}
+
+.check-btn:hover,
+.next-btn:hover{
+    transform:translateY(-3px) scale(1.03);
+    box-shadow:0 15px 35px rgba(99,102,241,.4);
+}
+
+.next-btn{
+    display:none;
+}
+
+.result{
+    margin-top:25px;
+    font-size:20px;
+    font-weight:700;
+    min-height:30px;
+}
+
+.score{
+    margin-top:10px;
+    color:#facc15;
+    font-weight:800;
+}
+
+.final-result{
+    display:none;
+    max-width:650px;
+    margin:30px auto;
+    padding:40px 25px;
+
+    border-radius:25px;
+
+    background:rgba(255,255,255,.09);
+    border:1px solid rgba(255,255,255,.18);
+
+    box-shadow:0 20px 50px rgba(0,0,0,.35);
+}
+
+.final-result h2{
+    font-size:34px;
+    color:#facc15;
+}
+
+.final-score{
+    font-size:48px;
+    font-weight:900;
+
+    background:linear-gradient(90deg,#38bdf8,#c084fc);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+.restart-btn,
+.back-btn{
+    display:inline-block;
+    margin-top:20px;
+
+    padding:12px 28px;
+
+    border-radius:30px;
+
+    text-decoration:none;
+
+    color:white;
+    font-weight:800;
+
+    transition:.3s;
+}
+
+.restart-btn{
+    background:linear-gradient(135deg,#8b5cf6,#ec4899);
+    border:none;
+}
+
+.back-btn{
+    background:rgba(255,255,255,.1);
+    border:1px solid rgba(255,255,255,.2);
+}
+
+.restart-btn:hover,
+.back-btn:hover{
+    transform:translateY(-3px);
+    color:white;
+}
+
+@media(max-width:768px){
+
+    .code-puzzle-header h1{
+        font-size:32px;
+    }
+
+    .puzzle-box{
+        padding:25px 18px;
+    }
+
+    .code-block{
+        font-size:14px;
+    }
+
+}
+
+</style>
+
+
+<div class="code-puzzle-page">
+
+    <div class="code-puzzle-header">
+
+        <h1>💻 Code Arrange Challenge</h1>
+
+        <p>
+            Arrange the code blocks in the correct order.
+        </p>
+
+    </div>
+
+
+    <!-- PROGRESS -->
+
+    <div class="progress-box">
+
+        <div class="progress-text">
+
+            <span id="questionNumber">
+                Question 1 of 5
+            </span>
+
+            <span id="scoreText">
+                Score: 0
+            </span>
+
+        </div>
+
+        <div class="progress-bar">
+
+            <div class="progress-fill" id="progressFill"></div>
+
+        </div>
+
+    </div>
+
+
+    <!-- PUZZLE -->
+
+    <div class="puzzle-box" id="puzzleBox">
+
+        <div class="question" id="question">
+            🧩 Arrange the Java program correctly:
+        </div>
+
+
+        <div class="code-list" id="codeList"></div>
+
+
+        <div class="button-row">
+
+            <button
+                class="check-btn"
+                id="checkBtn"
+                onclick="checkAnswer()">
+
+                ✅ Check Answer
+
+            </button>
+
+
+            <button
+                class="next-btn"
+                id="nextBtn"
+                onclick="nextPuzzle()">
+
+                ➡️ Next Puzzle
+
+            </button>
+
+        </div>
+
+
+        <div class="result" id="result"></div>
+
+        <div class="score" id="score"></div>
+
+    </div>
+
+
+    <!-- FINAL RESULT -->
+
+    <div class="final-result" id="finalResult">
+
+        <h2>🎉 Challenge Completed!</h2>
+
+        <p>
+            You have completed all 5 coding puzzles.
+        </p>
+
+        <div class="final-score" id="finalScore">
+            0 / 50
+        </div>
+
+        <p id="finalMessage"></p>
+
+
+        <button
+            class="restart-btn"
+            onclick="restartGame()">
+
+            🔄 Play Again
+
+        </button>
+
+        <br>
+
+        <a href="/puzzle" class="back-btn">
+            ← Back to Puzzle Hub
+        </a>
+
+    </div>
+
+
+</div>
+
+
+<script>
+
+/* ================= PUZZLE DATA ================= */
+
+const puzzles = [
+
+    {
+        question: "🧩 Arrange the Java program correctly:",
+        code: [
+            'System.out.println("Hello World");',
+            '}',
+            'public static void main(String[] args) {',
+            'public class Main {'
+        ],
+        answer: [
+            'public class Main {',
+            'public static void main(String[] args) {',
+            'System.out.println("Hello World");',
+            '}'
+        ]
+    },
+
+
+    {
+        question: "🧩 Arrange the Java variable program:",
+        code: [
+            'System.out.println(name);',
+            'String name = "Yogita";',
+            'public static void main(String[] args) {',
+            'public class Main {',
+            '}'
+        ],
+        answer: [
+            'public class Main {',
+            'public static void main(String[] args) {',
+            'String name = "Yogita";',
+            'System.out.println(name);',
+            '}'
+        ]
+    },
+
+
+    {
+        question: "🧩 Arrange the Java addition program:",
+        code: [
+            'int result = a + b;',
+            'public class Main {',
+            '}',
+            'int a = 10;',
+            'public static void main(String[] args) {',
+            'int b = 20;',
+            'System.out.println(result);'
+        ],
+        answer: [
+            'public class Main {',
+            'public static void main(String[] args) {',
+            'int a = 10;',
+            'int b = 20;',
+            'int result = a + b;',
+            'System.out.println(result);',
+            '}'
+        ]
+    },
+
+
+    {
+        question: "🧩 Arrange the Java if statement:",
+        code: [
+            'if(a > 5) {',
+            'public class Main {',
+            'System.out.println("Greater");',
+            '}',
+            'public static void main(String[] args) {',
+            '}'
+        ],
+        answer: [
+            'public class Main {',
+            'public static void main(String[] args) {',
+            'if(a > 5) {',
+            'System.out.println("Greater");',
+            '}',
+            '}'
+        ]
+    },
+
+
+    {
+        question: "🧩 Arrange the Java loop program:",
+        code: [
+            'for(int i = 0; i < 5; i++) {',
+            'public class Main {',
+            'System.out.println(i);',
+            '}',
+            'public static void main(String[] args) {',
+            '}'
+        ],
+        answer: [
+            'public class Main {',
+            'public static void main(String[] args) {',
+            'for(int i = 0; i < 5; i++) {',
+            'System.out.println(i);',
+            '}',
+            '}'
+        ]
+    }
+
+];
+
+
+/* ================= VARIABLES ================= */
+
+let currentPuzzle = 0;
+
+let totalScore = 0;
+
+let draggedItem = null;
+
+
+/* ================= LOAD PUZZLE ================= */
+
+function loadPuzzle(){
+
+    const puzzle = puzzles[currentPuzzle];
+
+    const list = document.getElementById("codeList");
+
+    const result = document.getElementById("result");
+
+    const score = document.getElementById("score");
+
+    const checkBtn = document.getElementById("checkBtn");
+
+    const nextBtn = document.getElementById("nextBtn");
+
+
+    document.getElementById("question").innerText =
+        puzzle.question;
+
+
+    document.getElementById("questionNumber").innerText =
+        "Question " + (currentPuzzle + 1) + " of " + puzzles.length;
+
+
+    document.getElementById("scoreText").innerText =
+        "Score: " + totalScore;
+
+
+    document.getElementById("progressFill").style.width =
+        ((currentPuzzle + 1) / puzzles.length * 100) + "%";
+
+
+    list.innerHTML = "";
+
+    result.innerHTML = "";
+
+    score.innerHTML = "";
+
+    checkBtn.style.display = "inline-block";
+
+    nextBtn.style.display = "none";
+
+
+    /* Shuffle */
+
+    let shuffled = [...puzzle.code];
+
+    shuffled.sort(() => Math.random() - 0.5);
+
+
+    shuffled.forEach(code => {
+
+        const div = document.createElement("div");
+
+        div.className = "code-block";
+
+        div.draggable = true;
+
+        div.innerText = code;
+
+
+        addDragEvents(div);
+
+
+        list.appendChild(div);
+
+    });
+
+}
+
+
+/* ================= DRAG & DROP ================= */
+
+function addDragEvents(item){
+
+    item.addEventListener("dragstart", function(){
+
+        draggedItem = this;
+
+        this.classList.add("dragging");
+
+    });
+
+
+    item.addEventListener("dragend", function(){
+
+        this.classList.remove("dragging");
+
+    });
+
+
+    item.addEventListener("dragover", function(e){
+
+        e.preventDefault();
+
+    });
+
+
+    item.addEventListener("drop", function(e){
+
+        e.preventDefault();
+
+
+        if(draggedItem !== this){
+
+            const items = [...document.getElementById("codeList").children];
+
+            const draggedIndex = items.indexOf(draggedItem);
+
+            const targetIndex = items.indexOf(this);
+
+
+            if(draggedIndex < targetIndex){
+
+                this.parentNode.insertBefore(
+                    draggedItem,
+                    this.nextSibling
+                );
+
+            }else{
+
+                this.parentNode.insertBefore(
+                    draggedItem,
+                    this
+                );
+
+            }
+
+        }
+
+    });
+
+}
+
+
+/* ================= CHECK ANSWER ================= */
+
+function checkAnswer(){
+
+    const items =
+        document.querySelectorAll(".code-block");
+
+    const correctOrder =
+        puzzles[currentPuzzle].answer;
+
+
+    let correct = true;
+
+
+    items.forEach((item,index) => {
+
+        if(item.innerText.trim() !== correctOrder[index]){
+
+            correct = false;
+
+        }
+
+    });
+
+
+    const result =
+        document.getElementById("result");
+
+    const score =
+        document.getElementById("score");
+
+    const checkBtn =
+        document.getElementById("checkBtn");
+
+    const nextBtn =
+        document.getElementById("nextBtn");
+
+
+    if(correct){
+
+        totalScore += 10;
+
+
+        result.innerHTML =
+            "🎉 Excellent! Correct Answer!";
+
+        result.style.color = "#4ade80";
+
+
+        score.innerHTML =
+            "🏆 +10 Points | Total Score: " +
+            totalScore;
+
+
+        checkBtn.style.display = "none";
+
+
+        if(currentPuzzle < puzzles.length - 1){
+
+            nextBtn.style.display = "inline-block";
+
+        }else{
+
+            setTimeout(showFinalResult,700);
+
+        }
+
+
+    }else{
+
+        result.innerHTML =
+            "❌ Not quite right. Rearrange the blocks and try again.";
+
+        result.style.color = "#f87171";
+
+        score.innerHTML = "";
+
+    }
+
+}
+
+
+/* ================= NEXT PUZZLE ================= */
+
+function nextPuzzle(){
+
+    currentPuzzle++;
+
+    loadPuzzle();
+
+}
+
+
+/* ================= FINAL RESULT ================= */
+
+function showFinalResult(){
+
+    document.getElementById("puzzleBox").style.display = "none";
+
+    document.getElementById("finalResult").style.display = "block";
+
+
+    document.getElementById("finalScore").innerText =
+        totalScore + " / " + (puzzles.length * 10);
+
+
+    let message = "";
+
+
+    if(totalScore === 50){
+
+        message =
+            "🏆 Perfect Score! You are a Coding Master!";
+
+    }else if(totalScore >= 30){
+
+        message =
+            "🔥 Great job! Keep practicing your coding skills.";
+
+    }else{
+
+        message =
+            "💪 Good effort! Practice more and improve your score.";
+
+    }
+
+
+    document.getElementById("finalMessage").innerText =
+        message;
+
+}
+
+
+/* ================= RESTART ================= */
+
+function restartGame(){
+
+    currentPuzzle = 0;
+
+    totalScore = 0;
+
+
+    document.getElementById("puzzleBox").style.display =
+        "block";
+
+    document.getElementById("finalResult").style.display =
+        "none";
+
+
+    loadPuzzle();
+
+}
+
+
+/* ================= START ================= */
+
+loadPuzzle();
+
+</script>
+
+{% endblock %}

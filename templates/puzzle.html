@@ -1,0 +1,307 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+
+.puzzle-container{
+    min-height:100vh;
+    padding:60px 30px;
+    text-align:center;
+    color:white;
+    border-radius:35px;
+    overflow:hidden;
+    position:relative;
+
+    background:
+    radial-gradient(circle at top left,#8b5cf655,transparent 35%),
+    radial-gradient(circle at bottom right,#ec489955,transparent 35%),
+    linear-gradient(135deg,#020617,#0f172a,#312e81);
+}
+
+/* Header */
+
+.puzzle-header{
+    position:relative;
+    z-index:2;
+    margin-bottom:45px;
+}
+
+.puzzle-header h1{
+    font-size:48px;
+    font-weight:900;
+
+    background:
+    linear-gradient(90deg,#c084fc,#f472b6,#fbbf24);
+
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+.puzzle-header p{
+    color:#cbd5e1;
+    font-size:18px;
+}
+
+/* Puzzle Grid */
+
+.puzzle-grid{
+    position:relative;
+    z-index:2;
+
+    display:grid;
+    grid-template-columns:
+    repeat(auto-fit,minmax(250px,1fr));
+
+    gap:30px;
+
+    max-width:1000px;
+    margin:auto;
+}
+
+/* Puzzle Card */
+
+.puzzle-option{
+    padding:35px 25px;
+
+    border-radius:28px;
+
+    background:rgba(255,255,255,.08);
+
+    backdrop-filter:blur(20px);
+
+    border:1px solid rgba(255,255,255,.15);
+
+    box-shadow:0 25px 50px rgba(0,0,0,.35);
+
+    transition:.4s;
+}
+
+.puzzle-option:hover{
+    transform:translateY(-12px);
+
+    border-color:#c084fc;
+
+    box-shadow:
+    0 30px 60px rgba(168,85,247,.35);
+}
+
+/* Icon */
+
+.puzzle-option-icon{
+    width:90px;
+    height:90px;
+
+    margin:0 auto 20px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:50%;
+
+    font-size:45px;
+
+    background:
+    linear-gradient(
+        135deg,
+        #8b5cf6,
+        #ec4899
+    );
+
+    box-shadow:
+    0 15px 35px rgba(168,85,247,.4);
+}
+
+.puzzle-option h2{
+    font-size:25px;
+    margin-bottom:12px;
+}
+
+.puzzle-option p{
+    color:#cbd5e1;
+    line-height:1.6;
+}
+
+/* Button */
+
+.puzzle-btn{
+    display:inline-block;
+
+    margin-top:18px;
+
+    padding:12px 28px;
+
+    border-radius:30px;
+
+    text-decoration:none;
+
+    color:white;
+
+    font-weight:800;
+
+    background:
+    linear-gradient(
+        135deg,
+        #8b5cf6,
+        #ec4899
+    );
+
+    transition:.3s;
+}
+
+.puzzle-btn:hover{
+    color:white;
+
+    transform:
+    translateY(-4px)
+    scale(1.05);
+
+    box-shadow:
+    0 15px 35px rgba(236,72,153,.4);
+}
+
+/* Back Button */
+
+.back-btn{
+    position:relative;
+    z-index:2;
+
+    display:inline-block;
+
+    margin-top:45px;
+
+    padding:12px 28px;
+
+    border-radius:30px;
+
+    text-decoration:none;
+
+    color:white;
+
+    border:1px solid rgba(255,255,255,.25);
+
+    background:rgba(255,255,255,.08);
+
+    transition:.3s;
+}
+
+.back-btn:hover{
+    background:white;
+    color:#312e81;
+}
+
+/* Mobile */
+
+@media(max-width:768px){
+
+    .puzzle-container{
+        padding:40px 20px;
+    }
+
+    .puzzle-header h1{
+        font-size:35px;
+    }
+
+    .puzzle-grid{
+        grid-template-columns:1fr;
+    }
+
+}
+
+</style>
+
+
+<div class="puzzle-container">
+
+    <div class="puzzle-header">
+
+        <h1>🧩 Puzzle Challenge</h1>
+
+        <p>
+            Learn by solving interactive coding and concept puzzles.
+        </p>
+
+    </div>
+
+
+    <div class="puzzle-grid">
+
+
+        <!-- CODE ARRANGE -->
+
+        <div class="puzzle-option">
+
+            <div class="puzzle-option-icon">
+                💻
+            </div>
+
+            <h2>Code Arrange</h2>
+
+            <p>
+                Arrange the code blocks in the correct order
+                and build the correct program.
+            </p>
+
+            <a href="/code_arrange" class="puzzle-btn">
+                🧩 Start Puzzle
+            </a>
+
+        </div>
+
+
+        <!-- MATCH PAIRS -->
+
+        <div class="puzzle-option">
+
+            <div class="puzzle-option-icon">
+                🔗
+            </div>
+
+            <h2>Match the Pair</h2>
+
+            <p>
+                Match programming concepts with their
+                correct definitions.
+            </p>
+
+            <a href="/match_pairs" class="puzzle-btn">
+                🎯 Start Puzzle
+            </a>
+
+        </div>
+
+
+        <!-- DEBUGGING -->
+
+        <div class="puzzle-option">
+
+            <div class="puzzle-option-icon">
+                🐞
+            </div>
+
+            <h2>Debug Challenge</h2>
+
+            <p>
+                Find errors in the code and identify
+                the correct solution.
+            </p>
+
+            <a href="/debug_puzzle" class="puzzle-btn">
+                🐞 Start Puzzle
+            </a>
+
+        </div>
+
+
+    </div>
+
+
+    <a href="/quiz" class="back-btn">
+        ← Back to Quiz
+    </a>
+
+
+</div>
+
+{% endblock %}

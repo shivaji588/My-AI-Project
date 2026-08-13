@@ -1,0 +1,925 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+
+.match-page{
+    min-height:100vh;
+    padding:50px 25px;
+    color:white;
+    text-align:center;
+    border-radius:30px;
+    overflow:hidden;
+
+    background:
+    radial-gradient(circle at top left,#06b6d455,transparent 35%),
+    radial-gradient(circle at bottom right,#8b5cf655,transparent 35%),
+    linear-gradient(135deg,#020617,#0f172a,#312e81);
+}
+
+/* HEADER */
+
+.match-header{
+    margin-bottom:30px;
+}
+
+.match-header h1{
+    font-size:42px;
+    font-weight:900;
+
+    background:
+    linear-gradient(90deg,#38bdf8,#818cf8,#c084fc);
+
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+.match-header p{
+    color:#cbd5e1;
+    font-size:17px;
+}
+
+/* PROGRESS */
+
+.progress-box{
+    max-width:900px;
+    margin:0 auto 25px;
+}
+
+.progress-text{
+    display:flex;
+    justify-content:space-between;
+
+    color:#cbd5e1;
+    font-weight:700;
+
+    margin-bottom:8px;
+}
+
+.progress-bar{
+    height:9px;
+    background:rgba(255,255,255,.12);
+    border-radius:20px;
+    overflow:hidden;
+}
+
+.progress-fill{
+    height:100%;
+    width:20%;
+
+    background:
+    linear-gradient(90deg,#06b6d4,#8b5cf6);
+
+    transition:.4s;
+}
+
+/* GAME BOX */
+
+.match-box{
+    max-width:900px;
+    margin:auto;
+
+    padding:35px;
+
+    border-radius:25px;
+
+    background:rgba(255,255,255,.08);
+
+    backdrop-filter:blur(18px);
+
+    border:1px solid rgba(255,255,255,.15);
+
+    box-shadow:
+    0 25px 50px rgba(0,0,0,.35);
+}
+
+/* QUESTION */
+
+.match-question{
+    font-size:22px;
+    font-weight:800;
+
+    margin-bottom:30px;
+}
+
+/* COLUMNS */
+
+.match-area{
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:25px;
+
+    margin-bottom:25px;
+}
+
+.match-column h3{
+    margin-bottom:15px;
+
+    font-size:20px;
+}
+
+/* ITEMS */
+
+.match-item{
+
+    padding:16px;
+
+    margin-bottom:12px;
+
+    border-radius:14px;
+
+    background:#1e293b;
+
+    border:1px solid #475569;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+    font-weight:600;
+}
+
+.match-item:hover{
+
+    transform:translateY(-3px);
+
+    border-color:#38bdf8;
+
+    box-shadow:
+    0 10px 25px rgba(56,189,248,.2);
+}
+
+/* SELECTED */
+
+.match-item.selected{
+
+    border-color:#facc15;
+
+    background:#3b2f0b;
+
+    transform:scale(1.02);
+}
+
+/* CORRECT */
+
+.match-item.correct{
+
+    border-color:#22c55e;
+
+    background:#064e3b;
+
+}
+
+/* WRONG */
+
+.match-item.wrong{
+
+    border-color:#ef4444;
+
+    background:#450a0a;
+}
+
+/* RESULT */
+
+.result{
+
+    min-height:30px;
+
+    margin-top:20px;
+
+    font-size:20px;
+
+    font-weight:800;
+}
+
+/* SCORE */
+
+.score{
+
+    color:#facc15;
+
+    font-weight:800;
+
+    margin-top:8px;
+}
+
+/* NEXT BUTTON */
+
+.next-btn{
+
+    display:none;
+
+    margin-top:20px;
+
+    padding:13px 30px;
+
+    border:none;
+
+    border-radius:30px;
+
+    color:white;
+
+    font-weight:800;
+
+    cursor:pointer;
+
+    background:
+    linear-gradient(135deg,#16a34a,#059669);
+
+    transition:.3s;
+}
+
+.next-btn:hover{
+
+    transform:
+    translateY(-3px)
+    scale(1.03);
+
+    box-shadow:
+    0 15px 35px rgba(34,197,94,.35);
+}
+
+/* FINAL */
+
+.final-result{
+
+    display:none;
+
+    max-width:650px;
+
+    margin:30px auto;
+
+    padding:40px 25px;
+
+    border-radius:25px;
+
+    background:rgba(255,255,255,.09);
+
+    border:1px solid rgba(255,255,255,.18);
+
+    box-shadow:
+    0 20px 50px rgba(0,0,0,.35);
+}
+
+.final-result h2{
+
+    font-size:34px;
+
+    color:#facc15;
+}
+
+.final-score{
+
+    font-size:48px;
+
+    font-weight:900;
+
+    background:
+    linear-gradient(90deg,#38bdf8,#c084fc);
+
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+.restart-btn,
+.back-btn{
+
+    display:inline-block;
+
+    margin-top:20px;
+
+    padding:12px 28px;
+
+    border-radius:30px;
+
+    text-decoration:none;
+
+    color:white;
+
+    font-weight:800;
+
+    transition:.3s;
+}
+
+.restart-btn{
+
+    background:
+    linear-gradient(135deg,#8b5cf6,#ec4899);
+
+    border:none;
+
+    cursor:pointer;
+}
+
+.back-btn{
+
+    background:rgba(255,255,255,.1);
+
+    border:1px solid rgba(255,255,255,.2);
+}
+
+.restart-btn:hover,
+.back-btn:hover{
+
+    transform:translateY(-3px);
+
+    color:white;
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+    .match-header h1{
+        font-size:32px;
+    }
+
+    .match-box{
+        padding:25px 18px;
+    }
+
+    .match-area{
+        grid-template-columns:1fr;
+    }
+
+}
+
+</style>
+
+
+<div class="match-page">
+
+
+    <!-- HEADER -->
+
+    <div class="match-header">
+
+        <h1>🔗 Match the Pair</h1>
+
+        <p>
+            Match each programming concept with its correct meaning.
+        </p>
+
+    </div>
+
+
+    <!-- PROGRESS -->
+
+    <div class="progress-box">
+
+        <div class="progress-text">
+
+            <span id="roundNumber">
+                Round 1 of 5
+            </span>
+
+            <span id="scoreText">
+                Score: 0
+            </span>
+
+        </div>
+
+
+        <div class="progress-bar">
+
+            <div
+                class="progress-fill"
+                id="progressFill">
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- GAME -->
+
+    <div class="match-box" id="matchBox">
+
+        <div class="match-question">
+            🎯 Select a concept and then select its matching definition.
+        </div>
+
+
+        <div class="match-area">
+
+
+            <!-- CONCEPTS -->
+
+            <div class="match-column">
+
+                <h3>📚 Concepts</h3>
+
+                <div id="concepts"></div>
+
+            </div>
+
+
+            <!-- DEFINITIONS -->
+
+            <div class="match-column">
+
+                <h3>💡 Definitions</h3>
+
+                <div id="definitions"></div>
+
+            </div>
+
+
+        </div>
+
+
+        <div
+            class="result"
+            id="result">
+        </div>
+
+
+        <div
+            class="score"
+            id="score">
+        </div>
+
+
+        <button
+            class="next-btn"
+            id="nextBtn"
+            onclick="nextRound()">
+
+            ➡️ Next Round
+
+        </button>
+
+    </div>
+
+
+    <!-- FINAL RESULT -->
+
+    <div
+        class="final-result"
+        id="finalResult">
+
+        <h2>🎉 Challenge Completed!</h2>
+
+        <p>
+            You completed all matching rounds.
+        </p>
+
+
+        <div
+            class="final-score"
+            id="finalScore">
+
+            0 / 50
+
+        </div>
+
+
+        <p id="finalMessage"></p>
+
+
+        <button
+            class="restart-btn"
+            onclick="restartGame()">
+
+            🔄 Play Again
+
+        </button>
+
+        <br>
+
+
+        <a
+            href="/puzzle"
+            class="back-btn">
+
+            ← Back to Puzzle Hub
+
+        </a>
+
+    </div>
+
+
+</div>
+
+
+<script>
+
+/* ================= DATA ================= */
+
+const rounds = [
+
+    {
+        pairs:[
+            ["Python","High-level programming language"],
+            ["Java","Object-oriented programming language"],
+            ["DBMS","Database Management System"]
+        ]
+    },
+
+    {
+        pairs:[
+            ["Variable","Stores a value"],
+            ["Loop","Repeats a block of code"],
+            ["Function","Reusable block of code"]
+        ]
+    },
+
+    {
+        pairs:[
+            ["Class","Blueprint for objects"],
+            ["Object","Instance of a class"],
+            ["Method","Function inside a class"]
+        ]
+    },
+
+    {
+        pairs:[
+            ["Primary Key","Uniquely identifies a record"],
+            ["Foreign Key","Connects two tables"],
+            ["SQL","Language used to manage databases"]
+        ]
+    },
+
+    {
+        pairs:[
+            ["AI","Artificial Intelligence"],
+            ["Algorithm","Step-by-step solution"],
+            ["Compiler","Translates source code"]
+        ]
+    }
+
+];
+
+
+/* ================= VARIABLES ================= */
+
+let currentRound = 0;
+
+let totalScore = 0;
+
+let selectedConcept = null;
+
+let selectedDefinition = null;
+
+let matchedCount = 0;
+
+
+/* ================= LOAD ROUND ================= */
+
+function loadRound(){
+
+    const round = rounds[currentRound];
+
+    const concepts =
+        document.getElementById("concepts");
+
+    const definitions =
+        document.getElementById("definitions");
+
+
+    concepts.innerHTML = "";
+
+    definitions.innerHTML = "";
+
+
+    selectedConcept = null;
+
+    selectedDefinition = null;
+
+    matchedCount = 0;
+
+
+    document.getElementById("result").innerHTML = "";
+
+    document.getElementById("score").innerHTML = "";
+
+    document.getElementById("nextBtn").style.display = "none";
+
+
+    document.getElementById("roundNumber").innerText =
+        "Round " +
+        (currentRound + 1) +
+        " of " +
+        rounds.length;
+
+
+    document.getElementById("scoreText").innerText =
+        "Score: " + totalScore;
+
+
+    document.getElementById("progressFill").style.width =
+        ((currentRound + 1) /
+        rounds.length * 100) + "%";
+
+
+    /* Concepts */
+
+    round.pairs.forEach((pair,index)=>{
+
+        const item =
+            document.createElement("div");
+
+        item.className = "match-item";
+
+        item.innerText = pair[0];
+
+        item.dataset.index = index;
+
+        item.onclick = function(){
+
+            selectConcept(this);
+
+        };
+
+        concepts.appendChild(item);
+
+    });
+
+
+    /* Shuffle definitions */
+
+    let shuffled =
+        [...round.pairs]
+        .sort(()=>Math.random()-.5);
+
+
+    shuffled.forEach((pair,index)=>{
+
+        const originalIndex =
+            round.pairs.indexOf(pair);
+
+
+        const item =
+            document.createElement("div");
+
+        item.className = "match-item";
+
+        item.innerText = pair[1];
+
+        item.dataset.index =
+            originalIndex;
+
+        item.onclick = function(){
+
+            selectDefinition(this);
+
+        };
+
+        definitions.appendChild(item);
+
+    });
+
+}
+
+
+/* ================= SELECT CONCEPT ================= */
+
+function selectConcept(item){
+
+    if(item.classList.contains("correct")){
+        return;
+    }
+
+
+    document
+        .querySelectorAll("#concepts .match-item")
+        .forEach(el=>{
+            el.classList.remove("selected");
+        });
+
+
+    item.classList.add("selected");
+
+    selectedConcept = item;
+
+    tryMatch();
+
+}
+
+
+/* ================= SELECT DEFINITION ================= */
+
+function selectDefinition(item){
+
+    if(item.classList.contains("correct")){
+        return;
+    }
+
+
+    document
+        .querySelectorAll("#definitions .match-item")
+        .forEach(el=>{
+            el.classList.remove("selected");
+        });
+
+
+    item.classList.add("selected");
+
+    selectedDefinition = item;
+
+    tryMatch();
+
+}
+
+
+/* ================= MATCH ================= */
+
+function tryMatch(){
+
+    if(!selectedConcept ||
+       !selectedDefinition){
+
+        return;
+
+    }
+
+
+    const conceptIndex =
+        selectedConcept.dataset.index;
+
+    const definitionIndex =
+        selectedDefinition.dataset.index;
+
+
+    const result =
+        document.getElementById("result");
+
+
+    if(conceptIndex === definitionIndex){
+
+        /* CORRECT */
+
+        selectedConcept.classList.remove("selected");
+
+        selectedDefinition.classList.remove("selected");
+
+        selectedConcept.classList.add("correct");
+
+        selectedDefinition.classList.add("correct");
+
+
+        selectedConcept.onclick = null;
+
+        selectedDefinition.onclick = null;
+
+
+        matchedCount++;
+
+        totalScore += 10;
+
+
+        result.innerHTML =
+            "🎉 Correct Match! +10 Points";
+
+        result.style.color =
+            "#4ade80";
+
+
+        document.getElementById("score").innerText =
+            "🏆 Total Score: " + totalScore;
+
+
+        selectedConcept = null;
+
+        selectedDefinition = null;
+
+
+        if(matchedCount ===
+           rounds[currentRound].pairs.length){
+
+            document.getElementById("nextBtn")
+                .style.display = "inline-block";
+
+        }
+
+    }else{
+
+        /* WRONG */
+
+        selectedConcept.classList.add("wrong");
+
+        selectedDefinition.classList.add("wrong");
+
+
+        result.innerHTML =
+            "❌ Wrong Match. Try again!";
+
+        result.style.color =
+            "#f87171";
+
+
+        setTimeout(()=>{
+
+            selectedConcept.classList.remove("wrong");
+
+            selectedDefinition.classList.remove("wrong");
+
+        },600);
+
+
+        selectedConcept = null;
+
+        selectedDefinition = null;
+
+    }
+
+}
+
+
+/* ================= NEXT ROUND ================= */
+
+function nextRound(){
+
+    if(currentRound <
+       rounds.length - 1){
+
+        currentRound++;
+
+        loadRound();
+
+    }else{
+
+        showFinalResult();
+
+    }
+
+}
+
+
+/* ================= FINAL ================= */
+
+function showFinalResult(){
+
+    document.getElementById("matchBox")
+        .style.display = "none";
+
+
+    document.getElementById("finalResult")
+        .style.display = "block";
+
+
+    document.getElementById("finalScore")
+        .innerText =
+        totalScore + " / 150";
+
+
+    let message;
+
+
+    if(totalScore === 150){
+
+        message =
+            "🏆 Perfect Score! Excellent conceptual knowledge!";
+
+    }else if(totalScore >= 100){
+
+        message =
+            "🔥 Great job! Your concepts are strong.";
+
+    }else{
+
+        message =
+            "💪 Good effort! Keep practicing your concepts.";
+
+    }
+
+
+    document.getElementById("finalMessage")
+        .innerText = message;
+
+}
+
+
+/* ================= RESTART ================= */
+
+function restartGame(){
+
+    currentRound = 0;
+
+    totalScore = 0;
+
+
+    document.getElementById("matchBox")
+        .style.display = "block";
+
+
+    document.getElementById("finalResult")
+        .style.display = "none";
+
+
+    loadRound();
+
+}
+
+
+/* ================= START ================= */
+
+loadRound();
+
+</script>
+
+{% endblock %}

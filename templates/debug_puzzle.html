@@ -1,0 +1,1644 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+
+/* =====================================================
+   DEBUG CHALLENGE — PROFESSIONAL UI
+===================================================== */
+
+.debug-page{
+    min-height:100vh;
+    padding:35px 20px 60px;
+    position:relative;
+    overflow:hidden;
+    color:#f8fafc;
+}
+
+/* BACKGROUND GLOW */
+
+.debug-page::before,
+.debug-page::after{
+    content:"";
+    position:absolute;
+    width:300px;
+    height:300px;
+    border-radius:50%;
+    filter:blur(100px);
+    opacity:.16;
+    pointer-events:none;
+}
+
+.debug-page::before{
+    background:#2563eb;
+    top:-120px;
+    left:-100px;
+}
+
+.debug-page::after{
+    background:#8b5cf6;
+    right:-100px;
+    bottom:-100px;
+}
+
+.debug-container{
+    width:100%;
+    max-width:1000px;
+    margin:auto;
+    position:relative;
+    z-index:2;
+}
+
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+.debug-header{
+    text-align:center;
+    margin-bottom:25px;
+}
+
+.debug-icon{
+    width:62px;
+    height:62px;
+    margin:0 auto 12px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:30px;
+
+    border-radius:18px;
+
+    background:rgba(255,255,255,.07);
+    border:1px solid rgba(255,255,255,.12);
+
+    box-shadow:
+        0 15px 40px rgba(0,0,0,.25);
+
+    animation:floatIcon 3s ease-in-out infinite;
+}
+
+@keyframes floatIcon{
+    0%,100%{
+        transform:translateY(0);
+    }
+
+    50%{
+        transform:translateY(-5px);
+    }
+}
+
+.debug-header h1{
+    margin:0 0 7px;
+
+    font-size:38px;
+    font-weight:900;
+    letter-spacing:-1px;
+}
+
+.debug-header h1 span{
+    background:linear-gradient(
+        90deg,
+        #60a5fa,
+        #a78bfa,
+        #c084fc
+    );
+
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+.debug-header p{
+    margin:0;
+
+    color:#94a3b8;
+    font-size:15px;
+}
+
+
+/* =====================================================
+   STATS
+===================================================== */
+
+.debug-stats{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+
+    margin-bottom:18px;
+}
+
+.stat-card{
+    padding:14px 15px;
+
+    text-align:center;
+
+    border-radius:15px;
+
+    background:rgba(15,23,42,.68);
+
+    border:1px solid rgba(255,255,255,.08);
+
+    backdrop-filter:blur(16px);
+
+    transition:.25s;
+}
+
+.stat-card:hover{
+    transform:translateY(-2px);
+
+    border-color:rgba(96,165,250,.3);
+}
+
+.stat-label{
+    font-size:10px;
+    letter-spacing:1px;
+    font-weight:700;
+
+    color:#64748b;
+
+    margin-bottom:3px;
+}
+
+.stat-value{
+    font-size:18px;
+    font-weight:850;
+
+    color:#e2e8f0;
+}
+
+
+/* =====================================================
+   MAIN CARD
+===================================================== */
+
+.puzzle-card{
+    padding:25px;
+
+    border-radius:23px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(15,23,42,.94),
+            rgba(15,23,42,.80)
+        );
+
+    border:1px solid rgba(255,255,255,.10);
+
+    box-shadow:
+        0 25px 70px rgba(0,0,0,.35);
+
+    backdrop-filter:blur(20px);
+}
+
+
+/* =====================================================
+   TOP ROW
+===================================================== */
+
+.puzzle-top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    margin-bottom:12px;
+}
+
+.question-number{
+    color:#cbd5e1;
+    font-size:14px;
+    font-weight:750;
+}
+
+.difficulty{
+    padding:6px 12px;
+
+    border-radius:30px;
+
+    background:rgba(245,158,11,.10);
+
+    border:1px solid rgba(245,158,11,.22);
+
+    color:#fbbf24;
+
+    font-size:11px;
+    font-weight:800;
+}
+
+
+/* =====================================================
+   PROGRESS
+===================================================== */
+
+.progress-container{
+    width:100%;
+    height:5px;
+
+    margin-bottom:22px;
+
+    overflow:hidden;
+
+    border-radius:20px;
+
+    background:rgba(255,255,255,.07);
+}
+
+.progress-bar{
+    height:100%;
+    width:20%;
+
+    border-radius:20px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #3b82f6,
+            #8b5cf6
+        );
+
+    transition:width .45s ease;
+}
+
+
+/* =====================================================
+   QUESTION
+===================================================== */
+
+.question-title{
+    margin-bottom:16px;
+
+    font-size:19px;
+    font-weight:750;
+}
+
+.question-title span{
+    color:#60a5fa;
+}
+
+
+/* =====================================================
+   CODE EDITOR
+===================================================== */
+
+.code-wrapper{
+    max-width:850px;
+
+    margin:0 auto 20px;
+
+    overflow:hidden;
+
+    border-radius:15px;
+
+    background:#020617;
+
+    border:1px solid #263449;
+
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.03);
+}
+
+.code-header{
+    height:36px;
+
+    display:flex;
+    align-items:center;
+
+    gap:6px;
+
+    padding:0 13px;
+
+    background:#0b1220;
+
+    border-bottom:1px solid #1e293b;
+}
+
+.dot{
+    width:9px;
+    height:9px;
+
+    border-radius:50%;
+}
+
+.red{
+    background:#ef4444;
+}
+
+.yellow{
+    background:#f59e0b;
+}
+
+.green{
+    background:#22c55e;
+}
+
+.code-language{
+    margin-left:auto;
+
+    color:#64748b;
+
+    font-size:10px;
+
+    font-weight:800;
+
+    letter-spacing:.5px;
+}
+
+pre{
+    margin:0;
+
+    padding:13px 16px;
+
+    overflow-x:auto;
+
+    font-family:
+        "Consolas",
+        "Courier New",
+        monospace;
+
+    font-size:12.5px;
+
+    line-height:1.55;
+
+    color:#e2e8f0;
+}
+
+.code-line{
+    display:block;
+
+    min-height:19px;
+
+    border-radius:4px;
+
+    transition:.2s;
+}
+
+.code-line:hover{
+    background:rgba(255,255,255,.035);
+}
+
+.line-number{
+    display:inline-block;
+
+    width:28px;
+
+    color:#475569;
+
+    user-select:none;
+}
+
+.bug-line{
+    background:rgba(239,68,68,.10);
+
+    border-left:3px solid #ef4444;
+
+    margin-left:-16px;
+
+    padding-left:13px;
+
+    color:#f8fafc;
+}
+
+
+/* =====================================================
+   ANSWERS
+===================================================== */
+
+.answer-title{
+    margin-bottom:10px;
+
+    color:#94a3b8;
+
+    font-size:13px;
+
+    font-weight:750;
+}
+
+.answers{
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:10px;
+}
+
+.answer-btn{
+    position:relative;
+
+    min-height:55px;
+
+    padding:11px 13px;
+
+    display:flex;
+    align-items:center;
+
+    border-radius:12px;
+
+    border:1px solid #263449;
+
+    background:rgba(255,255,255,.025);
+
+    color:#cbd5e1;
+
+    text-align:left;
+
+    font-size:13px;
+
+    cursor:pointer;
+
+    transition:
+        transform .2s,
+        border-color .2s,
+        background .2s,
+        box-shadow .2s;
+}
+
+.answer-btn:hover{
+    transform:translateY(-2px);
+
+    border-color:#3b82f6;
+
+    background:rgba(59,130,246,.08);
+
+    box-shadow:
+        0 8px 20px rgba(0,0,0,.18);
+}
+
+.answer-btn.selected{
+    border-color:#60a5fa;
+
+    background:rgba(59,130,246,.13);
+
+    box-shadow:
+        0 0 0 2px rgba(96,165,250,.08);
+}
+
+.answer-letter{
+    flex-shrink:0;
+
+    width:27px;
+    height:27px;
+
+    margin-right:9px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:8px;
+
+    background:#172033;
+
+    color:#93c5fd;
+
+    font-size:11px;
+
+    font-weight:900;
+}
+
+.answer-btn.selected .answer-letter{
+    background:#2563eb;
+
+    color:white;
+}
+
+.answer-btn.correct{
+    border-color:#22c55e;
+
+    background:rgba(34,197,94,.10);
+}
+
+.answer-btn.correct .answer-letter{
+    background:#16a34a;
+    color:white;
+}
+
+.answer-btn.wrong{
+    border-color:#ef4444;
+
+    background:rgba(239,68,68,.10);
+}
+
+.answer-btn.wrong .answer-letter{
+    background:#dc2626;
+    color:white;
+}
+
+
+/* =====================================================
+   FEEDBACK
+===================================================== */
+
+.feedback{
+    display:none;
+
+    margin-top:15px;
+
+    padding:12px 14px;
+
+    border-radius:12px;
+
+    font-size:13px;
+
+    line-height:1.5;
+}
+
+.feedback.correct{
+    background:rgba(34,197,94,.08);
+
+    border:1px solid rgba(34,197,94,.22);
+
+    color:#86efac;
+}
+
+.feedback.wrong{
+    background:rgba(239,68,68,.08);
+
+    border:1px solid rgba(239,68,68,.22);
+
+    color:#fca5a5;
+}
+
+
+/* =====================================================
+   ACTION BUTTONS
+===================================================== */
+
+.puzzle-actions{
+    display:flex;
+
+    justify-content:flex-end;
+
+    gap:9px;
+
+    margin-top:18px;
+}
+
+.action-btn{
+    border:none;
+
+    padding:10px 20px;
+
+    border-radius:10px;
+
+    color:white;
+
+    font-size:13px;
+
+    font-weight:800;
+
+    cursor:pointer;
+
+    transition:.25s;
+}
+
+.submit-btn{
+    background:
+        linear-gradient(
+            135deg,
+            #2563eb,
+            #7c3aed
+        );
+}
+
+.next-btn{
+    display:none;
+
+    background:
+        linear-gradient(
+            135deg,
+            #059669,
+            #0d9488
+        );
+}
+
+.action-btn:hover{
+    transform:translateY(-2px);
+
+    box-shadow:
+        0 10px 25px rgba(37,99,235,.25);
+}
+
+.action-btn:active{
+    transform:scale(.97);
+}
+
+
+/* =====================================================
+   RESULT SCREEN
+===================================================== */
+
+.result-screen{
+    display:none;
+
+    text-align:center;
+
+    padding:45px 20px;
+}
+
+.result-icon{
+    font-size:58px;
+
+    margin-bottom:10px;
+
+    animation:floatIcon 2.5s ease-in-out infinite;
+}
+
+.result-screen h2{
+    margin:0 0 7px;
+
+    font-size:30px;
+}
+
+.result-screen p{
+    color:#94a3b8;
+}
+
+.final-score{
+    margin:12px 0;
+
+    font-size:45px;
+
+    font-weight:950;
+
+    background:
+        linear-gradient(
+            90deg,
+            #60a5fa,
+            #c084fc
+        );
+
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+.restart-btn{
+    margin-top:15px;
+
+    padding:11px 22px;
+
+    border:none;
+
+    border-radius:10px;
+
+    color:white;
+
+    font-size:13px;
+
+    font-weight:800;
+
+    cursor:pointer;
+
+    background:
+        linear-gradient(
+            135deg,
+            #2563eb,
+            #7c3aed
+        );
+
+    transition:.25s;
+}
+
+.restart-btn:hover{
+    transform:translateY(-2px);
+
+    box-shadow:
+        0 12px 25px rgba(37,99,235,.25);
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media(max-width:768px){
+
+    .debug-page{
+        padding:25px 12px 45px;
+    }
+
+    .debug-header h1{
+        font-size:30px;
+    }
+
+    .debug-header p{
+        font-size:13px;
+    }
+
+    .debug-icon{
+        width:55px;
+        height:55px;
+        font-size:26px;
+    }
+
+    .debug-stats{
+        grid-template-columns:1fr 1fr 1fr;
+        gap:7px;
+    }
+
+    .stat-card{
+        padding:11px 5px;
+    }
+
+    .stat-label{
+        font-size:8px;
+    }
+
+    .stat-value{
+        font-size:15px;
+    }
+
+    .puzzle-card{
+        padding:17px;
+        border-radius:18px;
+    }
+
+    .question-title{
+        font-size:17px;
+    }
+
+    .answers{
+        grid-template-columns:1fr;
+    }
+
+    .answer-btn{
+        min-height:52px;
+    }
+
+    .puzzle-actions{
+        justify-content:stretch;
+    }
+
+    .action-btn{
+        flex:1;
+    }
+
+    pre{
+        font-size:11px;
+        padding:11px 12px;
+    }
+}
+
+
+/* =====================================================
+   SMALL SCREEN
+===================================================== */
+
+@media(max-width:420px){
+
+    .debug-stats{
+        gap:5px;
+    }
+
+    .stat-card{
+        border-radius:11px;
+    }
+
+    .stat-value{
+        font-size:14px;
+    }
+
+    .puzzle-top{
+        align-items:flex-start;
+        gap:8px;
+    }
+}
+
+</style>
+
+
+<div class="debug-page">
+
+<div class="debug-container">
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<div class="debug-header">
+
+    <div class="debug-icon">
+        🐞
+    </div>
+
+    <h1>
+        Debug <span>Challenge</span>
+    </h1>
+
+    <p>
+        Find the bug, analyze the code and choose the correct solution.
+    </p>
+
+</div>
+
+
+<!-- =====================================================
+     STATS
+===================================================== -->
+
+<div class="debug-stats">
+
+    <div class="stat-card">
+
+        <div class="stat-label">
+            QUESTION
+        </div>
+
+        <div class="stat-value" id="questionNumber">
+            1 / 5
+        </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <div class="stat-label">
+            SCORE
+        </div>
+
+        <div class="stat-value" id="score">
+            0
+        </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <div class="stat-label">
+            CATEGORY
+        </div>
+
+        <div class="stat-value" id="category">
+            Python
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     PUZZLE
+===================================================== -->
+
+<div class="puzzle-card" id="puzzleCard">
+
+
+    <div class="puzzle-top">
+
+        <div
+            class="question-number"
+            id="questionText">
+
+            🧩 Question 1
+
+        </div>
+
+
+        <div
+            class="difficulty"
+            id="difficulty">
+
+            ⚡ Easy
+
+        </div>
+
+    </div>
+
+
+    <!-- PROGRESS -->
+
+    <div class="progress-container">
+
+        <div
+            class="progress-bar"
+            id="progressBar">
+        </div>
+
+    </div>
+
+
+    <!-- QUESTION -->
+
+    <div class="question-title">
+
+        Find the error in the following
+
+        <span id="languageText">
+            Python code:
+        </span>
+
+    </div>
+
+
+    <!-- CODE -->
+
+    <div class="code-wrapper">
+
+        <div class="code-header">
+
+            <div class="dot red"></div>
+
+            <div class="dot yellow"></div>
+
+            <div class="dot green"></div>
+
+            <div
+                class="code-language"
+                id="codeLanguage">
+
+                Python
+
+            </div>
+
+        </div>
+
+
+        <pre id="codeBlock"></pre>
+
+    </div>
+
+
+    <!-- ANSWERS -->
+
+    <div class="answer-title">
+
+        🔍 Choose the correct solution
+
+    </div>
+
+
+    <div
+        class="answers"
+        id="answersContainer">
+    </div>
+
+
+    <!-- FEEDBACK -->
+
+    <div
+        class="feedback correct"
+        id="correctFeedback">
+    </div>
+
+
+    <div
+        class="feedback wrong"
+        id="wrongFeedback">
+    </div>
+
+
+    <!-- ACTION -->
+
+    <div class="puzzle-actions">
+
+        <button
+            class="action-btn submit-btn"
+            id="submitBtn"
+            onclick="checkAnswer()">
+
+            ✓ Submit Answer
+
+        </button>
+
+
+        <button
+            class="action-btn next-btn"
+            id="nextBtn"
+            onclick="nextPuzzle()">
+
+            Next Puzzle →
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     RESULT
+===================================================== -->
+
+<div
+    class="puzzle-card result-screen"
+    id="resultScreen">
+
+    <div class="result-icon">
+        🏆
+    </div>
+
+    <h2>
+        Challenge Complete!
+    </h2>
+
+    <p>
+        Great job! You completed all debugging puzzles.
+    </p>
+
+
+    <div
+        class="final-score"
+        id="finalScore">
+
+        0 / 50
+
+    </div>
+
+
+    <p id="resultMessage">
+        Keep practicing!
+    </p>
+
+
+    <button
+        class="restart-btn"
+        onclick="restartGame()">
+
+        🔄 Play Again
+
+    </button>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+<script>
+
+/* =====================================================
+   PUZZLE DATA
+===================================================== */
+
+const puzzles = [
+
+{
+    category:"Python",
+
+    difficulty:"⚡ Easy",
+
+    code:[
+        "numbers = [10, 20, 30, 40]",
+        "total = 0",
+        "for i in range(1, len(numbers)):",
+        "    total += numbers[i]",
+        "print(total)"
+    ],
+
+    bugLine:3,
+
+    answers:[
+        "Change range(1, len(numbers)) to range(len(numbers))",
+        "Change total = 0 to total = 1",
+        "Replace numbers[i] with numbers[i+1]",
+        "Remove the for loop completely"
+    ],
+
+    correct:0,
+
+    explanation:
+    "Python list indexes start from 0. Starting the loop at 1 skips the first element."
+},
+
+
+{
+    category:"Python",
+
+    difficulty:"⚡ Easy",
+
+    code:[
+        "name = input('Enter your name: ')",
+        "age = input('Enter your age: ')",
+        "next_age = age + 1",
+        "print(next_age)"
+    ],
+
+    bugLine:3,
+
+    answers:[
+        "Convert age using int(age)",
+        "Convert age using str(age)",
+        "Remove the input function",
+        "Change age to 0"
+    ],
+
+    correct:0,
+
+    explanation:
+    "input() returns a string. Convert age to an integer before performing arithmetic."
+},
+
+
+{
+    category:"Java",
+
+    difficulty:"🔥 Medium",
+
+    code:[
+        "public class Demo {",
+        "    public static void main(String[] args) {",
+        "        int number = 10;",
+        "        if(number = 10) {",
+        "            System.out.println(number);",
+        "        }",
+        "    }",
+        "}"
+    ],
+
+    bugLine:4,
+
+    answers:[
+        "Change = to ==",
+        "Change int to String",
+        "Remove the if statement",
+        "Change number to 0"
+    ],
+
+    correct:0,
+
+    explanation:
+    "In Java, = is assignment while == is used to compare two values."
+},
+
+
+{
+    category:"JavaScript",
+
+    difficulty:"🔥 Medium",
+
+    code:[
+        "let numbers = [1, 2, 3, 4];",
+        "let total = 0;",
+        "",
+        "for(let i = 0; i <= numbers.length; i++) {",
+        "    total += numbers[i];",
+        "}",
+        "",
+        "console.log(total);"
+    ],
+
+    bugLine:4,
+
+    answers:[
+        "Change i <= numbers.length to i < numbers.length",
+        "Change total to 1",
+        "Remove numbers[i]",
+        "Change let to const"
+    ],
+
+    correct:0,
+
+    explanation:
+    "The last valid array index is length - 1. Using <= accesses an invalid index."
+},
+
+
+{
+    category:"SQL",
+
+    difficulty:"🚀 Hard",
+
+    code:[
+        "SELECT name, marks",
+        "FROM students",
+        "WHERE marks > 80",
+        "ORDER BY marks DESC",
+        "GROUP BY name;"
+    ],
+
+    bugLine:5,
+
+    answers:[
+        "Remove GROUP BY because it is unnecessary here",
+        "Remove ORDER BY",
+        "Change DESC to ASC",
+        "Change WHERE to HAVING"
+    ],
+
+    correct:0,
+
+    explanation:
+    "GROUP BY is unnecessary when simply displaying rows ordered by marks."
+}
+
+];
+
+
+/* =====================================================
+   VARIABLES
+===================================================== */
+
+let currentPuzzle = 0;
+
+let score = 0;
+
+let selectedAnswer = null;
+
+let answered = false;
+
+
+/* =====================================================
+   LOAD PUZZLE
+===================================================== */
+
+function loadPuzzle(){
+
+    const puzzle = puzzles[currentPuzzle];
+
+    selectedAnswer = null;
+
+    answered = false;
+
+
+    document.getElementById("questionNumber")
+        .innerText =
+        `${currentPuzzle + 1} / ${puzzles.length}`;
+
+
+    document.getElementById("questionText")
+        .innerText =
+        `🧩 Question ${currentPuzzle + 1}`;
+
+
+    document.getElementById("difficulty")
+        .innerText =
+        puzzle.difficulty;
+
+
+    document.getElementById("category")
+        .innerText =
+        puzzle.category;
+
+
+    document.getElementById("codeLanguage")
+        .innerText =
+        puzzle.category;
+
+
+    document.getElementById("languageText")
+        .innerText =
+        `${puzzle.category} code:`;
+
+
+    /* PROGRESS */
+
+    const progress =
+        ((currentPuzzle + 1) /
+        puzzles.length) * 100;
+
+    document.getElementById("progressBar")
+        .style.width =
+        progress + "%";
+
+
+    /* CODE */
+
+    let codeHTML = "";
+
+
+    puzzle.code.forEach((line,index)=>{
+
+        const lineNumber = index + 1;
+
+
+        if(lineNumber === puzzle.bugLine){
+
+            codeHTML +=
+            `<span class="code-line bug-line">
+                <span class="line-number">
+                    ${lineNumber}
+                </span>
+                ${escapeHTML(line)}
+            </span>`;
+
+        }else{
+
+            codeHTML +=
+            `<span class="code-line">
+                <span class="line-number">
+                    ${lineNumber}
+                </span>
+                ${escapeHTML(line)}
+            </span>`;
+
+        }
+
+    });
+
+
+    document.getElementById("codeBlock")
+        .innerHTML =
+        codeHTML;
+
+
+    /* ANSWERS */
+
+    const container =
+        document.getElementById("answersContainer");
+
+    container.innerHTML = "";
+
+
+    puzzle.answers.forEach((answer,index)=>{
+
+        const button =
+            document.createElement("button");
+
+        button.className =
+            "answer-btn";
+
+        button.innerHTML =
+        `<span class="answer-letter">
+            ${String.fromCharCode(65 + index)}
+        </span>
+        ${answer}`;
+
+
+        button.onclick =
+            () => selectAnswer(button,index);
+
+
+        container.appendChild(button);
+
+    });
+
+
+    /* RESET */
+
+    document.getElementById("correctFeedback")
+        .style.display =
+        "none";
+
+
+    document.getElementById("wrongFeedback")
+        .style.display =
+        "none";
+
+
+    document.getElementById("submitBtn")
+        .style.display =
+        "block";
+
+
+    document.getElementById("nextBtn")
+        .style.display =
+        "none";
+
+}
+
+
+/* =====================================================
+   SELECT ANSWER
+===================================================== */
+
+function selectAnswer(button,index){
+
+    if(answered) return;
+
+
+    document
+        .querySelectorAll(".answer-btn")
+        .forEach(btn=>{
+
+            btn.classList.remove("selected");
+
+        });
+
+
+    button.classList.add("selected");
+
+    selectedAnswer = index;
+
+}
+
+
+/* =====================================================
+   CHECK ANSWER
+===================================================== */
+
+function checkAnswer(){
+
+    if(selectedAnswer === null){
+
+        alert("Please select an answer first.");
+
+        return;
+
+    }
+
+
+    if(answered) return;
+
+
+    answered = true;
+
+
+    const puzzle =
+        puzzles[currentPuzzle];
+
+
+    const buttons =
+        document.querySelectorAll(".answer-btn");
+
+
+    if(selectedAnswer === puzzle.correct){
+
+        score += 10;
+
+
+        buttons[selectedAnswer]
+            .classList.add("correct");
+
+
+        document.getElementById("correctFeedback")
+            .innerHTML =
+            `✅ <strong>Correct!</strong>
+             ${puzzle.explanation}`;
+
+
+        document.getElementById("correctFeedback")
+            .style.display =
+            "block";
+
+    }else{
+
+        buttons[selectedAnswer]
+            .classList.add("wrong");
+
+
+        buttons[puzzle.correct]
+            .classList.add("correct");
+
+
+        document.getElementById("wrongFeedback")
+            .innerHTML =
+            `❌ <strong>Not quite.</strong>
+             ${puzzle.explanation}`;
+
+
+        document.getElementById("wrongFeedback")
+            .style.display =
+            "block";
+
+    }
+
+
+    document.getElementById("score")
+        .innerText =
+        score;
+
+
+    document.getElementById("submitBtn")
+        .style.display =
+        "none";
+
+
+    document.getElementById("nextBtn")
+        .style.display =
+        "block";
+
+}
+
+
+/* =====================================================
+   NEXT PUZZLE
+===================================================== */
+
+function nextPuzzle(){
+
+    currentPuzzle++;
+
+
+    if(currentPuzzle >= puzzles.length){
+
+        showResult();
+
+        return;
+
+    }
+
+
+    loadPuzzle();
+
+}
+
+
+/* =====================================================
+   RESULT
+===================================================== */
+
+function showResult(){
+
+    document.getElementById("puzzleCard")
+        .style.display =
+        "none";
+
+
+    document.getElementById("resultScreen")
+        .style.display =
+        "block";
+
+
+    document.getElementById("finalScore")
+        .innerText =
+        `${score} / ${puzzles.length * 10}`;
+
+
+    let message = "";
+
+
+    if(score === 50){
+
+        message =
+        "🏆 Perfect! You're a debugging master!";
+
+    }else if(score >= 30){
+
+        message =
+        "🔥 Great work! Your debugging skills are strong.";
+
+    }else{
+
+        message =
+        "💡 Keep practicing. You will improve quickly!";
+
+    }
+
+
+    document.getElementById("resultMessage")
+        .innerText =
+        message;
+
+}
+
+
+/* =====================================================
+   RESTART
+===================================================== */
+
+function restartGame(){
+
+    currentPuzzle = 0;
+
+    score = 0;
+
+    selectedAnswer = null;
+
+    answered = false;
+
+
+    document.getElementById("score")
+        .innerText =
+        "0";
+
+
+    document.getElementById("puzzleCard")
+        .style.display =
+        "block";
+
+
+    document.getElementById("resultScreen")
+        .style.display =
+        "none";
+
+
+    loadPuzzle();
+
+}
+
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
+
+function escapeHTML(text){
+
+    return text
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+/* =====================================================
+   START
+===================================================== */
+
+loadPuzzle();
+
+</script>
+
+{% endblock %}

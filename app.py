@@ -930,6 +930,24 @@ def quiz():
 
     return render_template("quiz.html")
 
+#-----------------Puzzel mode-----------------------------------
+@app.route('/puzzle')
+def puzzle():
+    return render_template('puzzle.html')
+
+#------------------Code Arrange mode------------------------------
+@app.route('/code_arrange')
+def code_arrange():
+    return render_template('code_arrange.html')
+
+#-----------------Match Pairs mode------------------------------
+@app.route('/match_pairs')
+def match_pairs():
+    return render_template('match_pairs.html')
+#------------Debugging mode------------------------------
+@app.route("/debug_puzzle")
+def debug_puzzle():
+    return render_template("debug_puzzle.html")
 
 # ---------------- QUIZ datetime ----------------
 def save_score(subject, score, total):
@@ -1069,7 +1087,13 @@ def submit_dbms_quiz():
     save_score("DBMS", score, 10)
     return render_template("result.html", score=score, total=10)
 
-
+#---------------coding lab-------------------
+@app.route("/coding_lab")
+def coding_lab():
+    if "user_id" not in session:
+            flash("Please login first to access this page.", "warning")
+            return redirect(url_for("login"))
+    return render_template("coding_lab.html")
 # ---------------- AI QUIZ ----------------
 
 @app.route("/ai_quiz")
@@ -1133,6 +1157,7 @@ IMPORTANT RULES:
 - Do not add markdown.
 - Do not add ```json.
 - Do not add any extra text.
+- Give changeable type
 - Start response with [
 - End response with ]
 
