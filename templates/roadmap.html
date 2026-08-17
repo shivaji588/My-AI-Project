@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
+
 <style>
 
 /* ================= PAGE ================= */
@@ -31,16 +32,12 @@
     #0f172a
     );
 
-
     border-radius:30px;
 
 }
 
 
-
-
 /* ================= HEADER ================= */
-
 
 .roadmap-header{
 
@@ -53,12 +50,9 @@
 
 .roadmap-header h1{
 
-
     font-size:50px;
 
     font-weight:900;
-
-
 
     background:
 
@@ -69,20 +63,14 @@
     #22d3ee
     );
 
-
     -webkit-background-clip:text;
 
-
     color:transparent;
-
-
 
 }
 
 
-
 .roadmap-header p{
-
 
     color:#cbd5e1;
 
@@ -91,246 +79,135 @@
 }
 
 
-
-
-
-
 /* ================= FORM CARD ================= */
-
 
 .roadmap-card{
 
-
     max-width:750px;
-
 
     margin:auto;
 
-
     padding:45px;
-
-
 
     border-radius:35px;
 
-
-
     background:
-
 
     rgba(255,255,255,.08);
 
-
-
     backdrop-filter:blur(25px);
-
-
 
     border:
 
-
     1px solid rgba(255,255,255,.18);
-
-
 
     box-shadow:
 
-
     0 30px 70px rgba(0,0,0,.4);
 
-
-
 }
-
-
-
 
 
 /* ================= LABEL ================= */
 
-
 .form-label{
-
 
     color:#f8fafc;
 
-
     font-weight:700;
-
 
     font-size:16px;
 
-
-
 }
-
-
-
-
-
 
 
 /* ================= PREMIUM INPUT ================= */
 
-
 .form-control,
 .form-select{
 
-
     width:100%;
-
 
     padding:16px 20px;
 
-
-
     border-radius:18px;
-
-
 
     border:
 
-
     1px solid rgba(255,255,255,.25);
-
-
 
     background:
 
-
     rgba(255,255,255,.15);
-
-
 
     backdrop-filter:blur(10px);
 
-
-
     color:white;
-
-
 
     font-size:16px;
 
-
-
     outline:none;
-
-
 
     transition:.35s;
 
-
-
 }
-
-
-
 
 
 .form-control::placeholder{
 
-
     color:#cbd5e1;
 
-
 }
-
-
-
 
 
 .form-select option{
 
-
     color:#0f172a;
 
-
 }
-
-
-
-
 
 
 .form-control:focus,
 .form-select:focus{
 
-
     background:
-
 
     rgba(255,255,255,.22);
 
-
-
     border-color:#38bdf8;
-
-
 
     box-shadow:
 
-
     0 0 25px rgba(56,189,248,.5);
-
-
 
     transform:
 
-
     translateY(-3px);
-
-
 
 }
 
 
-
-
-
-
-
-
 /* ================= BUTTON ================= */
-
 
 .generate-btn{
 
-
     margin-top:25px;
-
-
 
     padding:17px;
 
-
-
     width:100%;
-
-
 
     border:none;
 
-
-
     border-radius:35px;
-
-
 
     color:white;
 
-
-
     font-size:18px;
-
-
 
     font-weight:800;
 
-
-
     background:
-
 
     linear-gradient(
     135deg,
@@ -339,188 +216,235 @@
     #06b6d4
     );
 
-
-
     cursor:pointer;
-
-
 
     transition:.4s;
 
-
-
     box-shadow:
-
 
     0 15px 35px rgba(37,99,235,.45);
 
-
-
 }
-
-
 
 
 .generate-btn:hover{
 
-
     transform:
-
 
     translateY(-6px)
     scale(1.03);
 
-
-
     box-shadow:
-
 
     0 25px 60px rgba(124,58,237,.55);
 
-
-
 }
-
-
-
-
-
-
 
 
 /* ================= RESULT ================= */
 
-
 .result-card{
-
 
     max-width:950px;
 
-
-
     margin:45px auto;
-
-
 
     padding:40px;
 
-
-
     border-radius:35px;
-
-
 
     background:
 
-
     rgba(255,255,255,.95);
-
-
 
     box-shadow:
 
-
     0 25px 60px rgba(0,0,0,.25);
 
-
-
 }
-
-
-
 
 
 .result-card h3{
 
-
     color:#2563eb;
-
 
     font-size:30px;
 
-
     font-weight:900;
-
 
 }
 
 
+/* ================= ROADMAP OUTPUT ================= */
 
-
-
-.result-card pre{
-
+.roadmap-output{
 
     margin-top:20px;
 
-
-
-    padding:25px;
-
-
-
-    border-radius:20px;
-
-
-
-    background:
-
-
-    #f8fafc;
-
-
-
     color:#334155;
-
-
 
     line-height:1.9;
 
-
-
     font-size:16px;
-
-
-
-    border-left:
-
-
-    6px solid #7c3aed;
-
-
-
-    white-space:pre-wrap;
-
-
 
 }
 
 
+/* ================= DAY HIGHLIGHT ================= */
+
+.day-block{
+
+    margin-top:28px;
+
+    margin-bottom:20px;
+
+}
 
 
+.day-title{
+
+    display:block;
+
+    padding:14px 20px;
+
+    border-radius:16px;
+
+    background:
+
+    linear-gradient(
+    135deg,
+    #2563eb,
+    #7c3aed
+    );
+
+    color:white;
+
+    font-size:20px;
+
+    font-weight:900;
+
+    box-shadow:
+
+    0 10px 25px rgba(37,99,235,.25);
+
+    margin-bottom:15px;
+
+}
 
 
+/* ================= ROADMAP TEXT ================= */
+
+.roadmap-line{
+
+    margin:5px 0;
+
+}
+
+
+.roadmap-section{
+
+    margin-top:16px;
+
+    font-weight:800;
+
+    font-size:17px;
+
+}
+
+
+.topic-section{
+
+    color:#2563eb;
+
+}
+
+
+.practice-section{
+
+    color:#059669;
+
+}
+
+
+.revision-section{
+
+    color:#d97706;
+
+}
+
+
+.motivation-section{
+
+    color:#7c3aed;
+
+}
+
+
+.day-goal-section{
+
+    color:#db2777;
+
+}
+
+
+/* ================= BULLETS ================= */
+
+.roadmap-bullet{
+
+    padding-left:10px;
+
+    margin:5px 0;
+
+    color:#475569;
+
+}
+
+
+/* ================= FINAL GOAL ================= */
+
+.final-goal{
+
+    margin-top:30px;
+
+    padding:20px;
+
+    border-radius:18px;
+
+    background:
+
+    linear-gradient(
+    135deg,
+    #eef2ff,
+    #f5f3ff
+    );
+
+    border-left:6px solid #7c3aed;
+
+}
+
+
+.final-goal strong{
+
+    color:#6d28d9;
+
+    font-size:18px;
+
+}
 
 
 /* ================= ANIMATION ================= */
 
-
 .roadmap-card,
 .result-card{
 
-
     animation:
 
-
     fadeUp .7s ease;
-
 
 }
 
 
-
 @keyframes fadeUp{
-
 
 from{
 
@@ -539,45 +463,48 @@ transform:translateY(0);
 
 }
 
-
 }
-
-
-
-
-
 
 
 /* ================= MOBILE ================= */
 
-
 @media(max-width:768px){
 
+    .roadmap-page{
 
-.roadmap-page{
+        padding:25px 15px;
 
-padding:25px 15px;
+    }
+
+
+    .roadmap-header h1{
+
+        font-size:34px;
+
+    }
+
+
+    .roadmap-card{
+
+        padding:25px;
+
+    }
+
+
+    .result-card{
+
+        padding:25px;
+
+    }
+
+
+    .day-title{
+
+        font-size:17px;
+
+    }
 
 }
-
-
-.roadmap-header h1{
-
-font-size:34px;
-
-}
-
-
-.roadmap-card{
-
-padding:25px;
-
-}
-
-
-}
-
-
 
 </style>
 
@@ -585,165 +512,287 @@ padding:25px;
 <div class="roadmap-page">
 
 
+    <!-- ================= HEADER ================= -->
 
-<div class="roadmap-header">
+    <div class="roadmap-header">
 
-<h1>
-🗺️ AI Study Roadmap Generator
-</h1>
+        <h1>
+            🗺️ AI Study Roadmap Generator
+        </h1>
 
-<p>
-Create a personalized learning plan with Artificial Intelligence
-</p>
+        <p>
+            Create a personalized learning plan with Artificial Intelligence
+        </p>
+
+    </div>
+
+
+    <!-- ================= FORM CARD ================= -->
+
+    <div class="roadmap-card">
+
+        <form method="POST">
+
+
+            <div class="mb-3">
+
+                <label class="form-label">
+                    📚 Subject
+                </label>
+
+                <input
+                    type="text"
+                    name="subject"
+                    class="form-control"
+                    placeholder="Python / Java / DBMS"
+                    required>
+
+            </div>
+
+
+            <div class="mb-3">
+
+                <label class="form-label">
+                    🎯 Goal
+                </label>
+
+                <input
+                    type="text"
+                    name="goal"
+                    class="form-control"
+                    placeholder="Score 90%"
+                    required>
+
+            </div>
+
+
+            <div class="mb-3">
+
+                <label class="form-label">
+                    📅 Days
+                </label>
+
+                <input
+                    type="number"
+                    name="days"
+                    class="form-control"
+                    placeholder="15"
+                    min="1"
+                    max="30"
+                    required>
+
+            </div>
+
+
+            <div class="mb-3">
+
+                <label class="form-label">
+                    📊 Level
+                </label>
+
+                <select
+                    name="level"
+                    class="form-select">
+
+                    <option value="Beginner">
+                        Beginner
+                    </option>
+
+                    <option value="Intermediate">
+                        Intermediate
+                    </option>
+
+                    <option value="Advanced">
+                        Advanced
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="generate-btn">
+
+                🚀 Generate AI Roadmap
+
+            </button>
+
+
+        </form>
+
+    </div>
+
+
+    <!-- ================= RESULT ================= -->
+
+    {% if roadmap %}
+
+    <div class="result-card">
+
+        <h3>
+            📚 Your AI Study Roadmap
+        </h3>
+
+        <hr>
+
+
+        <div
+            class="roadmap-output"
+            id="roadmapOutput"
+        ></div>
+
+
+    </div>
+
+    {% endif %}
+
 
 </div>
 
 
-
-
-
-<div class="roadmap-card">
-
-
-
-<form method="POST">
-
-
-<div class="mb-3">
-
-<label class="form-label">
-📚 Subject
-</label>
-
-
-<input
-type="text"
-name="subject"
-class="form-control"
-placeholder="Python / Java / DBMS"
-required>
-
-</div>
-
-
-
-
-
-<div class="mb-3">
-
-<label class="form-label">
-🎯 Goal
-</label>
-
-
-<input
-type="text"
-name="goal"
-class="form-control"
-placeholder="Score 90%"
-required>
-
-</div>
-
-
-
-
-
-<div class="mb-3">
-
-<label class="form-label">
-📅 Days
-</label>
-
-
-<input
-type="number"
-name="days"
-class="form-control"
-placeholder="15"
-required>
-
-</div>
-
-
-
-
-
-<div class="mb-3">
-
-
-<label class="form-label">
-📊 Level
-</label>
-
-
-<select
-name="level"
-class="form-select">
-
-
-<option>Beginner</option>
-
-<option>Intermediate</option>
-
-<option>Advanced</option>
-
-
-</select>
-
-
-</div>
-
-
-
-
-
-<button class="generate-btn">
-
-🚀 Generate AI Roadmap
-
-</button>
-
-
-
-</form>
-
-
-
-</div>
-
-
-
-
+<!-- ================= ROADMAP FORMAT SCRIPT ================= -->
 
 {% if roadmap %}
 
+<script>
+
+const roadmapText = {{ roadmap | tojson }};
+
+const output = document.getElementById("roadmapOutput");
+
+const lines = roadmapText.split("\n");
+
+let currentDay = null;
+
+lines.forEach(function(line) {
+
+    const text = line.trim();
+
+    if (!text) {
+        return;
+    }
 
 
-<div class="result-card">
+    /* ================= DAY ================= */
+
+    if (/^📅\s*DAY\s+\d+/i.test(text)) {
+
+        const dayBlock = document.createElement("div");
+
+        dayBlock.className = "day-block";
 
 
-<h3>
-📚 Your AI Study Roadmap
-</h3>
+        const dayTitle = document.createElement("div");
+
+        dayTitle.className = "day-title";
+
+        dayTitle.textContent = text;
 
 
-<hr>
+        dayBlock.appendChild(dayTitle);
+
+        output.appendChild(dayBlock);
 
 
-<pre style="white-space: pre-wrap;">{{ roadmap }}</pre>
+        currentDay = dayBlock;
+
+        return;
+    }
 
 
-</div>
+    /* ================= FINAL GOAL ================= */
+
+    if (text.startsWith("🏁")) {
+
+        const finalGoal = document.createElement("div");
+
+        finalGoal.className = "final-goal";
+
+        finalGoal.innerHTML =
+            "<strong>" + text + "</strong>";
+
+        output.appendChild(finalGoal);
+
+        currentDay = null;
+
+        return;
+    }
 
 
+    /* ================= SECTIONS ================= */
+
+    let className = "roadmap-line";
+
+
+    if (text.startsWith("📘")) {
+
+        className =
+            "roadmap-line roadmap-section topic-section";
+
+    }
+
+    else if (text.startsWith("💻")) {
+
+        className =
+            "roadmap-line roadmap-section practice-section";
+
+    }
+
+    else if (text.startsWith("📝")) {
+
+        className =
+            "roadmap-line roadmap-section revision-section";
+
+    }
+
+    else if (text.startsWith("💡")) {
+
+        className =
+            "roadmap-line roadmap-section motivation-section";
+
+    }
+
+    else if (text.startsWith("🎯")) {
+
+        className =
+            "roadmap-line roadmap-section day-goal-section";
+
+    }
+
+    else if (text.startsWith("•")) {
+
+        className =
+            "roadmap-line roadmap-bullet";
+
+    }
+
+
+    const element = document.createElement("div");
+
+    element.className = className;
+
+    element.textContent = text;
+
+
+    if (currentDay) {
+
+        currentDay.appendChild(element);
+
+    }
+
+    else {
+
+        output.appendChild(element);
+
+    }
+
+});
+
+</script>
 
 {% endif %}
-
-
-
-
-</div>
 
 
 {% endblock %}

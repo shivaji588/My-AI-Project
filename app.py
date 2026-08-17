@@ -691,6 +691,7 @@ def subjects():
     return render_template("subjects.html")
 
 #---------------AI Roadmap Function---------------------
+
 def generate_roadmap(subject, goal, days, level):
 
     prompt = f"""
@@ -702,29 +703,46 @@ Subject: {subject}
 Level: {level}
 Goal: {goal}
 
+IMPORTANT:
+The student has requested exactly {days} days.
+Generate exactly {days} days.
+Do not change the number of days.
+
 For each day provide:
 
 📘 Topics to Study
+
 💻 Practice Tasks
+
 📝 Revision Tips
+
 💡 Motivation
 
 Make the roadmap clear, professional, and easy for students to follow.
+
+use Diploma books for reference.
+give topics in simple and easy language.
+Do not create a table.
+Do not add extra sections.
+Do not change the requested duration.
 """
 
     response = client.chat.completions.create(
-        model="llama-3.3-70b-versatile",
+        model="openai/gpt-oss-120b",
         messages=[
             {
                 "role": "user",
                 "content": prompt
             }
-        ]
+        ],
+        temperature=0.2
     )
 
     return response.choices[0].message.content
 
+
 #-----------------------Roadmap-------------------------------
+
 @app.route("/roadmap", methods=["GET", "POST"])
 def roadmap():
 
@@ -748,8 +766,6 @@ def roadmap():
         "roadmap.html",
         roadmap=roadmap
     )
-
-
 #========================== CHATBOT =========================
 @app.route("/chatbot", methods=["GET", "POST"])
 def chatbot():
@@ -761,50 +777,127 @@ def chatbot():
     user_id = session.get("user_id")
 
     if not user_id:
+        conn.close()
         return redirect(url_for("login"))
 
     # ===================== POST =====================
     if request.method == "POST":
 
-        data = request.get_json()
+        data = request.get_json(silent=True) or {}
 
-        subject = data.get("subject")
-        question = data.get("question")
+        subject = data.get("subject", "General")
+        question = data.get("question", "").strip()
+
+        # Empty question protection
+        if not question:
+            conn.close()
+            return jsonify({
+                "answer": "Please enter a question. 😊",
+                "chat_id": None
+            })
+
+        # ===================== SYSTEM PROMPT =====================
 
         system_prompt = f"""
 You are AI Academic Copilot.
 
-You are an AI assistant specially designed for Diploma and Engineering students.
+You are a friendly and helpful AI assistant specially designed
+for Diploma and Engineering students.
 
-Rules:
-1. Answer ONLY academic questions.
-2. Subjects include:
-   - Python
-   - Java
-   - DBMS
-   - Operating System
-   - Computer Networks (DCN)
-   - Data Structures
-   - Software Engineering
-   - Digital Electronics
-   - Microprocessor
-   - C Programming
-   - Mathematics
-3. Explain concepts in simple and easy language.
-4. Give examples whenever possible.
-5. If the user asks anything unrelated to academics (movies, cricket, celebrities, politics, jokes, etc.), politely reply:
-6.Give answer in 2 lines if user says definaation otherwise explain  
+Your main purpose is to help students understand academic and
+technical subjects in a simple way.
 
-"Sorry! I am an Academic AI Assistant. I can answer only Diploma and Engineering academic questions."
+Supported subjects include:
+- Python
+- Java
+- DBMS
+- Operating System
+- Computer Networks (DCN)
+- Data Structures
+- Software Engineering
+- Digital Electronics
+- Microprocessor
+- C Programming
+- Mathematics
+- Artificial Intelligence
+- Data Science
+- Web Development
+
+IMPORTANT RULES:
+
+1. GREETINGS:
+If the user says:
+hi, hii, hello, hey, good morning, good afternoon,
+good evening, or similar greetings,
+
+DO NOT reject the message.
+
+Reply naturally and friendly.
+
+Example:
+"Hello! 👋 I'm your Academic AI Copilot.
+What would you like to learn today?"
+
+2. CASUAL POLITE MESSAGES:
+If the user says:
+thanks, thank you, okay, ok, bye, etc.
+
+Respond naturally and politely.
+
+3. ABOUT THE ASSISTANT:
+If the user asks:
+"Who are you?"
+"What can you do?"
+"How can you help me?"
+
+Briefly explain that you are an AI Academic Copilot
+designed to help Diploma and Engineering students.
+
+4. ACADEMIC QUESTIONS:
+Answer academic questions related to Diploma and Engineering
+subjects.
+
+5. EXPLANATION STYLE:
+Explain concepts in simple and easy language.
+
+Use:
+- Clear headings
+- Short paragraphs
+- Bullet points when useful
+- Examples whenever possible
+
+6. DEFINITIONS:
+If the user specifically asks for a definition,
+give a short answer of approximately 2 lines.
+
+7. EXPLANATIONS:
+If the user asks to explain a concept,
+give a proper understandable explanation with an example
+when useful.
+
+8. NON-ACADEMIC QUESTIONS:
+If the user asks something completely unrelated to academics,
+such as movies, celebrities, politics, jokes, entertainment,
+or unrelated general questions,
+
+reply exactly with:
+
+"Sorry! I am an Academic AI Assistant.
+I can answer only Diploma and Engineering academic questions."
+
+9. IMPORTANT:
+Do NOT reject normal greetings or polite conversation.
 
 Current Subject: {subject}
 """
+
+        # ===================== AI RESPONSE =====================
 
         try:
 
             response = client.chat.completions.create(
 
-                model="llama-3.3-70b-versatile",
+                model="openai/gpt-oss-120b",
 
                 messages=[
                     {
@@ -819,7 +912,6 @@ Current Subject: {subject}
 
                 temperature=0.5,
                 max_tokens=1000
-
             )
 
             answer = response.choices[0].message.content
@@ -828,7 +920,8 @@ Current Subject: {subject}
 
             answer = f"Error: {str(e)}"
 
-        # Save Chat History
+        # ===================== SAVE CHAT HISTORY =====================
+
         cur.execute("""
             INSERT INTO chat_history
             (user_id, subject, question, answer)
@@ -840,19 +933,17 @@ Current Subject: {subject}
             answer
         ))
 
-
-        # get inserted chat id
+        # Get inserted chat ID
         chat_id = cur.lastrowid
-
 
         conn.commit()
         conn.close()
-
 
         return jsonify({
             "answer": answer,
             "chat_id": chat_id
         })
+
     # ===================== GET =====================
 
     cur.execute("""
@@ -870,52 +961,52 @@ Current Subject: {subject}
         "chatbot.html",
         chats=chats
     )
-#==========clear chat history=========
+
+
+#========== CLEAR CHAT HISTORY ==========
 @app.route("/clear_chat")
-# @login_required
 def clear_chat():
+
+    if "user_id" not in session:
+        return redirect(url_for("login"))
 
     conn = sqlite3.connect(DB_PATH)
     cur = conn.cursor()
 
     cur.execute("""
-    DELETE FROM chat_history
-    WHERE user_id=?
-    """,(session["user_id"],))
+        DELETE FROM chat_history
+        WHERE user_id=?
+    """, (session["user_id"],))
 
     conn.commit()
     conn.close()
 
     return redirect(url_for("chatbot"))
 
+
 #================ CHAT FEEDBACK =================
 
 @app.route("/chat_feedback/<int:id>/<status>")
-def chat_feedback(id,status):
+def chat_feedback(id, status):
 
     if "user_id" not in session:
         return redirect(url_for("login"))
 
-
     conn = sqlite3.connect(DB_PATH)
     cur = conn.cursor()
 
-
     cur.execute("""
-    UPDATE chat_history
-    SET feedback=?
-    WHERE id=? AND user_id=?
-    """,
-    (
+        UPDATE chat_history
+        SET feedback=?
+        WHERE id=? AND user_id=?
+    """, (
         status,
         id,
         session["user_id"]
     ))
 
-
     conn.commit()
     conn.close()
-
 
     return redirect(url_for("chatbot"))
 
