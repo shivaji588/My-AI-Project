@@ -681,6 +681,139 @@
 }
 
 
+
+/* =========================================================
+   PREMIUM AI NOTES READER - REPLACED OUTPUT UI
+========================================================= */
+.notes-body{
+    padding:38px;
+    font-size:16px;
+    line-height:1.75;
+    color:var(--text);
+    overflow-x:auto;
+}
+.notes-body h1,.notes-body h2,.notes-body h3,.notes-body h4{
+    color:var(--text);
+    font-weight:800;
+    line-height:1.3;
+    margin:34px 0 16px;
+}
+.notes-body h1{
+    font-size:31px;
+    padding-bottom:14px;
+    border-bottom:3px solid #2563eb;
+}
+.notes-body h2{
+    font-size:25px;
+    padding:15px 18px;
+    border-left:5px solid #7c3aed;
+    border-radius:0 14px 14px 0;
+    background:rgba(37,99,235,.07);
+}
+.notes-body h3{font-size:21px;color:#2563eb}
+.notes-body h4{font-size:18px}
+.notes-body p{margin:12px 0}
+.notes-body ul,.notes-body ol{padding-left:28px;margin:14px 0 22px}
+.notes-body li{margin:7px 0}
+.notes-body blockquote{
+    margin:20px 0;
+    padding:16px 20px;
+    border-left:5px solid #06b6d4;
+    background:rgba(6,182,212,.08);
+    border-radius:0 14px 14px 0;
+}
+.notes-table-wrap{
+    width:100%;
+    overflow-x:auto;
+    margin:22px 0 30px;
+    border-radius:16px;
+    border:1px solid rgba(100,116,139,.18);
+}
+.notes-body table{
+    width:100%;
+    min-width:720px;
+    border-collapse:collapse;
+}
+.notes-body th{
+    background:linear-gradient(135deg,#2563eb,#7c3aed);
+    color:#fff;
+    text-align:left;
+    padding:14px 15px;
+    font-weight:800;
+}
+.notes-body td{
+    padding:13px 15px;
+    border-bottom:1px solid rgba(100,116,139,.16);
+    vertical-align:top;
+}
+.notes-body tr:nth-child(even) td{
+    background:rgba(148,163,184,.07);
+}
+.notes-code{
+    margin:22px 0;
+    border-radius:18px;
+    overflow:hidden;
+    background:#020617;
+    box-shadow:0 14px 35px rgba(2,6,23,.20);
+}
+.notes-code-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:10px 15px;
+    background:#0f172a;
+    color:#cbd5e1;
+    font-size:12px;
+    font-weight:700;
+}
+.notes-copy-code{
+    border:1px solid rgba(255,255,255,.18);
+    background:rgba(255,255,255,.08);
+    color:#e2e8f0;
+    border-radius:8px;
+    padding:5px 10px;
+    cursor:pointer;
+}
+.notes-copy-code:hover{background:rgba(255,255,255,.16)}
+.notes-code pre{
+    margin:0;
+    padding:20px;
+    overflow-x:auto;
+    color:#e2e8f0;
+    font-family:"Consolas","Courier New",monospace;
+    font-size:14px;
+    line-height:1.65;
+}
+.notes-body code.inline-code{
+    display:inline;
+    padding:3px 7px;
+    border-radius:7px;
+    background:rgba(37,99,235,.10);
+    color:#1d4ed8;
+    font-family:"Consolas",monospace;
+    font-size:.92em;
+}
+.notes-divider{
+    height:1px;
+    background:rgba(100,116,139,.18);
+    margin:30px 0;
+}
+.search-hit{
+    background:#fde68a;
+    color:#111827;
+    padding:1px 3px;
+    border-radius:4px;
+}
+.dark-mode .notes-body table{
+    background:rgba(15,23,42,.65);
+}
+@media(max-width:768px){
+    .notes-body{padding:22px}
+    .notes-body h1{font-size:26px}
+    .notes-body h2{font-size:22px}
+    .notes-body table{min-width:650px}
+}
+
 </style>
 
 
@@ -878,20 +1011,9 @@ MSBTE • Smart Learning
 
 
 <div class="notes-body" id="notesArea">
-
-
-<pre>
-
-{{notes}}
-
-</pre>
-
-
-
+    <div id="renderedNotes"></div>
+    <textarea id="rawNotes" hidden>{{notes}}</textarea>
 </div>
-
-
-
 </div>
 
 
@@ -1653,346 +1775,519 @@ gap:15px;
 
 
 </style>
+
 <script>
-
-
-/* =====================================
- COPY NOTES FUNCTION
-===================================== */
-
-
-document.querySelector(".copy-btn")
-.addEventListener("click",function(){
-
-
-let notes =
-document.getElementById("notesArea")
-.innerText;
-
-
-
-navigator.clipboard.writeText(notes)
-.then(()=>{
-
-
-this.innerHTML="✅ Copied!";
-
-
-setTimeout(()=>{
-
-
-this.innerHTML="📋 Copy Notes";
-
-
-},2000);
-
-
-
-});
-
-
-});
-
-
-
-
-
-
-/* =====================================
- DOWNLOAD TXT FUNCTION
-===================================== */
-
-
-document.querySelector(".download-btn")
-.addEventListener("click",function(){
-
-
-let notes =
-document.getElementById("notesArea")
-.innerText;
-
-
-
-let subject =
-"{{subject}}";
-
-
-
-let fileContent =
-
-subject +
-"\n\nAI Generated Notes\n\n"
-+
-notes;
-
-
-
-let blob =
-new Blob(
-[fileContent],
-{
-type:"text/plain"
-}
-);
-
-
-
-let link =
-document.createElement("a");
-
-
-
-link.href =
-URL.createObjectURL(blob);
-
-
-
-link.download =
-subject+"_AI_Notes.txt";
-
-
-
-link.click();
-
-
-
-});
-
-
-
-
-
-
-
-/* =====================================
- PRINT NOTES
-===================================== */
-
-
-document.querySelector(".print-btn")
-.addEventListener("click",function(){
-
-
-let content =
-document.getElementById("notesArea")
-.innerHTML;
-
-
-
-let old =
-document.body.innerHTML;
-
-
-
-document.body.innerHTML =
-`
-
-<div style="
-padding:40px;
-font-family:Segoe UI;
-">
-
-<h1>
-
-📚 {{subject}} AI Notes
-
-</h1>
-
-<hr>
-
-${content}
-
-</div>
-
-`;
-
-
-
-window.print();
-
-
-
-document.body.innerHTML =
-old;
-
-
-location.reload();
-
-
-
-});
-
-
-
-
-
-
-
-/* =====================================
- SEARCH NOTES
-===================================== */
-
-
-let searchInput =
-document.getElementById("noteSearch");
-
-
-
-searchInput.addEventListener(
-"keyup",
-function(){
-
-
-
-let value =
-this.value.toLowerCase();
-
-
-
-let notes =
-document.getElementById("notesArea");
-
-
-
-let text =
-notes.innerText;
-
-
-
-if(value===""){
-
-
-notes.innerHTML =
-"<pre>"+text+"</pre>";
-
-return;
-
-
+/* =========================================================
+   AI NOTES MARKDOWN RENDERER
+========================================================= */
+
+const rawNotes = document.getElementById("rawNotes");
+const renderedNotes = document.getElementById("renderedNotes");
+
+function escapeHtml(value){
+    return String(value)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
 }
 
+function inlineMarkdown(text){
+    let s = escapeHtml(text);
 
+    s = s.replace(/`([^`]+)`/g,
+        '<code class="inline-code">$1</code>');
+    s = s.replace(/\*\*([^*]+)\*\*/g,"<strong>$1</strong>");
+    s = s.replace(/__([^_]+)__/g,"<strong>$1</strong>");
+    s = s.replace(/\*([^*]+)\*/g,"<em>$1</em>");
 
-
-let regex =
-new RegExp(
-"("+value+")",
-"gi"
-);
-
-
-
-let highlighted =
-text.replace(
-regex,
-"<mark>$1</mark>"
-);
-
-
-
-notes.innerHTML =
-"<pre>"+highlighted+"</pre>";
-
-
-
-});
-
-
-
-
-
-
-
-
-/* =====================================
- SCROLL TO TOP
-===================================== */
-
-
-let scrollBtn =
-document.getElementById(
-"scrollTopBtn"
-);
-
-
-
-window.addEventListener(
-"scroll",
-()=>{
-
-
-if(
-document.documentElement.scrollTop >
-300
-)
-
-{
-
-
-scrollBtn.style.display="block";
-
-
+    return s;
 }
 
-else{
+function parseTableRow(row){
+    return row.trim()
+        .replace(/^\|/,"")
+        .replace(/\|$/,"")
+        .split("|")
+        .map(cell => cell.trim());
+}
+
+function renderTable(lines){
+    const headers = parseTableRow(lines[0]);
+    let html = '<div class="notes-table-wrap"><table><thead><tr>';
+
+    headers.forEach(header => {
+        html += `<th>${inlineMarkdown(header)}</th>`;
+    });
+
+    html += "</tr></thead><tbody>";
+
+    for(let i = 2; i < lines.length; i++){
+        if(!lines[i].trim()) continue;
+
+        const cells = parseTableRow(lines[i]);
+        html += "<tr>";
+
+        headers.forEach((_, index) => {
+            html += `<td>${inlineMarkdown(cells[index] || "")}</td>`;
+        });
+
+        html += "</tr>";
+    }
+
+    return html + "</tbody></table></div>";
+}
+
+function renderMarkdown(markdown){
+    const lines = String(markdown || "")
+        .replace(/\r\n/g,"\n")
+        .split("\n");
+
+    let html = "";
+    let paragraph = [];
+    let listType = null;
+    let listItems = [];
+    let codeLines = [];
+    let insideCode = false;
+    let language = "Code";
+
+    function flushParagraph(){
+        if(!paragraph.length) return;
+
+        const value = paragraph.join(" ").trim();
+
+        if(value){
+            html += `<p>${inlineMarkdown(value)}</p>`;
+        }
+
+        paragraph = [];
+    }
+
+    function flushList(){
+        if(!listItems.length) return;
+
+        html += `<${listType}>`;
+
+        listItems.forEach(item => {
+            html += `<li>${inlineMarkdown(item)}</li>`;
+        });
+
+        html += `</${listType}>`;
+
+        listItems = [];
+        listType = null;
+    }
+
+    function flushCode(){
+        if(!insideCode) return;
+
+        html += `
+            <div class="notes-code">
+                <div class="notes-code-header">
+                    <span>💻 ${escapeHtml(language)}</span>
+                    <button class="notes-copy-code"
+                            type="button"
+                            onclick="copyCode(this)">
+                        📋 Copy
+                    </button>
+                </div>
+                <pre>${escapeHtml(codeLines.join("\n"))}</pre>
+            </div>
+        `;
+
+        codeLines = [];
+        insideCode = false;
+        language = "Code";
+    }
+
+    for(let i = 0; i < lines.length; i++){
+        const line = lines[i];
+        const trimmed = line.trim();
+
+        /* Code fences */
+        if(trimmed.startsWith("```")){
+            flushParagraph();
+            flushList();
+
+            if(!insideCode){
+                insideCode = true;
+                language = trimmed.substring(3).trim() || "Code";
+            }else{
+                flushCode();
+            }
+
+            continue;
+        }
+
+        if(insideCode){
+            codeLines.push(line);
+            continue;
+        }
+
+        /* Markdown table */
+        if(
+            trimmed.startsWith("|") &&
+            i + 1 < lines.length &&
+            /^\s*\|?[\s:-]+\|[\s|:-]*\|?\s*$/.test(lines[i + 1])
+        ){
+            flushParagraph();
+            flushList();
+
+            const tableLines = [line];
+            i += 1;
+
+            while(
+                i + 1 < lines.length &&
+                lines[i + 1].trim().startsWith("|")
+            ){
+                i += 1;
+                tableLines.push(lines[i]);
+            }
+
+            html += renderTable(tableLines);
+            continue;
+        }
+
+        /* Headings */
+        const heading = line.match(/^(#{1,4})\s+(.+)$/);
+
+        if(heading){
+            flushParagraph();
+            flushList();
+
+            const level = heading[1].length;
+            html += `<h${level}>${inlineMarkdown(heading[2])}</h${level}>`;
+            continue;
+        }
+
+        /* Horizontal line */
+        if(/^\s*(---|\*\*\*|___)\s*$/.test(line)){
+            flushParagraph();
+            flushList();
+            html += '<div class="notes-divider"></div>';
+            continue;
+        }
+
+        /* Bullet list */
+        const bullet = line.match(/^\s*[-*+]\s+(.+)$/);
+
+        if(bullet){
+            flushParagraph();
+
+            if(listType !== "ul"){
+                flushList();
+                listType = "ul";
+            }
+
+            listItems.push(bullet[1]);
+            continue;
+        }
+
+        /* Numbered list */
+        const numbered = line.match(/^\s*\d+\.\s+(.+)$/);
+
+        if(numbered){
+            flushParagraph();
+
+            if(listType !== "ol"){
+                flushList();
+                listType = "ol";
+            }
+
+            listItems.push(numbered[1]);
+            continue;
+        }
+
+        /* Blockquote */
+        if(trimmed.startsWith(">")){
+            flushParagraph();
+            flushList();
+
+            html += `
+                <blockquote>
+                    ${inlineMarkdown(trimmed.replace(/^>\s?/,""))}
+                </blockquote>
+            `;
+            continue;
+        }
+
+        /* Empty line */
+        if(!trimmed){
+            flushParagraph();
+            flushList();
+            continue;
+        }
+
+        paragraph.push(trimmed);
+    }
+
+    flushCode();
+    flushParagraph();
+    flushList();
+
+    return html;
+}
+
+renderedNotes.innerHTML = renderMarkdown(rawNotes.value);
 
 
-scrollBtn.style.display="none";
+/* =========================================================
+   COPY ALL NOTES
+========================================================= */
+
+document.querySelector(".copy-btn").addEventListener("click", function(){
+    navigator.clipboard.writeText(rawNotes.value).then(() => {
+        this.innerHTML = "✅ Copied!";
+
+        setTimeout(() => {
+            this.innerHTML = "📋 Copy Notes";
+        }, 2000);
+    });
+});
 
 
+/* =========================================================
+   COPY CODE
+========================================================= */
+
+function copyCode(button){
+    const code = button
+        .closest(".notes-code")
+        .querySelector("pre")
+        .innerText;
+
+    navigator.clipboard.writeText(code).then(() => {
+        button.innerHTML = "✅ Copied!";
+
+        setTimeout(() => {
+            button.innerHTML = "📋 Copy";
+        }, 1500);
+    });
 }
 
 
+/* =========================================================
+   DOWNLOAD TXT
+========================================================= */
+
+document.querySelector(".download-btn").addEventListener("click", function(){
+    const subject = "{{subject}}";
+
+    const content =
+        subject +
+        "\n\nAI Generated Notes\n\n" +
+        rawNotes.value;
+
+    const blob = new Blob([content], {
+        type: "text/plain"
+    });
+
+    const link = document.createElement("a");
+
+    link.href = URL.createObjectURL(blob);
+    link.download = subject + "_AI_Notes.txt";
+
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+
+    URL.revokeObjectURL(link.href);
 });
 
 
+/* =========================================================
+   PRINT
+========================================================= */
 
+document.querySelector(".print-btn").addEventListener("click", function(){
+    const subject = "{{subject}}";
+    const content = renderedNotes.innerHTML;
 
+    const printWindow = window.open("", "_blank");
 
-scrollBtn.onclick=function(){
+    printWindow.document.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>${subject} AI Notes</title>
 
+            <style>
+                body{
+                    font-family:Segoe UI,Arial,sans-serif;
+                    padding:35px;
+                    color:#111827;
+                    line-height:1.6;
+                }
 
+                h1{
+                    border-bottom:3px solid #2563eb;
+                    padding-bottom:10px;
+                }
 
-window.scrollTo({
+                h2{
+                    padding:10px;
+                    border-left:4px solid #7c3aed;
+                    background:#f1f5f9;
+                }
 
-top:0,
+                table{
+                    width:100%;
+                    border-collapse:collapse;
+                    margin:20px 0;
+                }
 
-behavior:"smooth"
+                th{
+                    background:#2563eb;
+                    color:white;
+                    padding:10px;
+                    text-align:left;
+                }
 
+                td{
+                    border:1px solid #cbd5e1;
+                    padding:10px;
+                }
+
+                .notes-code{
+                    background:#020617;
+                    color:white;
+                    padding:15px;
+                    border-radius:10px;
+                    margin:15px 0;
+                }
+
+                .notes-copy-code{
+                    display:none;
+                }
+
+                pre{
+                    white-space:pre-wrap;
+                    overflow-wrap:anywhere;
+                }
+            </style>
+        </head>
+
+        <body>
+            <h1>📚 ${subject} AI Notes</h1>
+            ${content}
+        </body>
+        </html>
+    `);
+
+    printWindow.document.close();
+    printWindow.focus();
+
+    setTimeout(() => {
+        printWindow.print();
+    }, 400);
 });
 
 
+/* =========================================================
+   SEARCH
+========================================================= */
+
+document.getElementById("noteSearch").addEventListener("input", function(){
+    const value = this.value.trim();
+
+    renderedNotes.innerHTML = renderMarkdown(rawNotes.value);
+
+    if(!value) return;
+
+    const walker = document.createTreeWalker(
+        renderedNotes,
+        NodeFilter.SHOW_TEXT
+    );
+
+    const nodes = [];
+    let node;
+
+    while(node = walker.nextNode()){
+        if(
+            node.parentElement &&
+            !node.parentElement.closest("pre,button")
+        ){
+            nodes.push(node);
+        }
+    }
+
+    const escaped = value.replace(
+        /[.*+?^${}()|[\]\\]/g,
+        "\\$&"
+    );
+
+    const regex = new RegExp(escaped, "gi");
+
+    nodes.forEach(textNode => {
+        const text = textNode.nodeValue;
+
+        if(!regex.test(text)){
+            regex.lastIndex = 0;
+            return;
+        }
+
+        regex.lastIndex = 0;
+
+        const fragment = document.createDocumentFragment();
+        let lastIndex = 0;
+        let match;
+
+        while(match = regex.exec(text)){
+            fragment.appendChild(
+                document.createTextNode(
+                    text.substring(lastIndex, match.index)
+                )
+            );
+
+            const mark = document.createElement("mark");
+            mark.className = "search-hit";
+            mark.textContent = match[0];
+
+            fragment.appendChild(mark);
+
+            lastIndex = match.index + match[0].length;
+        }
+
+        fragment.appendChild(
+            document.createTextNode(text.substring(lastIndex))
+        );
+
+        textNode.parentNode.replaceChild(fragment, textNode);
+    });
+});
+
+
+/* =========================================================
+   SCROLL TO TOP
+========================================================= */
+
+const scrollBtn = document.getElementById("scrollTopBtn");
+
+window.addEventListener("scroll", () => {
+    scrollBtn.style.display =
+        document.documentElement.scrollTop > 300
+        ? "block"
+        : "none";
+});
+
+scrollBtn.onclick = function(){
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
 };
 
 
-
-
-
-
-
-/* =====================================
- DARK MODE SUPPORT
-===================================== */
-
-
+/* =========================================================
+   DARK MODE
+========================================================= */
 
 function enableDarkMode(){
-
-
-document.body.classList.toggle(
-"dark-mode"
-);
-
-
-
+    document.body.classList.toggle("dark-mode");
 }
-
-
-
-
-
-
-
 </script>
+
 
 
 
