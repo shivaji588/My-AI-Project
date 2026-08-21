@@ -78,7 +78,11 @@ nav a{
 
 }
 
+/* ================= NAVBAR MENU BOLD ================= */
 
+.navbar .nav-link {
+    font-weight: 700 !important;
+}
 
 /* Underline Animation */
 

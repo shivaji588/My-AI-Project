@@ -1,4 +1,4 @@
-# 🎓 AI Academic Copilot
+# 🎓 Acadexa
 
 AI Academic Copilot is an AI-powered learning platform designed for Diploma and Engineering students.  
 It provides smart academic assistance through AI chatbot, study tools, notes, quizzes, previous papers, and personalized learning features.
