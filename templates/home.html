@@ -4,612 +4,1028 @@
 
 <style>
 
+/* =========================================================
+   ACADEXA — MODERN ACADEMIC PLATFORM HOME
+   ========================================================= */
+
 .home-page{
-    background:linear-gradient(135deg,#0f172a,#1e3a8a,#2563eb);
-    border-radius:25px;
-    padding:60px 30px;
-    color:white;
-    overflow:hidden;
+    min-height:100vh;
+    padding:32px 25px 60px;
+    color:#e2e8f0;
+    background:
+        radial-gradient(circle at 8% 5%,rgba(37,99,235,.18),transparent 28%),
+        radial-gradient(circle at 92% 90%,rgba(14,165,233,.12),transparent 28%),
+        #07111f;
+    border-radius:24px;
 }
 
-.hero{
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.product-header{
+    max-width:1200px;
+    margin:0 auto 30px;
     display:flex;
     align-items:center;
     justify-content:space-between;
-    gap:60px;
-    margin-bottom:80px;
-    flex-wrap:wrap;
 }
 
-.hero-left{
-    flex:1;
-    min-width:320px;
-}
-
-.hero-right{
-    flex:1;
+.brand-area{
     display:flex;
-    justify-content:center;
+    align-items:center;
+    gap:13px;
 }
 
-.hero-badge{
-    display:inline-block;
-    padding:10px 18px;
-    border-radius:50px;
-    background:rgba(255,255,255,.12);
-    border:1px solid rgba(255,255,255,.20);
-    margin-bottom:25px;
-    font-weight:600;
-    color:#bfdbfe;
-}
-
-.hero h1{
-    font-size:58px;
-    font-weight:800;
-    line-height:1.2;
-    margin-bottom:20px;
-}
-
-.hero h1 span{
-    color:#38bdf8;
-}
-
-.hero p{
-    font-size:19px;
-    color:#dbeafe;
-    line-height:1.8;
-    max-width:620px;
-}
-
-.hero-buttons{
-    margin-top:35px;
-}
-
-.hero-buttons .btn{
-    margin-right:15px;
-    margin-top:10px;
-    padding:14px 30px;
-    border-radius:50px;
-    font-weight:700;
-}
-
-.hero-image{
-    width:380px;
-    height:380px;
-    background:rgba(255,255,255,.08);
-    backdrop-filter:blur(20px);
-    border:1px solid rgba(255,255,255,.18);
-    border-radius:30px;
+.brand-icon{
+    width:48px;
+    height:48px;
+    border-radius:14px;
     display:flex;
     align-items:center;
     justify-content:center;
-    animation:floatHero 4s ease-in-out infinite;
-    box-shadow:0 20px 50px rgba(0,0,0,.35);
+    font-size:24px;
+    background:linear-gradient(135deg,#2563eb,#0891b2);
+    box-shadow:0 10px 30px rgba(37,99,235,.3);
 }
 
-.hero-image img{
-    width:75%;
-}
-
-@keyframes floatHero{
-
-0%{
-transform:translateY(0px);
-}
-
-50%{
-transform:translateY(-15px);
-}
-
-100%{
-transform:translateY(0px);
-}
-
-}
-
-@media(max-width:992px){
-
-.hero{
-    text-align:center;
-}
-
-.hero-left,
-.hero-right{
-    flex:100%;
-}
-
-.hero p{
-    margin:auto;
-}
-
-.hero-buttons .btn{
-    margin:8px;
-}
-
-.hero h1{
-    font-size:42px;
-}
-
-.hero-image{
-    width:280px;
-    height:280px;
-    margin-top:20px;
-}
-
-}
-.welcome-box{
-
-background:rgba(255,255,255,.10);
-
-backdrop-filter:blur(15px);
-
-border:1px solid rgba(255,255,255,.15);
-
-border-radius:20px;
-
-padding:25px;
-
-text-align:center;
-
-margin-bottom:50px;
-
-box-shadow:0 10px 25px rgba(0,0,0,.30);
-
-}
-
-.cards{
-
-display:flex;
-
-flex-wrap:wrap;
-
-justify-content:center;
-
-gap:30px;
-
-}
-
-.ai-card{
-
-width:270px;
-
-background:rgba(255,255,255,.08);
-
-backdrop-filter:blur(18px);
-
-border:1px solid rgba(255,255,255,.18);
-
-border-radius:20px;
-
-padding:30px;
-
-text-align:center;
-
-transition:.35s;
-
-box-shadow:0 12px 30px rgba(0,0,0,.25);
-
-}
-
-.ai-card:hover{
-    transform:translateY(-12px);
-    border-color:#60a5fa;
-    box-shadow:0 20px 40px rgba(37,99,235,.45);
-}
-
-.ai-card .icon{
-
-font-size:55px;
-
-margin-bottom:20px;
-
-}
-
-.ai-card h3{
-
-margin-bottom:15px;
-
-font-weight:bold;
-
-}
-
-.ai-card p{
-
-color:#dbeafe;
-
-min-height:75px;
-
-}
-
-.ai-btn{
-
-display:inline-block;
-
-padding:12px 28px;
-
-border-radius:40px;
-
-text-decoration:none;
-
-font-weight:bold;
-
-background:linear-gradient(90deg,#2563eb,#06b6d4);
-
-color:white;
-
-transition:.3s;
-
-}
-
-.ai-btn:hover{
-
-background:linear-gradient(90deg,#1d4ed8,#0891b2);
-
-color:white;
-
-transform:scale(1.05);
-
-}
-
-@media(max-width:768px){
-
-.hero h1{
-    font-size:55px;
+.brand-text h2{
+    margin:0;
+    font-size:23px;
     font-weight:800;
-    margin-bottom:20px;
-    text-shadow:0 4px 20px rgba(0,0,0,.35);
 }
 
-.hero p{
-font-size:17px;
+.brand-text small{
+    color:#64748b;
+    font-size:12px;
 }
 
-.ai-card{
-width:100%;
+.status-pill{
+    padding:9px 15px;
+    border-radius:30px;
+    background:rgba(34,197,94,.07);
+    border:1px solid rgba(34,197,94,.22);
+    color:#86efac;
+    font-size:12px;
+    font-weight:600;
 }
 
-}
-/* ================= COMMON TITLE ================= */
-
-.section-title{
-    text-align:center;
-    color:#ffffff;
-    font-weight:700;
-    margin-bottom:40px;
-}
-
-/* ================= FEATURES ================= */
-
-.features-grid{
-margin-top:10px;
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-gap:20px;
-max-width:1000px;
-margin:auto;
+.status-dot{
+    display:inline-block;
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:#22c55e;
+    margin-right:7px;
+    box-shadow:0 0 9px #22c55e;
 }
 
-.feature-card{
-    background:rgba(255,255,255,0.08);
-    backdrop-filter:blur(12px);
-    padding:20px;
-    border-radius:15px;
-    text-align:center;
-    transition:.3s;
-    border:1px solid rgba(255,255,255,.15);
-    color:#ffffff;          /* Add */
+/* =========================================================
+   HERO
+   ========================================================= */
+
+.dashboard-hero{
+    max-width:1200px;
+    margin:auto;
+    display:grid;
+    grid-template-columns:1.55fr .75fr;
+    gap:22px;
 }
 
-.feature-card:hover{
-    transform:scale(1.05);
-    box-shadow:0 15px 40px rgba(56,189,248,.3);
-}
-
-/* ================= CTA ================= */
-
-.cta-section{
-    margin-top:80px;
-    text-align:center;
-    padding:60px 30px;
-    background:rgba(255,255,255,.08);
-    border-radius:25px;
-    color:#ffffff;
-    border:1px solid rgba(255,255,255,.15);
-}
-
-.cta-btn{
-display:inline-block;
-margin-top:20px;
-padding:12px 28px;
-background:linear-gradient(90deg,#2563eb,#06b6d4);
-color:white;
-border-radius:30px;
-text-decoration:none;
-transition:0.3s;
-}
-
-.cta-btn:hover{
-transform:scale(1.05);
-}
-
-</style>
-
-<div class="home-page">
-
-{% if session.get('user_id') %}
-
-<div class="welcome-box">
-
-<h3>👋 Welcome, {{ session.username }}</h3>
-
-<p class="mb-0">
-Your AI Learning Assistant is ready to help you study smarter.
-</p>
-
-</div>
-
-{% endif %}
-
-<div class="hero">
-
-<div class="hero-left">
-
-<span class="hero-badge">
-🚀 AI Powered Learning Platform
-</span>
-
-<h1>
-
-<span>AI Academic Copilot</span>
-</h1>
-
-<p>
-
-Your intelligent learning companion for Diploma & Engineering students.
-Generate AI Notes, solve doubts instantly, practice quizzes and access
-previous year papers — all in one platform.
-
-</p>
-
-<div class="hero-buttons">
-
-<a href="/chatbot" class="btn btn-primary btn-lg">
-🤖 Try AI Chatbot
-</a>
-
-<a href="/notes" class="btn btn-outline-light btn-lg">
-📚 Explore Notes
-</a>
-
-
-</div>
-
-</div>
-
-<div class="hero-right">
-
-<div class="hero-image">
-
-<img src="https://cdn-icons-png.flaticon.com/512/4712/4712109.png"
-alt="AI">
-
-</div>
-
-</div>
-
-</div>
-<div class="cards">
-
-<div class="ai-card">
-
-<div class="icon">📚</div>
-
-<h3>AI Notes</h3>
-
-<p>
-Generate well-structured study notes instantly using AI.
-</p>
-
-<a href="/notes" class="ai-btn">
-Open
-</a>
-
-</div>
-
-<div class="ai-card">
-
-<div class="icon">📄</div>
-
-<h3>Previous Papers</h3>
-
-<p>
-Access previous year university question papers anytime.
-</p>
-
-<a href="/papers" class="ai-btn">
-Explore
-</a>
-
-</div>
-
-<div class="ai-card">
-
-<div class="icon">🤖</div>
-
-<h3>AI Chatbot</h3>
-
-<p>
-Ask academic questions and get instant AI-powered answers.
-</p>
-
-<a href="/chatbot" class="ai-btn">
-Chat Now
-</a>
-
-</div>
-
-<div class="ai-card">
-
-<div class="icon">📝</div>
-
-<h3>Quiz</h3>
-
-<p>
-Practice interactive quizzes to improve your knowledge.
-</p>
-
-<a href="/quiz" class="ai-btn">
-Start Quiz
-</a>
-
-</div>
-
-</div>
-
-<!-- ================= FEATURES ================= -->
-
-<section class="features-section">
-
-<h2 class="section-title">⭐ Why Choose Acadexa </h2>
-
-<div class="features-grid">
-
-<div class="feature-card">⚡ Fast AI Response</div>
-<div class="feature-card">📚 Smart Study Notes</div>
-<div class="feature-card">🧠 Interactive Quizzes</div>
-<div class="feature-card">📄 Previous Year Papers</div>
-<div class="feature-card">🤖 AI Chatbot</div>
-<div class="feature-card">🎯 Easy To Use</div>
-
-</div>
-</section>
-
-<!-- ================= CTA ================= -->
-
-<section class="cta-section">
-
-<h2>🚀 Ready to Learn Smarter?</h2>
-
-<p>Start using <span>Acadexa</span> and upgrade your learning experience.</p>
-
-<a href="/quiz" class="cta-btn">Get Started</a>
-
-</section>
-</div>
-<!-- ================= FLOATING BACKGROUND EFFECT ================= -->
-
-<div class="bg-blobs"></div>
-
-<style>
-
-/* ===== Floating Blobs Background ===== */
-
-.bg-blobs{
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    z-index:-1;
+.hero-main{
+    position:relative;
     overflow:hidden;
+    padding:45px;
+    border-radius:24px;
+    background:
+        linear-gradient(135deg,
+        rgba(30,64,175,.68),
+        rgba(15,23,42,.94));
+    border:1px solid rgba(96,165,250,.2);
+    box-shadow:0 20px 55px rgba(0,0,0,.28);
 }
 
-.bg-blobs::before,
-.bg-blobs::after{
+.hero-main::after{
     content:"";
     position:absolute;
     width:300px;
     height:300px;
     border-radius:50%;
-    filter:blur(90px);
-    opacity:0.25;
-    animation:float 10s infinite ease-in-out;
+    background:rgba(56,189,248,.10);
+    filter:blur(70px);
+    right:-120px;
+    top:-120px;
 }
 
-.bg-blobs::before{
-    background:#38bdf8;
-    top:10%;
-    left:10%;
+.hero-label{
+    display:inline-flex;
+    padding:8px 14px;
+    border-radius:30px;
+    background:rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.12);
+    color:#bfdbfe;
+    font-size:12px;
+    font-weight:600;
+    margin-bottom:20px;
 }
 
-.bg-blobs::after{
-    background:#2563eb;
-    bottom:10%;
-    right:10%;
-    animation-delay:3s;
+.hero-main h1{
+    position:relative;
+    z-index:2;
+    font-size:45px;
+    line-height:1.15;
+    font-weight:800;
+    letter-spacing:-1px;
+    margin-bottom:17px;
 }
 
-@keyframes float{
-    0%{transform:translateY(0px);}
-    50%{transform:translateY(40px);}
-    100%{transform:translateY(0px);}
+.hero-main h1 span{
+    color:#38bdf8;
 }
 
-/* ===== Smooth Fade Animations ===== */
-
-.hero h1{
-    animation:fadeDown 1s ease;
-}
-
-.hero p{
-    animation:fadeUp 1.2s ease;
-}
-
-.ai-card{
-    animation:fadeUp 0.8s ease;
-}
-
-@keyframes fadeDown{
-    from{opacity:0; transform:translateY(-30px);}
-    to{opacity:1; transform:translateY(0);}
-}
-
-@keyframes fadeUp{
-    from{opacity:0; transform:translateY(30px);}
-    to{opacity:1; transform:translateY(0);}
-}
-
-/* ===== Hover Glow ===== */
-
-.ai-card:hover,
-.stat-card:hover,
-.feature-card:hover{
-    box-shadow:0 15px 40px rgba(56,189,248,0.3);
-    transform:translateY(-10px) scale(1.03);
-}
-
-/* ===== Button Glow ===== */
-
-.ai-btn:hover,
-.cta-btn:hover{
-    box-shadow:0 10px 30px rgba(37,99,235,0.5);
-    transform:scale(1.05);
-}
-.ai-btn,
-.cta-btn{
+.hero-main p{
+    position:relative;
+    z-index:2;
+    max-width:680px;
+    color:#cbd5e1;
     font-size:15px;
-    letter-spacing:.5px;
-}
-/* ===== Smooth Scroll ===== */
-
-html{
-    scroll-behavior:smooth;
+    line-height:1.8;
+    margin-bottom:27px;
 }
 
-/* ===== Responsive Fix ===== */
-
-@media(max-width:768px){
-
-.hero h1{
-    font-size:36px;
+.hero-actions{
+    position:relative;
+    z-index:3;
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
 }
 
-.section-title{
+/* HERO BUTTONS */
+
+.primary-action,
+.secondary-action{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding:12px 20px;
+    border-radius:11px;
+    text-decoration:none;
+    font-size:14px;
+    font-weight:700;
+    transition:.3s;
+}
+
+.primary-action{
+    color:white;
+    background:linear-gradient(135deg,#2563eb,#0891b2);
+    box-shadow:0 9px 25px rgba(37,99,235,.25);
+}
+
+.secondary-action{
+    color:#dbeafe;
+    background:rgba(255,255,255,.07);
+    border:1px solid rgba(255,255,255,.15);
+}
+
+.primary-action:hover,
+.secondary-action:hover{
+    color:white;
+    transform:translateY(-3px);
+}
+
+/* =========================================================
+   AI CARD
+   ========================================================= */
+
+.ai-status{
+    padding:30px;
+    border-radius:24px;
+    background:rgba(15,23,42,.78);
+    border:1px solid rgba(148,163,184,.13);
+    box-shadow:0 20px 50px rgba(0,0,0,.25);
+}
+
+.ai-orb{
+    width:65px;
+    height:65px;
+    border-radius:19px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:31px;
+    background:linear-gradient(135deg,#2563eb,#06b6d4);
+    box-shadow:0 0 30px rgba(6,182,212,.2);
+    margin-bottom:20px;
+}
+
+.ai-status h3{
+    font-size:20px;
+    font-weight:750;
+    margin-bottom:7px;
+}
+
+.ai-status p{
+    color:#94a3b8;
+    font-size:13px;
+    line-height:1.7;
+}
+
+.ai-line{
+    height:1px;
+    background:rgba(148,163,184,.12);
+    margin:20px 0;
+}
+
+.ai-info{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:10px;
+    font-size:12px;
+}
+
+.ai-info span:first-child{
+    color:#64748b;
+}
+
+.ai-info span:last-child{
+    color:#cbd5e1;
+    font-weight:600;
+}
+/* =========================================================
+   SECTION HEADER — IMPROVED
+   ========================================================= */
+
+.section-heading{
+    max-width:1200px;
+    margin:50px auto 22px;
+}
+
+.section-heading h2{
+    margin:0;
     font-size:26px;
+    font-weight:800;
+    letter-spacing:-.4px;
+    color:#f1f5f9;
 }
+
+.section-heading p{
+    margin:7px 0 0;
+    color:#94a3b8;
+    font-size:14px;
+    line-height:1.6;
+}
+
+
+/* =========================================================
+   MODULE CARDS — IMPROVED
+   ========================================================= */
+
+.module-grid{
+    max-width:1200px;
+    margin:auto;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:19px;
+}
+
+.module-card{
+    padding:27px;
+    min-height:265px;
+    border-radius:20px;
+    background:rgba(15,23,42,.76);
+    border:1px solid rgba(148,163,184,.14);
+    transition:.35s;
+    box-shadow:0 10px 30px rgba(0,0,0,.14);
+}
+
+.module-card:hover{
+    transform:translateY(-7px);
+    border-color:rgba(56,189,248,.35);
+    box-shadow:0 20px 45px rgba(0,0,0,.30);
+}
+
+.module-icon{
+    width:53px;
+    height:53px;
+    border-radius:14px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:25px;
+    background:rgba(37,99,235,.13);
+    border:1px solid rgba(96,165,250,.16);
+    margin-bottom:20px;
+}
+
+.module-card h3{
+    font-size:19px;
+    font-weight:750;
+    margin-bottom:10px;
+    color:#f1f5f9;
+}
+
+.module-card p{
+    color:#a8b4c7;
+    font-size:15px;
+    line-height:1.7;
+    min-height:75px;
+    margin-bottom:20px;
+}
+
+
+/* =========================================================
+   BUTTONS — IMPROVED
+   ========================================================= */
+
+.module-btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:100%;
+    padding:11px 16px;
+    border-radius:11px;
+    text-decoration:none;
+    font-size:14px;
+    font-weight:700;
+    color:#dbeafe;
+    background:rgba(37,99,235,.13);
+    border:1px solid rgba(96,165,250,.20);
+    transition:.3s;
+}
+
+.module-btn:hover{
+    color:white;
+    background:linear-gradient(135deg,#2563eb,#0891b2);
+    border-color:transparent;
+    transform:translateY(-2px);
+    box-shadow:0 9px 22px rgba(37,99,235,.25);
+}
+
+
+/* =========================================================
+   FEATURES — IMPROVED
+   ========================================================= */
+
+.features{
+    max-width:1200px;
+    margin:auto;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:16px;
+}
+
+.feature{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    padding:20px;
+    min-height:82px;
+    border-radius:15px;
+    background:rgba(15,23,42,.55);
+    border:1px solid rgba(148,163,184,.11);
+    transition:.3s;
+}
+
+.feature:hover{
+    transform:translateY(-3px);
+    border-color:rgba(56,189,248,.25);
+    box-shadow:0 10px 25px rgba(0,0,0,.18);
+}
+
+.feature-icon{
+    width:43px;
+    height:43px;
+    flex-shrink:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:12px;
+    background:rgba(37,99,235,.11);
+    font-size:20px;
+}
+
+.feature strong{
+    display:block;
+    font-size:15px;
+    font-weight:750;
+    color:#e2e8f0;
+}
+
+.feature span{
+    display:block;
+    color:#8291a7;
+    font-size:13px;
+    margin-top:5px;
+    line-height:1.4;
+}
+
+
+/* =========================================================
+   FINAL CTA — IMPROVED
+   ========================================================= */
+
+.final-cta{
+    max-width:1200px;
+    margin:50px auto 0;
+    padding:48px 25px;
+    border-radius:22px;
+    text-align:center;
+    background:
+        linear-gradient(
+            135deg,
+            rgba(37,99,235,.16),
+            rgba(6,182,212,.10)
+        );
+    border:1px solid rgba(56,189,248,.18);
+}
+
+.final-cta h2{
+    font-size:29px;
+    font-weight:800;
+    margin-bottom:10px;
+    color:#f1f5f9;
+}
+
+.final-cta p{
+    color:#a8b4c7;
+    font-size:15px;
+    line-height:1.6;
+    margin-bottom:24px;
+}
+
+.cta-button{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding:13px 25px;
+    border-radius:11px;
+    background:linear-gradient(135deg,#2563eb,#0891b2);
+    color:white;
+    text-decoration:none;
+    font-size:14px;
+    font-weight:750;
+    transition:.3s;
+}
+
+.cta-button:hover{
+    color:white;
+    transform:translateY(-3px);
+    box-shadow:0 12px 28px rgba(37,99,235,.32);
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media(max-width:1000px){
+
+    .module-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .features{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+}
+
+@media(max-width:650px){
+
+    .section-heading h2{
+        font-size:23px;
+    }
+
+    .section-heading p{
+        font-size:13px;
+    }
+
+    .module-grid{
+        grid-template-columns:1fr;
+    }
+
+    .module-card{
+        min-height:auto;
+        padding:24px;
+    }
+
+    .module-card h3{
+        font-size:18px;
+    }
+
+    .module-card p{
+        font-size:14px;
+    }
+
+    .features{
+        grid-template-columns:1fr;
+    }
+
+    .feature strong{
+        font-size:14px;
+    }
+
+    .feature span{
+        font-size:12px;
+    }
+
+    .final-cta h2{
+        font-size:25px;
+    }
+
+}
+
+/* =========================================================
+   CTA
+   ========================================================= */
+
+.final-cta{
+    max-width:1200px;
+    margin:45px auto 0;
+    padding:38px 25px;
+    border-radius:21px;
+    text-align:center;
+    background:
+        linear-gradient(135deg,
+        rgba(37,99,235,.15),
+        rgba(6,182,212,.08));
+    border:1px solid rgba(56,189,248,.15);
+}
+
+.final-cta h2{
+    font-size:25px;
+    font-weight:800;
+    margin-bottom:8px;
+}
+
+.final-cta p{
+    color:#94a3b8;
+    font-size:13px;
+    margin-bottom:20px;
+}
+
+.cta-button{
+    display:inline-flex;
+    padding:11px 22px;
+    border-radius:10px;
+    background:linear-gradient(135deg,#2563eb,#0891b2);
+    color:white;
+    text-decoration:none;
+    font-size:13px;
+    font-weight:700;
+    transition:.3s;
+}
+
+.cta-button:hover{
+    color:white;
+    transform:translateY(-3px);
+    box-shadow:0 10px 25px rgba(37,99,235,.3);
+}
+
+/* =========================================================
+   ANIMATION
+   ========================================================= */
+
+.hero-main,
+.ai-status,
+.module-card,
+.feature{
+    animation:fadeIn .65s ease both;
+}
+
+.module-card:nth-child(2){animation-delay:.07s;}
+.module-card:nth-child(3){animation-delay:.14s;}
+.module-card:nth-child(4){animation-delay:.21s;}
+
+@keyframes fadeIn{
+    from{
+        opacity:0;
+        transform:translateY(14px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media(max-width:1000px){
+
+    .dashboard-hero{
+        grid-template-columns:1fr;
+    }
+
+    .module-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .features{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+}
+
+@media(max-width:650px){
+
+    .home-page{
+        padding:20px 12px 40px;
+    }
+
+    .product-header{
+        align-items:flex-start;
+    }
+
+    .status-pill{
+        font-size:10px;
+        padding:7px 10px;
+    }
+
+    .hero-main{
+        padding:30px 22px;
+    }
+
+    .hero-main h1{
+        font-size:33px;
+    }
+
+    .hero-main p{
+        font-size:13.5px;
+    }
+
+    .module-grid{
+        grid-template-columns:1fr;
+    }
+
+    .features{
+        grid-template-columns:1fr;
+    }
 
 }
 
 </style>
+
+
+<div class="home-page">
+
+
+<!-- =====================================================
+     HEADER
+     ===================================================== -->
+
+<div class="product-header">
+
+    <div class="brand-area">
+
+        <div class="brand-icon">
+            🎓
+        </div>
+
+        <div class="brand-text">
+            <h2>Acadexa</h2>
+            <small>AI Academic Learning Platform</small>
+        </div>
+
+    </div>
+
+    <div class="status-pill">
+        <span class="status-dot"></span>
+        AI System Online
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     HERO
+     ===================================================== -->
+
+<div class="dashboard-hero">
+
+    <div class="hero-main">
+
+        <div class="hero-label">
+            ✨ Intelligent Academic Workspace
+        </div>
+
+        {% if session.get('user_id') %}
+
+        <h1>
+            Welcome back,
+            <span>{{ session.username }}</span> 👋
+        </h1>
+
+        <p>
+            Continue your learning journey with Acadexa.
+            Ask questions, study important topics, practice
+            quizzes and access previous year papers from
+            one intelligent academic workspace.
+        </p>
+
+        {% else %}
+
+        <h1>
+            Learn smarter with
+            <span>Acadexa.</span>
+        </h1>
+
+        <p>
+            An AI-powered academic platform designed for
+            Diploma and Engineering students to study,
+            practice and prepare more effectively.
+        </p>
+
+        {% endif %}
+
+        <div class="hero-actions">
+
+            <a href="/chatbot" class="primary-action">
+                🤖 Ask Acadexa AI
+            </a>
+
+            <a href="/notes" class="secondary-action">
+                📚 Explore Notes
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- AI STATUS -->
+
+    <div class="ai-status">
+
+        <div class="ai-orb">
+            🤖
+        </div>
+
+        <h3>Acadexa AI</h3>
+
+        <p>
+            Your intelligent study assistant is ready
+            to help you understand academic concepts.
+        </p>
+
+        <div class="ai-line"></div>
+
+        <div class="ai-info">
+            <span>Status</span>
+            <span>● Online</span>
+        </div>
+
+        <div class="ai-info">
+            <span>Purpose</span>
+            <span>Academic Support</span>
+        </div>
+
+        <div class="ai-info">
+            <span>Mode</span>
+            <span>AI Powered</span>
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     LEARNING WORKSPACE
+     ===================================================== -->
+
+<div class="section-heading">
+
+    <h2>Learning Workspace</h2>
+
+    <p>
+        Access all your academic tools from one place.
+    </p>
+
+</div>
+
+
+<div class="module-grid">
+
+
+    <!-- AI NOTES -->
+
+    <div class="module-card">
+
+        <div class="module-icon">
+            📚
+        </div>
+
+        <h3>AI Notes</h3>
+
+        <p>
+            Access structured study material and
+            understand difficult academic concepts easily.
+        </p>
+
+        <a href="/notes" class="module-btn">
+            📖 Open Notes
+        </a>
+
+    </div>
+
+
+    <!-- PAPERS -->
+
+    <div class="module-card">
+
+        <div class="module-icon">
+            📄
+        </div>
+
+        <h3>Previous Papers</h3>
+
+        <p>
+            Practice previous year question papers
+            and prepare according to exam patterns.
+        </p>
+
+        <a href="/papers" class="module-btn">
+            📂 View Papers
+        </a>
+
+    </div>
+
+
+    <!-- CHATBOT -->
+
+    <div class="module-card">
+
+        <div class="module-icon">
+            🤖
+        </div>
+
+        <h3>Ask Acadexa AI</h3>
+
+        <p>
+            Ask academic questions and receive
+            AI-powered explanations instantly.
+        </p>
+
+        <a href="/chatbot" class="module-btn">
+            💬 Start Chat
+        </a>
+
+    </div>
+
+
+    <!-- QUIZ -->
+
+    <div class="module-card">
+
+        <div class="module-icon">
+            🧠
+        </div>
+
+        <h3>Practice Quiz</h3>
+
+        <p>
+            Test your knowledge with interactive
+            subject-based quizzes.
+        </p>
+
+        <a href="/quiz" class="module-btn">
+            🚀 Start Quiz
+        </a>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     WHY ACADEXA
+     ===================================================== -->
+
+<div class="section-heading">
+
+    <h2>Why Acadexa?</h2>
+
+    <p>
+        Designed around the real needs of students.
+    </p>
+
+</div>
+
+
+<div class="features">
+
+    <div class="feature">
+
+        <div class="feature-icon">
+            ⚡
+        </div>
+
+        <div>
+            <strong>Instant AI Assistance</strong>
+            <span>Get academic help whenever you need it.</span>
+        </div>
+
+    </div>
+
+
+    <div class="feature">
+
+        <div class="feature-icon">
+            📖
+        </div>
+
+        <div>
+            <strong>Exam Focused Learning</strong>
+            <span>Study with relevant academic content.</span>
+        </div>
+
+    </div>
+
+
+    <div class="feature">
+
+        <div class="feature-icon">
+            🧠
+        </div>
+
+        <div>
+            <strong>Interactive Practice</strong>
+            <span>Improve your knowledge through quizzes.</span>
+        </div>
+
+    </div>
+
+
+    <div class="feature">
+
+        <div class="feature-icon">
+            📄
+        </div>
+
+        <div>
+            <strong>Previous Papers</strong>
+            <span>Practice with real exam questions.</span>
+        </div>
+
+    </div>
+
+
+    <div class="feature">
+
+        <div class="feature-icon">
+            🎯
+        </div>
+
+        <div>
+            <strong>Student Friendly</strong>
+            <span>Simple and easy academic workspace.</span>
+        </div>
+
+    </div>
+
+
+    <div class="feature">
+
+        <div class="feature-icon">
+            🔒
+        </div>
+
+        <div>
+            <strong>Personal Workspace</strong>
+            <span>Keep your learning tools in one place.</span>
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     CTA
+     ===================================================== -->
+
+<div class="final-cta">
+
+    <h2>
+        Ready to learn smarter?
+    </h2>
+
+    <p>
+        Choose a module and continue your academic journey
+        with Acadexa.
+    </p>
+
+    <a href="/quiz" class="cta-button">
+        🚀 Get Started
+    </a>
+
+</div>
+
+
+</div>
 
 {% endblock %}
