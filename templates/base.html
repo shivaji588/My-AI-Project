@@ -8,18 +8,562 @@
     <title>Acadexa</title>
 
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <!-- Acadexa CSS -->
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+
+    <!-- =========================================================
+         ACCESSIBILITY TOOLS CSS
+    ========================================================== -->
+
+    <style>
+
+        /* ================= ACCESSIBILITY BUTTON ================= */
+
+        #accessibilityToggle {
+
+            position: fixed;
+
+            left: 20px;
+            bottom: 25px;
+
+            width: 58px;
+            height: 58px;
+
+            border: none;
+            border-radius: 50%;
+
+            background: #2563eb;
+            color: white;
+
+            font-size: 27px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            cursor: pointer;
+
+            z-index: 99999;
+
+            box-shadow:
+                0 8px 25px rgba(37, 99, 235, 0.35);
+
+            transition: all 0.25s ease;
+        }
+
+
+        #accessibilityToggle:hover {
+
+            background: #1d4ed8;
+
+            transform: scale(1.08);
+
+            box-shadow:
+                0 10px 30px rgba(37, 99, 235, 0.45);
+        }
+
+
+        /* ================= ACCESSIBILITY PANEL ================= */
+
+        #accessibilityPanel {
+
+            position: fixed;
+
+            left: 20px;
+            bottom: 95px;
+
+            width: 305px;
+
+            max-height: 78vh;
+
+            overflow-y: auto;
+
+            background: #ffffff;
+
+            border-radius: 18px;
+
+            padding: 20px;
+
+            border: 1px solid #e2e8f0;
+
+            box-shadow:
+                0 15px 45px rgba(15, 23, 42, 0.25);
+
+            z-index: 99998;
+
+            display: none;
+
+            animation: accessibilityPopup 0.25s ease;
+        }
+
+
+        #accessibilityPanel.show {
+
+            display: block;
+        }
+
+
+        @keyframes accessibilityPopup {
+
+            from {
+
+                opacity: 0;
+
+                transform:
+                    translateY(15px)
+                    scale(0.97);
+            }
+
+            to {
+
+                opacity: 1;
+
+                transform:
+                    translateY(0)
+                    scale(1);
+            }
+
+        }
+
+
+        /* ================= PANEL HEADER ================= */
+
+        .accessibility-header {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding-bottom: 14px;
+
+            margin-bottom: 15px;
+
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+
+        .accessibility-header h5 {
+
+            margin: 0;
+
+            color: #1e3a8a;
+
+            font-size: 18px;
+
+            font-weight: 800;
+        }
+
+
+        #closeAccessibility {
+
+            width: 32px;
+            height: 32px;
+
+            border: none;
+
+            border-radius: 8px;
+
+            background: #f1f5f9;
+
+            color: #475569;
+
+            font-size: 19px;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+
+        #closeAccessibility:hover {
+
+            background: #e2e8f0;
+
+            color: #1e293b;
+        }
+
+
+        /* ================= OPTION BUTTON ================= */
+
+        .accessibility-option {
+
+            width: 100%;
+
+            min-height: 47px;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            padding: 10px 13px;
+
+            margin-bottom: 9px;
+
+            border-radius: 10px;
+
+            border: 1px solid #e2e8f0;
+
+            background: #f8fafc;
+
+            color: #1e293b;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            text-align: left;
+
+            cursor: pointer;
+
+            transition: all 0.2s ease;
+        }
+
+
+        .accessibility-option:hover {
+
+            background: #eff6ff;
+
+            border-color: #60a5fa;
+
+            color: #1d4ed8;
+
+            transform: translateX(2px);
+        }
+
+
+        /* ================= ICON ================= */
+
+        .accessibility-icon {
+
+            width: 30px;
+            height: 30px;
+
+            flex-shrink: 0;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 8px;
+
+            background: #dbeafe;
+
+            font-size: 17px;
+        }
+
+
+        /* ================= ACTIVE OPTION ================= */
+
+        .accessibility-option.active {
+
+            background: #dbeafe;
+
+            border-color: #2563eb;
+
+            color: #1d4ed8;
+
+            box-shadow:
+                0 2px 6px rgba(37, 99, 235, 0.12);
+        }
+
+
+        /* ================= RESET BUTTON ================= */
+
+        #resetAccessibility {
+
+            width: 100%;
+
+            margin-top: 6px;
+
+            padding: 11px;
+
+            border: none;
+
+            border-radius: 10px;
+
+            background: #ef4444;
+
+            color: white;
+
+            font-size: 14px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+
+        #resetAccessibility:hover {
+
+            background: #dc2626;
+
+            transform: translateY(-1px);
+        }
+
+
+        /* =========================================================
+           TEXT SIZE SYSTEM
+
+           Normal = default
+           Large = 1.10x
+           Extra Large = 1.20x
+        ========================================================== */
+
+
+        body.access-text-large {
+
+            font-size: 110% !important;
+        }
+
+
+        body.access-text-large p,
+        body.access-text-large li,
+        body.access-text-large label,
+        body.access-text-large input,
+        body.access-text-large textarea,
+        body.access-text-large select,
+        body.access-text-large button,
+        body.access-text-large a {
+
+            font-size: 1.10em;
+        }
+
+
+        body.access-text-xlarge {
+
+            font-size: 120% !important;
+        }
+
+
+        body.access-text-xlarge p,
+        body.access-text-xlarge li,
+        body.access-text-xlarge label,
+        body.access-text-xlarge input,
+        body.access-text-xlarge textarea,
+        body.access-text-xlarge select,
+        body.access-text-xlarge button,
+        body.access-text-xlarge a {
+
+            font-size: 1.15em;
+        }
+
+
+        /* =========================================================
+           GRAYSCALE
+        ========================================================== */
+
+        body.access-grayscale {
+
+            filter: grayscale(100%);
+        }
+
+
+        /* =========================================================
+           HIGH CONTRAST
+        ========================================================== */
+
+        body.access-high-contrast {
+
+            background: #000000 !important;
+
+            color: #ffffff !important;
+        }
+
+
+        body.access-high-contrast .container {
+
+            background: transparent !important;
+        }
+
+
+        body.access-high-contrast .card,
+        body.access-high-contrast .modal-content,
+        body.access-high-contrast .dropdown-menu {
+
+            background: #000000 !important;
+
+            color: #ffffff !important;
+
+            border-color: #ffffff !important;
+        }
+
+
+        body.access-high-contrast p,
+        body.access-high-contrast h1,
+        body.access-high-contrast h2,
+        body.access-high-contrast h3,
+        body.access-high-contrast h4,
+        body.access-high-contrast h5,
+        body.access-high-contrast h6,
+        body.access-high-contrast label,
+        body.access-high-contrast span {
+
+            color: #ffffff !important;
+        }
+
+
+        body.access-high-contrast a {
+
+            color: #ffff00 !important;
+        }
+
+
+        body.access-high-contrast .navbar {
+
+            background: #000000 !important;
+        }
+
+
+        /* =========================================================
+           NEGATIVE CONTRAST
+        ========================================================== */
+
+        body.access-negative {
+
+            background: #121212 !important;
+
+            color: #eeeeee !important;
+        }
+
+
+        body.access-negative .card,
+        body.access-negative .modal-content {
+
+            background: #202020 !important;
+
+            color: #eeeeee !important;
+
+            border-color: #555555 !important;
+        }
+
+
+        body.access-negative .navbar {
+
+            background: #111111 !important;
+        }
+
+
+        body.access-negative a {
+
+            color: #8ab4ff !important;
+        }
+
+
+        /* =========================================================
+           LIGHT BACKGROUND
+        ========================================================== */
+
+        body.access-light-background {
+
+            background: #fffbea !important;
+        }
+
+
+        body.access-light-background .container {
+
+            background: transparent !important;
+        }
+
+
+        /* =========================================================
+           UNDERLINE LINKS
+        ========================================================== */
+
+        body.access-underline a {
+
+            text-decoration: underline !important;
+
+            text-decoration-thickness: 2px !important;
+
+            text-underline-offset: 3px;
+        }
+
+
+        /* =========================================================
+           READABLE FONT
+        ========================================================== */
+
+        body.access-readable-font,
+        body.access-readable-font * {
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif !important;
+
+            letter-spacing: 0.025em !important;
+
+            line-height: 1.6 !important;
+        }
+
+
+        /* ================= MOBILE ================= */
+
+        @media (max-width: 576px) {
+
+            #accessibilityPanel {
+
+                left: 10px;
+
+                right: 10px;
+
+                bottom: 85px;
+
+                width: auto;
+
+                max-height: 70vh;
+            }
+
+
+            #accessibilityToggle {
+
+                left: 12px;
+
+                bottom: 18px;
+            }
+
+        }
+
+    </style>
 
 </head>
+
+
+<body>
+
+
+<!-- =========================================================
+     NAVBAR
+========================================================== -->
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow">
 
     <div class="container">
 
+
+        <!-- BRAND -->
+
         <a class="navbar-brand fw-bold" href="/">
+
             🎓 Acadexa
+
         </a>
+
+
+        <!-- MOBILE TOGGLE -->
 
         <button class="navbar-toggler"
                 type="button"
@@ -30,103 +574,224 @@
 
         </button>
 
-        <div class="collapse navbar-collapse" id="navbarNav">
+
+        <!-- NAVIGATION -->
+
+        <div class="collapse navbar-collapse"
+             id="navbarNav">
+
 
             <ul class="navbar-nav me-auto">
 
-                <li class="nav-item">
-                    <a class="nav-link" href="/">🏡Home</a>
-                </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="/subjects">📖Subjects</a>
-                </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="/notes">📚Notes</a>
-                </li>
+                    <a class="nav-link" href="/">
 
-                <li class="nav-item">
-                    <a class="nav-link" href="/papers">📑Papers</a>
-                </li>
+                        🏡Home
 
-                <li class="nav-item">
-                    <a class="nav-link" href="/quiz">🧠Quiz</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="/chatbot">💬Chatbot</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('ai_interview') }}">
-                        <span>🎤</span> AI Interview
                     </a>
-                </li>
-                
-                <li class="nav-item">
-                    <a class="nav-link" href="/roadmap">🗺️ AI Roadmap</a>
+
                 </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="/about">ℹ️ About</a>
-                </li>
 
                 <li class="nav-item">
+
+                    <a class="nav-link" href="/subjects">
+
+                        📖Subjects
+
+                    </a>
+
+                </li>
+
+
+                <li class="nav-item">
+
+                    <a class="nav-link" href="/notes">
+
+                        📚Notes
+
+                    </a>
+
+                </li>
+
+
+                <li class="nav-item">
+
+                    <a class="nav-link" href="/papers">
+
+                        📑Papers
+
+                    </a>
+
+                </li>
+
+
+                <li class="nav-item">
+
+                    <a class="nav-link" href="/quiz">
+
+                        🧠Quiz
+
+                    </a>
+
+                </li>
+
+
+                <li class="nav-item">
+
+                    <a class="nav-link" href="/chatbot">
+
+                        💬Chatbot
+
+                    </a>
+
+                </li>
+
+
+                <li class="nav-item">
+
+                    <a class="nav-link"
+                       href="{{ url_for('ai_interview') }}">
+
+                        🎤 AI Interview
+
+                    </a>
+
+                </li>
+
+
+                <li class="nav-item">
+
+                    <a class="nav-link" href="/roadmap">
+
+                        🗺️ AI Roadmap
+
+                    </a>
+
+                </li>
+
+
+                <li class="nav-item">
+
+                    <a class="nav-link" href="/about">
+
+                        ℹ️ About
+
+                    </a>
+
+                </li>
+
+
+                <li class="nav-item">
+
                     <a class="nav-link" href="/coding_lab">
+
                         💻 Coding
+
                     </a>
+
                 </li>
+
 
             </ul>
+
+
+            <!-- ADMIN PANEL -->
+
             {% if session.get('role') == 'admin' %}
 
-            <a href="/admin">
-            👨‍💻 Admin Panel
-            </a>
+                <a href="/admin"
+                   class="text-white me-3"
+                   style="text-decoration:none;">
+
+                    👨‍💻 Admin Panel
+
+                </a>
 
             {% endif %}
 
+
+            <!-- USER MENU -->
+
             <ul class="navbar-nav">
+
 
                 {% if session.get('user_id') %}
 
-                <li class="nav-item">
-                    <a class="nav-link" href="/dashboard">
-                        📊 Dashboard
-                    </a>
-                </li>
 
-                <li class="nav-item">
-                    <a href="/profile" style="text-decoration:none;color:white;">
-                        👤 {{ session.get('username') }}
-                    </a>
-                </li>
+                    <li class="nav-item">
 
-                <li class="nav-item">
-                    <a class="btn btn-danger ms-2" href="/logout">
-                        🔓Logout
-                    </a>
-                </li>
+                        <a class="nav-link"
+                           href="/dashboard">
+
+                            📊 Dashboard
+
+                        </a>
+
+                    </li>
+
+
+                    <li class="nav-item">
+
+                        <a href="/profile"
+                           style="
+                           text-decoration:none;
+                           color:white;
+                           ">
+
+                            👤 {{ session.get('username') }}
+
+                        </a>
+
+                    </li>
+
+
+                    <li class="nav-item">
+
+                        <a class="btn btn-danger ms-2"
+                           href="/logout">
+
+                            🔓Logout
+
+                        </a>
+
+                    </li>
+
 
                 {% else %}
 
-                <li class="nav-item">
-                    <a class="nav-link" href="/login">
-                        🔐Login
-                    </a>
-                </li>
 
-                <li class="nav-item">
-                    <a class="btn btn-warning text-dark ms-2"
-                       href="/register">
-                        📝Register
-                    </a>
-                </li>
+                    <li class="nav-item">
+
+                        <a class="nav-link"
+                           href="/login">
+
+                            🔐Login
+
+                        </a>
+
+                    </li>
+
+
+                    <li class="nav-item">
+
+                        <a class="btn btn-warning text-dark ms-2"
+                           href="/register">
+
+                            📝Register
+
+                        </a>
+
+                    </li>
+
 
                 {% endif %}
 
+
             </ul>
+
 
         </div>
 
@@ -134,82 +799,1076 @@
 
 </nav>
 
+
+
+<!-- =========================================================
+     FLASH MESSAGES + PAGE CONTENT
+========================================================== -->
+
 <div class="container mt-4">
+
 
     {% with messages = get_flashed_messages(with_categories=true) %}
 
-    {% if messages %}
 
-    {% for category,message in messages %}
+        {% if messages %}
 
-    <div class="alert alert-{{category}} alert-dismissible fade show" role="alert">
 
-    {{message}}
+            {% for category, message in messages %}
 
-    <button type="button" 
-    class="btn-close" 
-    data-bs-dismiss="alert"
-    aria-label="Close"></button>
 
-    </div>
-    {% endfor %}
-    {% endif %}
+                <div class="alert alert-{{ category }}
+                            alert-dismissible
+                            fade show"
+                     role="alert">
+
+
+                    {{ message }}
+
+
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="alert"
+                            aria-label="Close">
+                    </button>
+
+
+                </div>
+
+
+            {% endfor %}
+
+
+        {% endif %}
+
+
     {% endwith %}
 
+
+
     {% block content %}
+
     {% endblock %}
 
-</div>
-<!-- Professional Footer -->
-
-<footer style="background-color:#1e3a5f;" 
-class="text-white text-center py-4 mt-5">
-
-
-<div>
-
-<h5 style="font-weight:800; font-size:22px;">
-🤖 Acadexa
-</h5>
-
-
-<p style="color:#dbeafe; margin-bottom:10px;">
-
-Smart AI Learning Assistant for Diploma & Engineering Students
-
-</p>
-
-<p style="font-size:15px;">
-
-✨ Built with Python + Flask + Bootstrap
-
-<br>
-
-🚀 Developed & Designed by 
-<b style="color:#facc15;">
-Yogita Dalvi
-</b>
-
-</p>
-
-
-
-<hr style="border-color:rgba(255,255,255,.3);">
-
-
-<small>
-
-© 2026 Acadexa | 
-Empowering Smarter Education
-
-</small>
-
 
 </div>
+
+
+
+<!-- =========================================================
+     PROFESSIONAL FOOTER
+========================================================== -->
+
+<footer style="background-color:#1e3a5f;"
+        class="text-white text-center py-4 mt-5">
+
+
+    <div>
+
+
+        <h5 style="
+            font-weight:800;
+            font-size:22px;
+        ">
+
+            🤖 Acadexa
+
+        </h5>
+
+
+        <p style="
+            color:#dbeafe;
+            margin-bottom:10px;
+        ">
+
+            Smart AI Learning Assistant
+            for Diploma & Engineering Students
+
+        </p>
+
+
+        <p style="font-size:15px;">
+
+            ✨ Built with Python + Flask + Bootstrap
+
+            <br>
+
+            🚀 Developed & Designed by
+
+            <b style="color:#facc15;">
+
+                Yogita Dalvi
+
+            </b>
+
+        </p>
+
+
+        <hr style="
+            border-color:rgba(255,255,255,.3);
+        ">
+
+
+        <small>
+
+            © 2026 Acadexa |
+            Empowering Smarter Education
+
+        </small>
+
+
+    </div>
 
 
 </footer>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
+
+<!-- =========================================================
+     ACCESSIBILITY FLOATING BUTTON
+========================================================== -->
+
+<button id="accessibilityToggle"
+        type="button"
+        aria-label="Open Accessibility Tools"
+        title="Accessibility Tools">
+
+    👁️
+
+</button>
+
+
+
+<!-- =========================================================
+     ACCESSIBILITY PANEL
+========================================================== -->
+
+<div id="accessibilityPanel"
+     role="dialog"
+     aria-label="Accessibility Tools">
+
+
+    <!-- HEADER -->
+
+    <div class="accessibility-header">
+
+
+        <h5>
+
+            ♿ Accessibility Tools
+
+        </h5>
+
+
+        <button id="closeAccessibility"
+                type="button"
+                aria-label="Close Accessibility Tools">
+
+            ✕
+
+        </button>
+
+
+    </div>
+
+
+
+    <!-- INCREASE TEXT -->
+
+    <button class="accessibility-option"
+            id="increaseText"
+            type="button">
+
+        <span class="accessibility-icon">
+
+            🔎
+
+        </span>
+
+        <span>
+
+            Increase Text   ➕
+
+        </span>
+
+    </button>
+
+
+
+    <!-- DECREASE TEXT -->
+
+    <button class="accessibility-option"
+            id="decreaseText"
+            type="button">
+
+        <span class="accessibility-icon">
+
+            🔍
+
+        </span>
+
+        <span>
+
+            Decrease Text   ➖
+
+        </span>
+
+    </button>
+
+
+
+    <!-- GRAYSCALE -->
+
+    <button class="accessibility-option"
+            id="grayscale"
+            type="button">
+
+        <span class="accessibility-icon">
+
+            ⚪
+
+        </span>
+
+        <span>
+
+            Grayscale
+
+        </span>
+
+    </button>
+
+
+
+    <!-- HIGH CONTRAST -->
+
+    <button class="accessibility-option"
+            id="highContrast"
+            type="button">
+
+        <span class="accessibility-icon">
+
+            🌓
+
+        </span>
+
+        <span>
+
+            High Contrast
+
+        </span>
+
+    </button>
+
+
+
+    <!-- NEGATIVE CONTRAST -->
+
+    <button class="accessibility-option"
+            id="negativeContrast"
+            type="button">
+
+        <span class="accessibility-icon">
+
+            🌑
+
+        </span>
+
+        <span>
+
+            Negative Contrast
+
+        </span>
+
+    </button>
+
+
+
+    <!-- LIGHT BACKGROUND -->
+
+    <button class="accessibility-option"
+            id="lightBackground"
+            type="button">
+
+        <span class="accessibility-icon">
+
+            ☀️
+
+        </span>
+
+        <span>
+
+            Light Background
+
+        </span>
+
+    </button>
+
+
+
+    <!-- UNDERLINE LINKS -->
+
+    <button class="accessibility-option"
+            id="underlineLinks"
+            type="button">
+
+        <span class="accessibility-icon">
+
+            🔗
+
+        </span>
+
+        <span>
+
+            Links Underline
+
+        </span>
+
+    </button>
+
+
+
+    <!-- READABLE FONT -->
+
+    <button class="accessibility-option"
+            id="readableFont"
+            type="button">
+
+        <span class="accessibility-icon">
+
+            📖
+
+        </span>
+
+        <span>
+
+            Readable Font
+
+        </span>
+
+    </button>
+
+
+
+    <!-- RESET -->
+
+    <button id="resetAccessibility"
+            type="button">
+
+        🔄 Reset All Settings
+
+    </button>
+
+
+</div>
+
+
+
+<!-- =========================================================
+     ACCESSIBILITY JAVASCRIPT
+========================================================== -->
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+
+    /* =====================================================
+       ELEMENTS
+    ====================================================== */
+
+    const toggle =
+        document.getElementById(
+            "accessibilityToggle"
+        );
+
+
+    const panel =
+        document.getElementById(
+            "accessibilityPanel"
+        );
+
+
+    const close =
+        document.getElementById(
+            "closeAccessibility"
+        );
+
+
+    const increaseText =
+        document.getElementById(
+            "increaseText"
+        );
+
+
+    const decreaseText =
+        document.getElementById(
+            "decreaseText"
+        );
+
+
+    const grayscale =
+        document.getElementById(
+            "grayscale"
+        );
+
+
+    const highContrast =
+        document.getElementById(
+            "highContrast"
+        );
+
+
+    const negativeContrast =
+        document.getElementById(
+            "negativeContrast"
+        );
+
+
+    const lightBackground =
+        document.getElementById(
+            "lightBackground"
+        );
+
+
+    const underlineLinks =
+        document.getElementById(
+            "underlineLinks"
+        );
+
+
+    const readableFont =
+        document.getElementById(
+            "readableFont"
+        );
+
+
+    const reset =
+        document.getElementById(
+            "resetAccessibility"
+        );
+
+
+
+    /* =====================================================
+       PANEL OPEN
+    ====================================================== */
+
+    toggle.addEventListener(
+        "click",
+        function (event) {
+
+            event.stopPropagation();
+
+            panel.classList.toggle("show");
+
+        }
+    );
+
+
+
+    /* =====================================================
+       PANEL CLOSE
+    ====================================================== */
+
+    close.addEventListener(
+        "click",
+        function () {
+
+            panel.classList.remove("show");
+
+        }
+    );
+
+
+
+    /* CLOSE OUTSIDE */
+
+    document.addEventListener(
+        "click",
+        function (event) {
+
+            if (
+                !panel.contains(event.target) &&
+                !toggle.contains(event.target)
+            ) {
+
+                panel.classList.remove("show");
+
+            }
+
+        }
+    );
+
+
+
+    /* =====================================================
+       TEXT SIZE
+    ====================================================== */
+
+    function setTextSize(size) {
+
+
+        document.body.classList.remove(
+
+            "access-text-large",
+
+            "access-text-xlarge"
+
+        );
+
+
+        increaseText.classList.remove(
+            "active"
+        );
+
+
+        decreaseText.classList.remove(
+            "active"
+        );
+
+
+        if (size === "large") {
+
+
+            document.body.classList.add(
+                "access-text-large"
+            );
+
+
+            increaseText.classList.add(
+                "active"
+            );
+
+
+        }
+
+
+        if (size === "xlarge") {
+
+
+            document.body.classList.add(
+                "access-text-xlarge"
+            );
+
+
+            increaseText.classList.add(
+                "active"
+            );
+
+
+        }
+
+
+        if (size === "small") {
+
+
+            decreaseText.classList.add(
+                "active"
+            );
+
+
+        }
+
+
+        localStorage.setItem(
+            "acadexa_textSize",
+            size
+        );
+
+    }
+
+
+
+    /* INCREASE */
+
+    increaseText.addEventListener(
+        "click",
+        function () {
+
+
+            const current =
+                localStorage.getItem(
+                    "acadexa_textSize"
+                ) || "normal";
+
+
+            if (current === "normal") {
+
+                setTextSize("large");
+
+            }
+
+            else if (current === "large") {
+
+                setTextSize("xlarge");
+
+            }
+
+        }
+    );
+
+
+
+    /* DECREASE */
+
+    decreaseText.addEventListener(
+        "click",
+        function () {
+
+
+            const current =
+                localStorage.getItem(
+                    "acadexa_textSize"
+                ) || "normal";
+
+
+            if (current === "xlarge") {
+
+                setTextSize("large");
+
+            }
+
+            else if (current === "large") {
+
+                setTextSize("normal");
+
+            }
+
+        }
+    );
+
+
+
+    /* =====================================================
+       TOGGLE MODE FUNCTION
+    ====================================================== */
+
+    function toggleMode(
+        button,
+        className,
+        storageName
+    ) {
+
+
+        const active =
+            document.body.classList.toggle(
+                className
+            );
+
+
+        button.classList.toggle(
+            "active",
+            active
+        );
+
+
+        localStorage.setItem(
+            "acadexa_" + storageName,
+            active
+        );
+
+    }
+
+
+
+    /* =====================================================
+       GRAYSCALE
+    ====================================================== */
+
+    grayscale.addEventListener(
+        "click",
+        function () {
+
+            toggleMode(
+                grayscale,
+                "access-grayscale",
+                "grayscale"
+            );
+
+        }
+    );
+
+
+
+    /* =====================================================
+       HIGH CONTRAST
+    ====================================================== */
+
+    highContrast.addEventListener(
+        "click",
+        function () {
+
+
+            document.body.classList.remove(
+                "access-negative"
+            );
+
+
+            negativeContrast.classList.remove(
+                "active"
+            );
+
+
+            localStorage.setItem(
+                "acadexa_negativeContrast",
+                "false"
+            );
+
+
+            toggleMode(
+                highContrast,
+                "access-high-contrast",
+                "highContrast"
+            );
+
+        }
+    );
+
+
+
+    /* =====================================================
+       NEGATIVE CONTRAST
+    ====================================================== */
+
+    negativeContrast.addEventListener(
+        "click",
+        function () {
+
+
+            document.body.classList.remove(
+                "access-high-contrast"
+            );
+
+
+            highContrast.classList.remove(
+                "active"
+            );
+
+
+            localStorage.setItem(
+                "acadexa_highContrast",
+                "false"
+            );
+
+
+            toggleMode(
+                negativeContrast,
+                "access-negative",
+                "negativeContrast"
+            );
+
+        }
+    );
+
+
+
+    /* =====================================================
+       LIGHT BACKGROUND
+    ====================================================== */
+
+    lightBackground.addEventListener(
+        "click",
+        function () {
+
+            toggleMode(
+                lightBackground,
+                "access-light-background",
+                "lightBackground"
+            );
+
+        }
+    );
+
+
+
+    /* =====================================================
+       UNDERLINE LINKS
+    ====================================================== */
+
+    underlineLinks.addEventListener(
+        "click",
+        function () {
+
+            toggleMode(
+                underlineLinks,
+                "access-underline",
+                "underlineLinks"
+            );
+
+        }
+    );
+
+
+
+    /* =====================================================
+       READABLE FONT
+    ====================================================== */
+
+    readableFont.addEventListener(
+        "click",
+        function () {
+
+            toggleMode(
+                readableFont,
+                "access-readable-font",
+                "readableFont"
+            );
+
+        }
+    );
+
+
+
+    /* =====================================================
+       RESET ALL
+    ====================================================== */
+
+    reset.addEventListener(
+        "click",
+        function () {
+
+
+            document.body.classList.remove(
+
+                "access-text-large",
+
+                "access-text-xlarge",
+
+                "access-grayscale",
+
+                "access-high-contrast",
+
+                "access-negative",
+
+                "access-light-background",
+
+                "access-underline",
+
+                "access-readable-font"
+
+            );
+
+
+            document.querySelectorAll(
+                ".accessibility-option"
+            ).forEach(
+                function (button) {
+
+                    button.classList.remove(
+                        "active"
+                    );
+
+                }
+            );
+
+
+            localStorage.removeItem(
+                "acadexa_textSize"
+            );
+
+
+            localStorage.removeItem(
+                "acadexa_grayscale"
+            );
+
+
+            localStorage.removeItem(
+                "acadexa_highContrast"
+            );
+
+
+            localStorage.removeItem(
+                "acadexa_negativeContrast"
+            );
+
+
+            localStorage.removeItem(
+                "acadexa_lightBackground"
+            );
+
+
+            localStorage.removeItem(
+                "acadexa_underlineLinks"
+            );
+
+
+            localStorage.removeItem(
+                "acadexa_readableFont"
+            );
+
+        }
+    );
+
+
+
+    /* =====================================================
+       LOAD SAVED SETTINGS
+    ====================================================== */
+
+    const savedTextSize =
+        localStorage.getItem(
+            "acadexa_textSize"
+        );
+
+
+    if (savedTextSize === "large") {
+
+        setTextSize("large");
+
+    }
+
+
+    if (savedTextSize === "xlarge") {
+
+        setTextSize("xlarge");
+
+    }
+
+
+    /* GRAYSCALE */
+
+    if (
+        localStorage.getItem(
+            "acadexa_grayscale"
+        ) === "true"
+    ) {
+
+
+        document.body.classList.add(
+            "access-grayscale"
+        );
+
+
+        grayscale.classList.add(
+            "active"
+        );
+
+    }
+
+
+
+    /* HIGH CONTRAST */
+
+    if (
+        localStorage.getItem(
+            "acadexa_highContrast"
+        ) === "true"
+    ) {
+
+
+        document.body.classList.add(
+            "access-high-contrast"
+        );
+
+
+        highContrast.classList.add(
+            "active"
+        );
+
+    }
+
+
+
+    /* NEGATIVE CONTRAST */
+
+    if (
+        localStorage.getItem(
+            "acadexa_negativeContrast"
+        ) === "true"
+    ) {
+
+
+        document.body.classList.add(
+            "access-negative"
+        );
+
+
+        negativeContrast.classList.add(
+            "active"
+        );
+
+    }
+
+
+
+    /* LIGHT BACKGROUND */
+
+    if (
+        localStorage.getItem(
+            "acadexa_lightBackground"
+        ) === "true"
+    ) {
+
+
+        document.body.classList.add(
+            "access-light-background"
+        );
+
+
+        lightBackground.classList.add(
+            "active"
+        );
+
+    }
+
+
+
+    /* UNDERLINE LINKS */
+
+    if (
+        localStorage.getItem(
+            "acadexa_underlineLinks"
+        ) === "true"
+    ) {
+
+
+        document.body.classList.add(
+            "access-underline"
+        );
+
+
+        underlineLinks.classList.add(
+            "active"
+        );
+
+    }
+
+
+
+    /* READABLE FONT */
+
+    if (
+        localStorage.getItem(
+            "acadexa_readableFont"
+        ) === "true"
+    ) {
+
+
+        document.body.classList.add(
+            "access-readable-font"
+        );
+
+
+        readableFont.classList.add(
+            "active"
+        );
+
+    }
+
+
+});
+
+</script>
+
+
+
+<!-- =========================================================
+     BOOTSTRAP JS
+========================================================== -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
 
 </body>
 </html>
