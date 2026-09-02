@@ -2317,6 +2317,288 @@ def update_profile():
     flash("Profile updated successfully!", "success")
 
     return redirect("/profile")
+# ============================================================
+#                 AI HR INTERVIEW
+# ============================================================
+
+@app.route("/ai_interview", methods=["GET", "POST"])
+def ai_interview():
+
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
+    # --------------------------------------------------------
+    # START NEW INTERVIEW
+    # --------------------------------------------------------
+    if request.method == "GET":
+
+        session["interview_questions"] = [
+            "Tell me about yourself.",
+            "Why should we hire you?",
+            "What are your strengths?",
+            "What is one weakness you are working on?",
+            "Why do you want to join our company?",
+            "Tell me about a project you have worked on.",
+            "What was the biggest challenge you faced in your project?",
+            "Where do you see yourself in the next five years?",
+            "How do you handle pressure or deadlines?",
+            "Do you have any questions for us?"
+        ]
+
+        session["interview_answers"] = {}
+        session["interview_index"] = 0
+
+        return render_template(
+            "ai_interview.html",
+            question=session["interview_questions"][0],
+            number=1,
+            total=len(session["interview_questions"]),
+            current=0,
+            feedback=None,
+            submitted=False
+        )
+
+    # --------------------------------------------------------
+    # POST ANSWER
+    # --------------------------------------------------------
+    question = request.form.get("question")
+    answer = request.form.get("answer", "").strip()
+
+    index = session.get("interview_index", 0)
+    questions = session.get("interview_questions", [])
+
+    if not questions:
+        return redirect(url_for("ai_interview"))
+
+    # Save answer
+    answers = session.get("interview_answers", {})
+    answers[str(index)] = answer
+
+    session["interview_answers"] = answers
+    session.modified = True
+
+    # --------------------------------------------------------
+    # AI HR FEEDBACK
+    # --------------------------------------------------------
+    if not answer:
+
+        feedback = """
+Please enter your answer before submitting.
+
+Try to answer naturally as you would in a real interview.
+"""
+
+    else:
+
+        prompt = f"""
+You are an experienced HR interviewer conducting a real job interview.
+
+Interview Question:
+{question}
+
+Candidate's Answer:
+{answer}
+
+Evaluate the candidate's answer.
+
+Give feedback in this exact style:
+
+⭐ Overall Feedback:
+Give a short evaluation.
+
+✅ What was good:
+Mention 1-2 good points.
+
+💡 How to improve:
+Mention 1-2 practical improvements.
+
+📊 Score:
+Give a score out of 10.
+
+Important:
+- Be supportive.
+- Do not rewrite the candidate's entire answer.
+- Do not ask another question.
+- Keep the feedback concise.
+"""
+
+        try:
+
+            response = client.chat.completions.create(
+                model="openai/gpt-oss-120b",
+
+                messages=[
+                    {
+                        "role": "system",
+                        "content": "You are a professional HR interviewer."
+                    },
+                    {
+                        "role": "user",
+                        "content": prompt
+                    }
+                ],
+
+                temperature=0.4,
+                max_tokens=500
+            )
+
+            feedback = response.choices[0].message.content
+
+        except Exception as e:
+
+            feedback = f"""
+⭐ Interview Feedback
+
+Your answer has been recorded successfully.
+
+AI feedback is temporarily unavailable.
+
+Please continue to the next question.
+"""
+
+    return render_template(
+        "ai_interview.html",
+        question=question,
+        number=index + 1,
+        total=len(questions),
+        current=index,
+        feedback=feedback,
+        submitted=True,
+        answer=answer
+    )
+
+
+# ============================================================
+#                 NEXT INTERVIEW QUESTION
+# ============================================================
+
+@app.route("/next_interview_question")
+def next_interview_question():
+
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
+    questions = session.get("interview_questions", [])
+    index = session.get("interview_index", 0)
+
+    if not questions:
+        return redirect(url_for("ai_interview"))
+
+    # Move to next question
+    if index < len(questions) - 1:
+
+        index += 1
+
+        session["interview_index"] = index
+
+        return render_template(
+            "ai_interview.html",
+            question=questions[index],
+            number=index + 1,
+            total=len(questions),
+            current=index,
+            feedback=None,
+            submitted=False,
+            answer=""
+        )
+
+    # If last question
+    return redirect(url_for("interview_result"))
+
+
+# ============================================================
+# AI INTERVIEW RESULT
+# ============================================================
+
+@app.route("/interview_result")
+def interview_result():
+
+    # Interview data from session
+    questions = session.get("interview_questions", [])
+    answers = session.get("interview_answers", [])
+    feedbacks = session.get("interview_feedback", [])
+
+    # If interview has not started
+    if not questions:
+        return redirect(url_for("ai_interview"))
+
+    # --------------------------------------------------------
+    # SCORE
+    # --------------------------------------------------------
+
+    score = session.get("interview_score", 0)
+
+    try:
+        score = int(score)
+    except:
+        score = 0
+
+    # Maximum score
+    total_score = len(questions) * 10
+
+    # Percentage
+    if total_score > 0:
+        percentage = int((score / total_score) * 100)
+    else:
+        percentage = 0
+
+    # --------------------------------------------------------
+    # PERFORMANCE
+    # --------------------------------------------------------
+
+    if percentage >= 80:
+
+        performance = "Excellent Performance! 🌟"
+
+    elif percentage >= 60:
+
+        performance = "Good Performance! 👍"
+
+    elif percentage >= 40:
+
+        performance = "Keep Practicing! 💪"
+
+    else:
+
+        performance = "More Practice Needed 📚"
+
+    # --------------------------------------------------------
+    # RESULT PAGE
+    # --------------------------------------------------------
+
+    return render_template(
+        "interview_result.html",
+
+        questions=questions,
+
+        answers=answers,
+
+        feedbacks=feedbacks,
+
+        score=score,
+
+        total_score=total_score,
+
+        percentage=percentage,
+
+        performance=performance
+    )
+
+# ============================================================
+#                 RESTART INTERVIEW
+# ============================================================
+
+@app.route("/restart_interview")
+def restart_interview():
+
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
+    session.pop("interview_questions", None)
+    session.pop("interview_answers", None)
+    session.pop("interview_index", None)
+
+    return redirect(url_for("ai_interview"))
 # ---------------- LOGOUT ----------------
 @app.route("/logout")
 def logout():
